@@ -1,1 +1,1 @@
-# StationaryStoreManagementSystem
+# StationeryStoreManagementSystem
