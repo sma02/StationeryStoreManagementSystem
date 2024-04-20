@@ -10,7 +10,7 @@ namespace StationeryStoreManagementSystem.DL
 {
     static class SupplierDL
     {
-        public static void GetSuppliers()
+        public static List<Supplier> GetSuppliers()
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT Id
                                                           ,Name
@@ -22,7 +22,7 @@ namespace StationeryStoreManagementSystem.DL
                                                     	  ,Country
                                                     	  ,PostalCode
                                                     FROM Supplier");
-            Utils.ConstructObjects(reader,typeof(Supplier));
+            return DataHandler.ConstructObjects(reader,typeof(Supplier)).Cast<Supplier>().ToList();
         }
     }
 }

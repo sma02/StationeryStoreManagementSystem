@@ -7,6 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <DataGrid x:Name="datagrid1" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Contact}" Header="Contact"/>
+                <DataGridTextColumn Binding="{Binding Email}" Header="Email"/>
+                <DataGridTextColumn Binding="{Binding StreetAddress}" Header="Street Address"/>
+                <DataGridTextColumn Binding="{Binding Town}" Header="Town"/>
+                <DataGridTextColumn Binding="{Binding City}" Header="City"/>
+                <DataGridTextColumn Binding="{Binding Country}" Header="Country"/>
+                <DataGridTextColumn Binding="{Binding PostalCode}" Header="Postal Code"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

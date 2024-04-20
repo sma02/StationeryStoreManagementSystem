@@ -11,29 +11,6 @@ namespace StationeryStoreManagementSystem
     static class Utils
     {
         private static SqlDataReader reader;
-        public static List<object> ConstructObjects(SqlDataReader reader, Type type)
-        {
-            List<object> args;
-            List<object> objs = new List<object>();
-            while (reader.Read())
-            {
-                args = new List<object>();
-                var dbColumns = reader.GetColumnSchema();
-                for(int i = 0;i < dbColumns.Count; i++)
-                {
-                    if (reader.GetValue(i).GetType() == typeof(DBNull))
-                    {
-                        args.Add(null);
-                    }
-                    else
-                    {
-                        args.Add(reader.GetValue(i));
-                    }
-                }
-                objs.Add(Activator.CreateInstance(type, args));
-            }
-            return objs;
-        }
         public static void ExecuteQuery(string query)
         {
             closeReader();
@@ -41,6 +18,7 @@ namespace StationeryStoreManagementSystem
             SqlCommand command = new SqlCommand(query, conn);
             command.ExecuteNonQuery();
         }
+       
         public static SqlDataReader ReadData(string query)
         {
             closeReader();
