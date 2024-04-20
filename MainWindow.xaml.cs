@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StationeryStoreManagementSystem.DL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace StationeryStoreManagementSystem
         public MainWindow()
         {
             InitializeComponent();
+            SupplierDL.GetSuppliers();
         }
     }
 }
