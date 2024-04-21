@@ -2,6 +2,8 @@
 using StationeryStoreManagementSystem.DL;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +24,29 @@ namespace StationeryStoreManagementSystem
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool currentTheme = true;
         public MainWindow()
         {
             InitializeComponent();
             var suppliers =SupplierDL.GetSuppliers();
             datagrid1.ItemsSource = suppliers;
        }
+        public void changeTheme(bool theme)
+        {
+            Collection<ResourceDictionary> dictionary = Resources.MergedDictionaries;
+            dictionary.Clear();
+            string path;
+            if(theme==true)
+                path = "/UI/Themes/DarkTheme.xaml";
+            else
+                path = "/UI/Themes/LightTheme.xaml";
+            dictionary.Add(new ResourceDictionary() { Source = new Uri(path,UriKind.RelativeOrAbsolute) });
+            currentTheme = theme;
+
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            changeTheme(!currentTheme);
+        }
     }
 }
