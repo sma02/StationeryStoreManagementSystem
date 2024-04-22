@@ -51,5 +51,15 @@ namespace StationeryStoreManagementSystem
         {
             Content.Child = new UI.ManageSuppliers();
         }
+
+        private void ManageCompaniesButton_Click(object sender, RoutedEventArgs e)
+        {
+            Content.Child = new UI.ManageCompanies();
+        }
+
+        private void ManageCategoriesButton_Click(Object sender, RoutedEventArgs e)
+        {
+            Content.Child = new UI.ManageCategories();
+        }
     }
 }
