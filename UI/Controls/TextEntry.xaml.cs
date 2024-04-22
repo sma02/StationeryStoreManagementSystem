@@ -20,8 +20,6 @@ namespace StationeryStoreManagementSystem.UI.Controls
     /// </summary>
     public partial class TextEntry : UserControl
     {
-        private int maxLength;
-        private string initialData = null;
         public bool ReadOnly
         {
             get => TextBoxText.IsReadOnly;
@@ -32,37 +30,52 @@ namespace StationeryStoreManagementSystem.UI.Controls
         }
         public string LabelText
         {
-            get => TextBlockLabel.Text;
-            set
-            {
-                TextBlockLabel.Text = value;
-            }
+            get { return (string)GetValue(LabelTextProperty); }
+            set { SetValue(LabelTextProperty, value); }
         }
-        public object? Text
+
+        // Using a DependencyProperty as the backing store for LabelText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LabelTextProperty =
+            DependencyProperty.Register("LabelText",
+                                        typeof(string),
+                                        typeof(TextEntry),
+                                        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
+
+        public string? Text
         {
-            get
+            get { return (string)GetValue(TextProperty); }
+            set 
             {
-                return TextBoxText.Text.Trim();
-            }
-            set
-            {
-                TextBoxText.Text = (string)value;
-            }
-        }
-        public string InputAttribute { get; set; }
-        public int MaxLength
-        {
-            get => maxLength;
-            set
-            {
-                maxLength = value;
-                TextBoxText.MaxLength = value;
+                if (value?.Trim().Length == 0)
+                    value = null;
+                SetValue(TextProperty, value); 
             }
         }
 
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register("Text",
+                                        typeof(string),
+                                        typeof(TextEntry),
+                                        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public int MaxLength
+        {
+            get { return (int)GetValue(MaxLengthProperty); }
+            set { SetValue(MaxLengthProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MaxLength.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaxLengthProperty =
+            DependencyProperty.Register("MaxLength",
+                                        typeof(int),
+                                        typeof(TextEntry),
+                                        new PropertyMetadata(0));
+
+
         public TextEntry()
         {
-            DataContext = this;
             InitializeComponent();
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,40 @@ namespace StationeryStoreManagementSystem.DL
                 objs.Add(Activator.CreateInstance(type, args));
             }
             return objs;
+        }
+        public static object ConstructObject(SqlDataReader reader, Type type)
+        {
+            List<object> args;
+            object obj;
+            if (reader.Read())
+            {
+                args = new List<object>();
+                var dbColumns = reader.GetColumnSchema();
+                for (int i = 0; i < dbColumns.Count; i++)
+                {
+                    if (reader.GetValue(i).GetType() == typeof(DBNull))
+                    {
+                        args.Add(null);
+                    }
+                    else
+                    {
+                        args.Add(reader.GetValue(i));
+                    }
+                }
+                return Activator.CreateInstance(type, args);
+            }
+            else
+                return null;
+        }
+        public static DataTable FillDataTable(string query)
+        {
+            Utils.CloseReader();
+            var conn = Configuration.getInstance().getConnection();
+            SqlCommand command = new SqlCommand(query, conn);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            return table;
         }
         public static void AddData(List<(string, object)> args, string relation)
         {

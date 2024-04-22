@@ -13,7 +13,7 @@ namespace StationeryStoreManagementSystem
         private static SqlDataReader reader;
         public static void ExecuteQuery(string query)
         {
-            closeReader();
+            CloseReader();
             var conn = Configuration.getInstance().getConnection();
             SqlCommand command = new SqlCommand(query, conn);
             command.ExecuteNonQuery();
@@ -21,13 +21,13 @@ namespace StationeryStoreManagementSystem
        
         public static SqlDataReader ReadData(string query)
         {
-            closeReader();
+            CloseReader();
             var conn = Configuration.getInstance().getConnection();
             SqlCommand command = new SqlCommand(query, conn);
             reader = command.ExecuteReader();
             return reader;
         }
-        private static void closeReader()
+        public static void CloseReader()
         {
             if (reader != null)
             {
