@@ -2,7 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
                     xmlns:controls="clr-namespace:VertaIT.WPF.Theme.Controls"
-                    xmlns:cv="clr-namespace:VertaIT.WPF.Theme.Converters">
+                    xmlns:cv="clr-namespace:VertaIT.WPF.Theme.Converters"
+                    xmlns:components="clr-namespace:StationeryStoreManagementSystem.UI.Components">
+
+    <!-- Title Block-->
+
+    <SolidColorBrush Color="#FFF4F4F4" x:Key="TitleBlockBackground"/>
+    <SolidColorBrush Color="#FF040404" x:Key="TitleBlockForeground"/>
+
 
     <!-- Button -->
 
@@ -4844,6 +4851,13 @@
            BasedOn="{StaticResource {x:Type DataGrid}}"
            TargetType="{x:Type DataGrid}">
         <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+    </Style>
+
+    <!-- TitleBlock -->
+
+    <Style TargetType="{x:Type components:TitleBlock}">
+        <Setter Property="Background" Value="{StaticResource TitleBlockBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource TitleBlockForeground}"/>
     </Style>
 
 </ResourceDictionary>

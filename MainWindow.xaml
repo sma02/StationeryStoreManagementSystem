@@ -14,30 +14,10 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Width="auto" Orientation="Vertical">
-            <Button Margin="5 100" Click="Button_Click">Change Theme</Button>
+            <Button Margin="5 100 5 0" Click="Button_Click">Change Theme</Button>
+            <Button Margin="5 10 5 0" Click="ManageSuppliersButton_Click">Manage Suppliers</Button>
         </StackPanel>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
-        <DataGrid Grid.Column="2" x:Name="datagrid1" AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Name" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding Contact}" Header="Contact"/>
-                <DataGridTextColumn Binding="{Binding Email}" Header="Email"/>
-                <DataGridTextColumn Binding="{Binding StreetAddress}" Header="Street Address"/>
-                <DataGridTextColumn Binding="{Binding Town}" Header="Town"/>
-                <DataGridTextColumn Binding="{Binding City}" Header="City"/>
-                <DataGridTextColumn Binding="{Binding Country}" Header="Country"/>
-                <DataGridTextColumn Binding="{Binding PostalCode}" Header="Postal Code"/>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Margin="0 0 2px 0" Width="60px" FontSize="14">Edit</Button>
-                                <Button Margin="2px 0 0 0" Width="60px" FontSize="14">Delete</Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Border x:Name="Content" Grid.Column="2"/>
     </Grid>
 </Window>

@@ -28,8 +28,6 @@ namespace StationeryStoreManagementSystem
         public MainWindow()
         {
             InitializeComponent();
-            var suppliers =SupplierDL.GetSuppliers();
-            datagrid1.ItemsSource = suppliers;
        }
         public void changeTheme(bool theme)
         {
@@ -47,6 +45,11 @@ namespace StationeryStoreManagementSystem
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             changeTheme(!currentTheme);
+        }
+
+        private void ManageSuppliersButton_Click(object sender, RoutedEventArgs e)
+        {
+            Content.Child = new UI.ManageSuppliers();
         }
     }
 }
