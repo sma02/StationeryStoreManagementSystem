@@ -1,6 +1,8 @@
-﻿using StationeryStoreManagementSystem.DL;
+﻿using Microsoft.VisualBasic;
+using StationeryStoreManagementSystem.DL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +27,7 @@ namespace StationeryStoreManagementSystem.UI
         {
             InitializeComponent();
             var companies = CompanyDL.GetCompanies();
-            dg_companies.ItemsSource = companies;
+            dg_companies.ItemsSource = companies.DefaultView;
         }
 
         private void add_company_Click(object sender, RoutedEventArgs e)
@@ -35,12 +37,21 @@ namespace StationeryStoreManagementSystem.UI
 
         private void edit_Click(object sender, RoutedEventArgs e)
         {
-            ((Border)Parent).Child = new UI.CompanyForm();
+            DataTable table = ((DataView)dg_companies.ItemsSource).Table;
+            int id = (int)table.DefaultView[dg_companies.SelectedIndex].Row.ItemArray[0];
+            ((Border)Parent).Child = new UI.CompanyForm(id);
         }
 
         private void delete_Click(object sender, RoutedEventArgs e)
         {
-
+            DataTable table = ((DataView)dg_companies.ItemsSource).Table;
+            int id = (int)table.DefaultView[dg_companies.SelectedIndex].Row.ItemArray[0];
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                CompanyDL.DeleteCompany(id);   
+            }
+            ((Border)Parent).Child = new UI.ManageCompanies();
         }
     }
 }

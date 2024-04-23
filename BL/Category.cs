@@ -14,7 +14,7 @@ namespace StationeryStoreManagementSystem.BL
         public double? GST { get; set; }
 
         private List<object> initialArgs;
-        public Category(string? name = null, double gst = 16)
+        public Category(string? name = null, double? gst = 16)
         {
             Name = name;
             GST = gst;

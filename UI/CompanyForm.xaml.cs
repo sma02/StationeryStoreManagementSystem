@@ -23,26 +23,29 @@ namespace StationeryStoreManagementSystem.UI
     /// </summary>
     public partial class CompanyForm : UserControl
     {
-        private List<object> Args;
-        public CompanyForm(List<object> args = null)
+        private Company C;
+        public CompanyForm(int id = -1)
         {
             InitializeComponent();
-            Args = args;
-            if (args != null)
+
+            if (id!=-1)
             {
                 button.Content = "Update";
                 title.Title = "Edit Company";
+                C = CompanyDL.GetSupplier(id); 
             }
             else
             {
                 button.Content = "Add";
                 title.Title = "Add Company";
+                C = new Company();
             }
+            DataContext = C;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            if (Args != null)
+            if (C.Id != -1)
             {
 
             }

@@ -1,4 +1,5 @@
-﻿using StationeryStoreManagementSystem.BL;
+﻿using Microsoft.IdentityModel.Tokens;
+using StationeryStoreManagementSystem.BL;
 using StationeryStoreManagementSystem.DL;
 using System;
 using System.Collections.Generic;
@@ -22,32 +23,37 @@ namespace StationeryStoreManagementSystem.UI
     /// </summary>
     public partial class CategoryForm : UserControl
     {
-        private List<object> Args;
-        public CategoryForm(List<object> args = null)
+        private Category C;
+        public CategoryForm(int id = -1)
         {
             InitializeComponent();
-            Args = args;
-            if (args != null)
+
+            if (id != -1)
             {
                 button.Content = "Update";
                 title.Title = "Edit Category";
+                C = CategoryDL.GetSupplier(id);
             }
             else
             {
                 button.Content = "Add";
                 title.Title = "Add Category";
+                C = new Category();
             }
+            DataContext = C;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            if (Args != null)
+            if (C.Id != -1)
             {
 
             }
             else
             {
-                Category C = new Category(category_name.Text.ToString(), (double.Parse(category_gst.Text.ToString())));
+                string name = category_name.Text.ToString();
+                double gst = string.IsNullOrEmpty(category_gst.Text.ToString()) ? -1 : double.Parse(category_gst.Text.ToString()); 
+                Category C = new Category(name, gst);
                 CategoryDL.InsertCategory(C);
                 ((Border)Parent).Child = new UI.ManageCategories();
             }

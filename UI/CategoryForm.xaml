@@ -23,9 +23,9 @@
             </Grid.ColumnDefinitions>
 
             <Controls:TextEntry x:Name="category_name" Grid.Column="0" LabelText="Category Name" MaxLength="30"
-                                VerticalAlignment="Center"/>
+                                VerticalAlignment="Center" Text="{Binding Name}"/>
             <Controls:TextEntry x:Name="category_gst" Grid.Column="1" LabelText="General Sale Tax %" MaxLength="30"
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center" Text="{Binding GST}"/>
         </Grid>
 
         <Grid Grid.Row="2">
