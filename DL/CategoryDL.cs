@@ -22,7 +22,7 @@ namespace StationeryStoreManagementSystem.DL
             Utils.ExecuteQuery(query);
         }
 
-        public static Category GetSupplier(int id)
+        public static Category GetCategory(int id)
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT Id, Name, GST 
                                                     FROM Category C

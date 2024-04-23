@@ -32,7 +32,7 @@ namespace StationeryStoreManagementSystem.UI
             {
                 button.Content = "Update";
                 title.Title = "Edit Category";
-                C = CategoryDL.GetSupplier(id);
+                C = CategoryDL.GetCategory(id);
             }
             else
             {

@@ -23,7 +23,7 @@
                  BorderThickness="1"
                  BorderBrush="Gray"
                  HorizontalAlignment="Stretch" 
-                 TextWrapping="Wrap" 
+                 TextWrapping="NoWrap" 
                  Height="{Binding ElementName=TextEntryControl,Path=Height,Mode=TwoWay}"
                  IsReadOnly="{Binding ReadOnly}"
                  Text="{Binding ElementName=TextEntryControl,Path=Text,Mode=TwoWay}"/>

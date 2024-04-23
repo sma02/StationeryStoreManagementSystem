@@ -23,6 +23,7 @@ namespace StationeryStoreManagementSystem.UI
     public partial class SupplierForm : UserControl
     {
         private Supplier supplier;
+        private bool isEdit = false;
         public SupplierForm(int id=-1)
         {
             InitializeComponent();
@@ -41,12 +42,24 @@ namespace StationeryStoreManagementSystem.UI
                 titleBlock.Text = "Edit Supplier";
                 ConfirmButton.Content = "Update";
                 supplier = SupplierDL.GetSupplier(id);
+                isEdit = true;
             }
             else
             {
                 supplier = new Supplier();
             }
             DataContext = supplier;
+        }
+
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            supplier.Save(!isEdit);
+            ((Border)Parent).Child = new ManageSuppliers();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((Border)Parent).Child = new ManageSuppliers();
         }
     }
 }

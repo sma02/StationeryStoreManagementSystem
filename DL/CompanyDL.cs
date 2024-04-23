@@ -23,7 +23,7 @@ namespace StationeryStoreManagementSystem.DL
             Utils.ExecuteQuery(query);
         }
 
-        public static Company GetSupplier(int id)
+        public static Company GetCompany(int id)
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT Id, Name
                                                     FROM Company

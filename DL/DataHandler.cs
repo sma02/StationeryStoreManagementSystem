@@ -83,25 +83,38 @@ namespace StationeryStoreManagementSystem.DL
         public static void UpdateData(List<(string, object)> args, List<object> initialArgs, string relation, (string, object) id)
         {
             List<string> updatedAttributes = new List<string>();
-            for (int i = 0; i < args.Count; i++)
+            for (int i = 0; i < initialArgs.Count; i++)
             {
                 (string, object) struc = args[i];
                 if (struc.Item2?.ToString() != initialArgs[i]?.ToString())
                 {
-                    object value = struc.Item2;
-                    if(value==null)
-                    {
-                        value = "NULL";
-                    }
-                    else if(value.GetType()==typeof(string))
-                    {
-                        value = $"'{value}'";
-                    }
-                    updatedAttributes.Add(struc.Item1 + " = " + value.ToString());
+                    updatedAttributes.Add(struc.Item1 + " = " + Utils.NormalizeForQuery(struc.Item2));
                 }
+            }
+            for (int i = initialArgs.Count; i < args.Count; i++)
+            {
+                (string, object) struc = args[i];
+                updatedAttributes.Add(struc.Item1 + " = " + Utils.NormalizeForQuery(struc.Item2));
+
             }
             if (updatedAttributes.Count != 0)
                 Utils.ExecuteQuery($"UPDATE {relation} SET {string.Join(',', updatedAttributes)} WHERE {id.Item1}={id.Item2}");
         }
+        public static void InsertDataSP(List<(string, object)> args, string stpName)
+        {
+            List<string> adjustedAttributes = new List<string>();
+            for (int i = 0; i < args.Count; i++)
+            {
+                (string, object) struc = args[i];
+                adjustedAttributes.Add("@" + struc.Item1 + " = " + Utils.NormalizeForQuery(struc.Item2));
+            }
+            if (adjustedAttributes.Count != 0)
+                Utils.ExecuteQuery($"EXEC  {stpName} {string.Join(',', adjustedAttributes)}");
+        }
+        public static void DeleteDataSP(string stpName,(string,object) id)
+        {
+            Utils.ExecuteQuery($"EXEC {stpName} @{id.Item1} = {id.Item2}");
+        }
     }
-}
+    }
+

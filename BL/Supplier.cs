@@ -19,7 +19,7 @@ namespace StationeryStoreManagementSystem.BL
         public string? City { get; set; }
         public string? Country { get; set; }
         public string? PostalCode { get; set; }
-        private List<object> initialArgs;
+        public List<object> InitialArgs;
         public Supplier(string? name = null
                        , string? contact = null
                        , string? email = null
@@ -51,31 +51,12 @@ namespace StationeryStoreManagementSystem.BL
             City = (string?)args[6];
             Country = (string?)args[7];
             PostalCode = (string?)args[8];
-            initialArgs = args;
-            initialArgs.RemoveAt(0);
+            InitialArgs = args;
+            InitialArgs.RemoveAt(0);
         }
         public void Save(bool isAdd = false)
         {
-            List<(string, object)> args = new List<(string, object)>
-            {
-                (nameof(Name), Name.ToString()),
-                (nameof(Contact), Contact),
-                (nameof(Email),Email),
-                (nameof(StreetAddress),StreetAddress),
-                (nameof(Town),Town),
-                (nameof(City),City),
-                (nameof(Country),Country),
-                (nameof(PostalCode),PostalCode)
-            };
-            if (isAdd == true)
-            {
-                DateTime now = DateTime.Now;
-                args.Add(("IsDeleted", 0));
-                args.Add(("AddedOn", now.ToString()));
-                DataHandler.AddData(args, GetType().Name);
-            }
-            else
-                DataHandler.UpdateData(args, initialArgs, GetType().Name, (nameof(Id), Id));
+            SupplierDL.SaveSupplier(this, isAdd);
         }
     }
 }

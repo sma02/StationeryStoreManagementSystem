@@ -11,6 +11,18 @@ namespace StationeryStoreManagementSystem
     static class Utils
     {
         private static SqlDataReader reader;
+        public static object NormalizeForQuery(object value)
+        {
+            if (value == null)
+            {
+                value = "NULL";
+            }
+            else if (value.GetType() == typeof(string))
+            {
+                value = $"'{value}'";
+            }
+            return value;
+        }
         public static void ExecuteQuery(string query)
         {
             CloseReader();

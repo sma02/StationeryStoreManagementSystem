@@ -30,18 +30,35 @@ namespace StationeryStoreManagementSystem.UI
             //SupplierDL.GetSuppliersView();
             var suppliers = SupplierDL.GetSuppliersView();
             datagrid1.ItemsSource = suppliers.DefaultView;
+            searchBar.SearchAttributes = new List<string>() { "Name" };
         }
-
+        private void SearchBar_SearchRequested(object sender, EventArgs e)
+        {
+            string filterString = searchBar.FilterString;
+            ((DataView)datagrid1.ItemsSource).RowFilter = filterString;
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ((Border)Parent).Child = new SupplierForm();
         }
 
-        private void Edit_Button_Click(object sender, RoutedEventArgs e)
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             DataTable table = ((DataView)datagrid1.ItemsSource).Table;
             int id = (int)table.DefaultView[datagrid1.SelectedIndex].Row.ItemArray[0];
             ((Border)Parent).Child = new SupplierForm(id);
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataTable table = ((DataView)datagrid1.ItemsSource).Table;
+            int id = (int)table.DefaultView[datagrid1.SelectedIndex].Row.ItemArray[0];
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                SupplierDL.DeleteSupplier(id);
+            }
+            ((Border)Parent).Child = new UI.ManageSuppliers();
         }
     }
 }
