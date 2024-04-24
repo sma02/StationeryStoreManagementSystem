@@ -28,6 +28,8 @@ namespace StationeryStoreManagementSystem
         public MainWindow()
         {
             InitializeComponent();
+            /*sideBar.Visibility = Visibility.Collapsed;
+            Content.Child = new UI.Login();*/
        }
         public void changeTheme(bool theme)
         {
