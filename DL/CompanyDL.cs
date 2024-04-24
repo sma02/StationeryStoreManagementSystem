@@ -23,6 +23,22 @@ namespace StationeryStoreManagementSystem.DL
             Utils.ExecuteQuery(query);
         }
 
+        public static void SaveCategory(Company C, bool isAdd = false)
+        {
+            List<(string, object)> args = new List<(string, object)>
+            {
+                (nameof(C.Name), C.Name)
+            };
+            if (isAdd == true)
+            {
+                DataHandler.InsertDataSP(args, "stpInsertCategory");
+            }
+            else
+            {
+                args.Add(("UpdatedOn", ("CURRENT_TIMESTAMP", true)));
+                DataHandler.UpdateData(args, C.InitialArgs, C.GetType().Name, (nameof(C.Id), C.Id));
+            }
+        }
         public static Company GetCompany(int id)
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT Id, Name
@@ -30,7 +46,7 @@ namespace StationeryStoreManagementSystem.DL
                                                     WHERE Id=" + id.ToString());
             return (Company)DataHandler.ConstructObject(reader, typeof(Company));
         }
-        public static void DeleteCompany(int id) 
+        public static void DeleteCompany(int id)
         {
             DataHandler.DeleteDataSP("stpDeleteCompany", ("Id", id));
         }

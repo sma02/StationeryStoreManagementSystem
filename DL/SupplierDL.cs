@@ -53,6 +53,7 @@ namespace StationeryStoreManagementSystem.DL
             }
             else
             {
+                args.Add(("UpdatedOn",("CURRENT_TIMESTAMP",true)));
                 DataHandler.UpdateData(args, supplier.InitialArgs, supplier.GetType().Name, (nameof(supplier.Id), supplier.Id));
             }
         }

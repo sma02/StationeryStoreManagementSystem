@@ -27,21 +27,5 @@ namespace StationeryStoreManagementSystem.BL
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }
-        public void Save(bool isAdd = false)
-        {
-            List<(string, object)> args = new List<(string, object)>
-            {
-                (nameof(Name), Name.ToString()),
-            };
-            if (isAdd == true)
-            {
-                DateTime now = DateTime.Now;
-                args.Add(("IsDeleted", 0));
-                args.Add(("AddedOn", now.ToString("yyyy-MM-dd HH:mm:ss")));
-                DataHandler.AddData(args, GetType().Name);
-            }
-            else
-                DataHandler.UpdateData(args, InitialArgs, GetType().Name, (nameof(Id), Id));
-        }
     }
 }

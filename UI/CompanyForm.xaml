@@ -31,9 +31,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="button" Content="Add" Height="30" Width="60" FontSize="14"
+            <Button x:Name="button" Content="Add" Height="50" Width="100" FontSize="14"
                     HorizontalAlignment="Center" Click="button_Click"/>
-            <Button x:Name="cancel_btn" Grid.Column="1" Content="Cancel" Height="30" Width="60" FontSize="14"
+            <Button x:Name="cancel_btn" Grid.Column="1" Content="Cancel" Height="50" Width="100" FontSize="14"
                     HorizontalAlignment="Center" Click="cancel_btn_Click"/>
         </Grid>
     </Grid>

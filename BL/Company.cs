@@ -12,7 +12,7 @@ namespace StationeryStoreManagementSystem.BL
         public int Id { get; set; }
         public string Name { get; set; }
 
-        private List<object> initialArgs;
+        public List<object> InitialArgs;
         public Company(string name = null)
         {
             Name = name;
@@ -21,24 +21,8 @@ namespace StationeryStoreManagementSystem.BL
         {
             Id = (int)args[0];
             Name = (string)args[1];
-            initialArgs = args;
-            initialArgs.RemoveAt(0);
-        }
-        public void Save(bool isAdd = false)
-        {
-            List<(string, object)> args = new List<(string, object)>
-            {
-                (nameof(Name), Name.ToString()),
-            };
-            if (isAdd == true)
-            {
-                DateTime now = DateTime.Now;
-                args.Add(("IsDeleted", 0));
-                args.Add(("AddedOn", now.ToString("yyyy-MM-dd HH:mm:ss")));
-                DataHandler.AddData(args, GetType().Name);
-            }
-            else
-                DataHandler.UpdateData(args, initialArgs, GetType().Name, (nameof(Id), Id));
+            InitialArgs = args;
+            InitialArgs.RemoveAt(0);
         }
     }
 }

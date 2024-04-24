@@ -80,7 +80,7 @@ namespace StationeryStoreManagementSystem.DL
             }));
             Utils.ExecuteQuery($"INSERT INTO {relation}({attributes}) VALUES ({values})");
         }
-        public static void UpdateData(List<(string, object)> args, List<object> initialArgs, string relation, (string, object) id,bool isupdateDate=true)
+        public static void UpdateData(List<(string, object)> args, List<object> initialArgs, string relation, (string, object) id)
         {
             List<string> updatedAttributes = new List<string>();
             for (int i = 0; i < initialArgs.Count; i++)
@@ -99,10 +99,8 @@ namespace StationeryStoreManagementSystem.DL
             }
             if (updatedAttributes.Count != 0)
             {
-                if (isupdateDate == true)
-                    updatedAttributes.Add("UpdatedOn = CURRENT_TIMESTAMP");
                 Utils.ExecuteQuery($"UPDATE {relation} SET {string.Join(',', updatedAttributes)} WHERE {id.Item1}={id.Item2}");
-            
+
             }
         }
         public static void InsertDataSP(List<(string, object)> args, string stpName)
@@ -116,10 +114,21 @@ namespace StationeryStoreManagementSystem.DL
             if (adjustedAttributes.Count != 0)
                 Utils.ExecuteQuery($"EXEC  {stpName} {string.Join(',', adjustedAttributes)}");
         }
-        public static void DeleteDataSP(string stpName,(string,object) id)
+        public static void DeleteDataSP(string stpName, (string, object) id)
         {
             Utils.ExecuteQuery($"EXEC {stpName} @{id.Item1} = {id.Item2}");
         }
+        public static void InsertData(List<(string, object)> args, string relationName)
+        {
+            List<string> adjustedAttributes = new List<string>();
+            for (int i = 0; i < args.Count; i++)
+            {
+                (string, object) struc = args[i];
+                adjustedAttributes.Add(Utils.NormalizeForQuery(struc.Item2).ToString());
+            }
+            if (adjustedAttributes.Count != 0)
+                Utils.ExecuteQuery($"INSERT INTO {relationName} VALUES ({string.Join(',', adjustedAttributes)}) ");
+        }
     }
-    }
+}
 

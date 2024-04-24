@@ -17,6 +17,10 @@ namespace StationeryStoreManagementSystem
             {
                 value = "NULL";
             }
+            else if(value.GetType()==typeof((string,bool)))
+            {
+                value = (((string, bool))value).Item1;
+            }
             else if (value.GetType() == typeof(string))
             {
                 value = $"'{value}'";
