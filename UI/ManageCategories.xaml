@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <Components:TitleBlock Grid.Row="0" Title="Manage Categories"/>
         <StackPanel Grid.Row="1" Margin="50 15 50 0">
-            <Controls:SearchBar />
+            <Controls:SearchBar x:Name="searchBar" SearchRequested="SearchBar_SearchRequested"/>
             <Button Margin="0 20 0 40" x:Name="add_button" Click="add_button_Click"  Content="Add Category" Height="30"  HorizontalAlignment="Left"/>
         </StackPanel>
         <DataGrid Grid.Row="3" Margin="20" x:Name="dg_categories" AutoGenerateColumns="False" IsReadOnly="True">

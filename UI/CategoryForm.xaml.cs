@@ -40,6 +40,7 @@ namespace StationeryStoreManagementSystem.UI
                 title.Title = "Add Category";
                 C = new Category();
             }
+            C.Id = id;
             DataContext = C;
         }
 
@@ -51,10 +52,7 @@ namespace StationeryStoreManagementSystem.UI
             }
             else
             {
-                string name = category_name.Text.ToString();
-                double gst = string.IsNullOrEmpty(category_gst.Text.ToString()) ? -1 : double.Parse(category_gst.Text.ToString()); 
-                Category C = new Category(name, gst);
-                CategoryDL.InsertCategory(C);
+                CategoryDL.SaveCategory(C, true);
                 ((Border)Parent).Child = new UI.ManageCategories();
             }
         }

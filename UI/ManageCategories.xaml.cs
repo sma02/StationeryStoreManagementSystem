@@ -1,4 +1,5 @@
 ﻿using StationeryStoreManagementSystem.DL;
+using StationeryStoreManagementSystem.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,6 +28,12 @@ namespace StationeryStoreManagementSystem.UI
             InitializeComponent();
             var categories = CategoryDL.GetCategories();
             dg_categories.ItemsSource = categories.DefaultView;
+            searchBar.SearchAttributes = new List<string>() { "Name" };
+        }
+        private void SearchBar_SearchRequested(object sender, EventArgs e)
+        {
+            string filterString = searchBar.FilterString;
+            ((DataView)dg_categories.ItemsSource).RowFilter = filterString;
         }
 
         private void add_button_Click(object sender, RoutedEventArgs e)

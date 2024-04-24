@@ -16,10 +16,23 @@ namespace StationeryStoreManagementSystem.DL
             List<object> list = new List<object>();
             return DataHandler.FillDataTable(@"Select * from GetCategories_View");
         }
-        public static void InsertCategory(Category C)
+        public static void SaveCategory(Category C, bool isAdd = false)
         {
-            string query = $"EXEC stpInsertCategory @Name={C.Name} , @GST = {C.GST}";
-            Utils.ExecuteQuery(query);
+            List<(string, object)> args = new List<(string, object)>
+            {
+                (nameof(C.Name), C.Name)
+            };
+            if (isAdd == true)
+            {
+                args.Add((nameof(C.GST), C.GST));
+                DataHandler.InsertDataSP(args, "stpInsertCategory");
+            }
+            else
+            {
+                DateTime now = DateTime.Now;
+                args.Add(("UpdatedOn", now.ToString("yyyy-MM-dd HH:mm:ss")));
+                DataHandler.UpdateData(args, C.InitialArgs, C.GetType().Name, (nameof(C.Id), C.Id));
+            }
         }
 
         public static Category GetCategory(int id)
@@ -32,8 +45,7 @@ namespace StationeryStoreManagementSystem.DL
         }
         public static void DeleteCategory(int id)
         {
-            string query = $"EXEC stpDeleteCategory @Id = {id}";
-            Utils.ExecuteQuery(query);
+            DataHandler.DeleteDataSP("stpDeleteCategory", ("Id", id));
         }
     }
 }

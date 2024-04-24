@@ -3,6 +3,7 @@ using StationeryStoreManagementSystem.BL;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
@@ -52,8 +53,6 @@ namespace StationeryStoreManagementSystem.DL
             }
             else
             {
-                DateTime now = DateTime.Now;
-                args.Add(("UpdatedOn", now.ToString()));
                 DataHandler.UpdateData(args, supplier.InitialArgs, supplier.GetType().Name, (nameof(supplier.Id), supplier.Id));
             }
         }

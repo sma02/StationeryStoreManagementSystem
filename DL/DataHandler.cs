@@ -80,7 +80,7 @@ namespace StationeryStoreManagementSystem.DL
             }));
             Utils.ExecuteQuery($"INSERT INTO {relation}({attributes}) VALUES ({values})");
         }
-        public static void UpdateData(List<(string, object)> args, List<object> initialArgs, string relation, (string, object) id)
+        public static void UpdateData(List<(string, object)> args, List<object> initialArgs, string relation, (string, object) id,bool isupdateDate=true)
         {
             List<string> updatedAttributes = new List<string>();
             for (int i = 0; i < initialArgs.Count; i++)
@@ -98,7 +98,12 @@ namespace StationeryStoreManagementSystem.DL
 
             }
             if (updatedAttributes.Count != 0)
+            {
+                if (isupdateDate == true)
+                    updatedAttributes.Add("UpdatedOn = CURRENT_TIMESTAMP");
                 Utils.ExecuteQuery($"UPDATE {relation} SET {string.Join(',', updatedAttributes)} WHERE {id.Item1}={id.Item2}");
+            
+            }
         }
         public static void InsertDataSP(List<(string, object)> args, string stpName)
         {

@@ -16,12 +16,12 @@
         </Grid.RowDefinitions>
         <Components:TitleBlock Grid.Row="0" Title="Manage Companies"/>
         <StackPanel Grid.Row="1" Margin="50 15 50 0">
-            <Controls:SearchBar />
+            <Controls:SearchBar x:Name="searchBar" SearchRequested="SearchBar_SearchRequested"/>
             <Button Margin="0 20 0 40" x:Name="add_company" Click="add_company_Click" Content="Add Company" Height="30"  HorizontalAlignment="Left"/>
         </StackPanel>
         <DataGrid Grid.Row="3" Margin="20" x:Name="dg_companies" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Company Name" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" IsReadOnly="True"/>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

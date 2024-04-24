@@ -32,8 +32,7 @@ namespace StationeryStoreManagementSystem.DL
         }
         public static void DeleteCompany(int id) 
         {
-            string query = $"EXEC stpDeleteCompany @Id = {id}";
-            Utils.ExecuteQuery(query);
+            DataHandler.DeleteDataSP("stpDeleteCompany", ("Id", id));
         }
     }
 }

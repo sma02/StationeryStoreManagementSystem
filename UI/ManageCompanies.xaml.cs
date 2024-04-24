@@ -28,8 +28,13 @@ namespace StationeryStoreManagementSystem.UI
             InitializeComponent();
             var companies = CompanyDL.GetCompanies();
             dg_companies.ItemsSource = companies.DefaultView;
+            searchBar.SearchAttributes = new List<string>() { "Name" };
         }
-
+        private void SearchBar_SearchRequested(object sender, EventArgs e)
+        {
+            string filterString = searchBar.FilterString;
+            ((DataView)dg_companies.ItemsSource).RowFilter = filterString;
+        }
         private void add_company_Click(object sender, RoutedEventArgs e)
         {
             ((Border)Parent).Child = new UI.CompanyForm();

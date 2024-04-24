@@ -13,7 +13,7 @@ namespace StationeryStoreManagementSystem.BL
         public string Name { get; set; }
         public double? GST { get; set; }
 
-        private List<object> initialArgs;
+        public List<object> InitialArgs;
         public Category(string? name = null, double? gst = 16)
         {
             Name = name;
@@ -24,8 +24,8 @@ namespace StationeryStoreManagementSystem.BL
             Id = (int)args[0];
             Name = (string)args[1];
             GST = (double?)args[2];
-            initialArgs = args;
-            initialArgs.RemoveAt(0);
+            InitialArgs = args;
+            InitialArgs.RemoveAt(0);
         }
         public void Save(bool isAdd = false)
         {
@@ -41,7 +41,7 @@ namespace StationeryStoreManagementSystem.BL
                 DataHandler.AddData(args, GetType().Name);
             }
             else
-                DataHandler.UpdateData(args, initialArgs, GetType().Name, (nameof(Id), Id));
+                DataHandler.UpdateData(args, InitialArgs, GetType().Name, (nameof(Id), Id));
         }
     }
 }
