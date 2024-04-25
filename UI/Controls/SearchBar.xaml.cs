@@ -29,7 +29,7 @@ namespace StationeryStoreManagementSystem.UI.Controls
                 string[] strings = SearchAttributes.ToArray();
                 for (int i = 0; i < SearchAttributes.Count; i++)
                 {
-                    strings[i] += " LIKE '*" + Text + "*'";
+                    strings[i] = $"[{strings[i]}] LIKE '*{Text}*'";
                 }
                 string filter = String.Join(" OR ", strings);
                 return filter;

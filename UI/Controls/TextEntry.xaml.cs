@@ -66,6 +66,7 @@ namespace StationeryStoreManagementSystem.UI.Controls
             set { SetValue(MaxLengthProperty, value); }
         }
 
+
         // Using a DependencyProperty as the backing store for MaxLength.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaxLengthProperty =
             DependencyProperty.Register("MaxLength",
