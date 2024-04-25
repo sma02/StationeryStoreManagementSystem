@@ -1,5 +1,6 @@
 ﻿using StationeryStoreManagementSystem.BL;
 using StationeryStoreManagementSystem.DL;
+using StationeryStoreManagementSystem.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,8 +31,7 @@ namespace StationeryStoreManagementSystem
             InitializeComponent();
             /*sideBar.Visibility = Visibility.Collapsed;
             Content.Child = new UI.Login();*/
-            Product product = ProductDL.GetProduct(2);
-       }
+        }
         public void changeTheme(bool theme)
         {
             Collection<ResourceDictionary> dictionary = Resources.MergedDictionaries;
@@ -52,7 +52,25 @@ namespace StationeryStoreManagementSystem
 
         private void ManageSuppliersButton_Click(object sender, RoutedEventArgs e)
         {
-            Content.Child = new UI.ManageSuppliers();
+            // Content.Child = new UI.ManageSuppliers();
+            List<(string, string)> bindings = new List<(string, string)>
+            {
+                ("Name","Name"),
+                ("Contact","Contact"),
+                ("Email","Email"),
+                ("Street Address","StreetAddress"),
+                ("Town","Town"),
+                ("City","City"),
+                ("Country","Country"),
+                ("Postal Code","PostalCode")
+             };
+            Content.Child = new UI.ManageEntity("Manage Suppliers",
+                                                typeof(Supplier),
+                                                SupplierDL.GetSuppliersView(),
+                                                bindings,
+                                                typeof(SupplierForm),
+                                                true,
+                                                SupplierDL.DeleteSupplier);
         }
 
         private void ManageCompaniesButton_Click(object sender, RoutedEventArgs e)

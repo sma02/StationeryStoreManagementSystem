@@ -29,12 +29,12 @@
                 <DataGridTextColumn Binding="{Binding City}" Header="City"/>
                 <DataGridTextColumn Binding="{Binding Country}" Header="Country"/>
                 <DataGridTextColumn Binding="{Binding PostalCode}" Header="Postal Code"/>
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn x:Name="EditDeleteColumn" Visibility="Collapsed">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Margin="0 0 2px 0" Width="60px" FontSize="14" Click="EditButton_Click">Edit</Button>
-                                <Button Margin="2px 0 0 0" Width="60px" FontSize="14" Click="DeleteButton_Click">Delete</Button>
+                                <Button x:Name="EditButton" Margin="0 0 2px 0" Width="60px" FontSize="14" Visibility="Collapsed">Edit</Button>
+                                <Button x:Name="DeleteButton" Margin="2px 0 0 0" Width="60px" FontSize="14" Visibility="Collapsed">Delete</Button>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
