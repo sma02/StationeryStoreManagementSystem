@@ -20,14 +20,7 @@ namespace StationeryStoreManagementSystem.DL
                 var dbColumns = reader.GetColumnSchema();
                 for (int i = 0; i < dbColumns.Count; i++)
                 {
-                    if (reader.GetValue(i).GetType() == typeof(DBNull))
-                    {
-                        args.Add(null);
-                    }
-                    else
-                    {
-                        args.Add(reader.GetValue(i));
-                    }
+                    args.Add(Utils.NormalizeForORM(reader.GetValue(i)));
                 }
                 objs.Add(Activator.CreateInstance(type, args));
             }
@@ -43,14 +36,7 @@ namespace StationeryStoreManagementSystem.DL
                 var dbColumns = reader.GetColumnSchema();
                 for (int i = 0; i < dbColumns.Count; i++)
                 {
-                    if (reader.GetValue(i).GetType() == typeof(DBNull))
-                    {
-                        args.Add(null);
-                    }
-                    else
-                    {
-                        args.Add(reader.GetValue(i));
-                    }
+                    args.Add(Utils.NormalizeForORM(reader.GetValue(i)));
                 }
                 return Activator.CreateInstance(type, args);
             }

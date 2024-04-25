@@ -27,6 +27,28 @@ namespace StationeryStoreManagementSystem
             }
             return value;
         }
+        public static object NormalizeForORM(object value)
+        {
+            if (value.GetType() == typeof(DBNull))
+            {
+                return null;
+            }
+            else
+                return value;
+        }
+        public static List<object> GetArgs(SqlDataReader reader)
+        {
+            List<object> args = new List<object>();
+            if (reader.Read())
+            {
+                var dbColumns = reader.GetColumnSchema();
+                for (int i = 0; i < dbColumns.Count; i++)
+                {
+                    args.Add(NormalizeForORM(reader.GetValue(i)));
+                }
+            }
+            return args;
+        }
         public static void ExecuteQuery(string query)
         {
             CloseReader();

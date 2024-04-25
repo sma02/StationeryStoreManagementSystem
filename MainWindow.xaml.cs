@@ -30,6 +30,7 @@ namespace StationeryStoreManagementSystem
             InitializeComponent();
             /*sideBar.Visibility = Visibility.Collapsed;
             Content.Child = new UI.Login();*/
+            Product product = ProductDL.GetProduct(2);
        }
         public void changeTheme(bool theme)
         {
