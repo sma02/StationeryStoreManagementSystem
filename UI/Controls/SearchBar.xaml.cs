@@ -20,8 +20,18 @@ namespace StationeryStoreManagementSystem.UI.Controls
     /// </summary>
     public partial class SearchBar : UserControl
     {
-        public string Text { get => SearchTextBox.Text; set => SearchTextBox.Text = value; }
-        public List<string> SearchAttributes { get; set; }
+        public List<string> SearchAttributes
+        {
+            get { return (List<string>)GetValue(SearchAttributesProperty); }
+            set { SetValue(SearchAttributesProperty, value); }
+        }
+        public static readonly DependencyProperty SearchAttributesProperty =
+            DependencyProperty.Register("SearchAttributes",
+                                        typeof(List<string>),
+                                        typeof(SearchBar),
+                                        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
         public string FilterString
         {
             get
@@ -29,29 +39,29 @@ namespace StationeryStoreManagementSystem.UI.Controls
                 string[] strings = SearchAttributes.ToArray();
                 for (int i = 0; i < SearchAttributes.Count; i++)
                 {
-                    strings[i] = $"[{strings[i]}] LIKE '*{Text}*'";
+                    strings[i] = $"[{strings[i]}] LIKE '*{SearchTextBox.Text}*'";
                 }
                 string filter = String.Join(" OR ", strings);
                 return filter;
             }
         }
-        public event EventHandler<EventArgs> SearchRequested;
+        public event EventHandler SearchRequested;
         public SearchBar()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SearchRequested?.Invoke(this, new EventArgs());
+            SearchRequested(this,e);
         }
 
         private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
+            
             if (e.Key == Key.Enter)
             {
-                SearchRequested?.Invoke(this, new EventArgs());
+                SearchRequested(this,e);
             }
         }
     }

@@ -23,51 +23,31 @@ namespace StationeryStoreManagementSystem.UI
     public partial class ManageEntity : UserControl
     {
 
-        private Type entity;
         private Type entryForm;
         private Delegate? deleteFunc;
         private Delegate getTable;
-        public ManageEntity(string title, Type entity, Delegate getTable, List<(string, string)> bindings, List<string> searchAttributes, Type? entryForm, bool isEdit, Delegate? deleteFunc = null)
+        public ManageEntity(string title, Type entity, Delegate getTable, List<(string, string)> bindings, List<string>? searchAttributes, Type? entryForm, bool isAdd, bool isEdit, Delegate? deleteFunc = null)
         {
             InitializeComponent();
-            this.entity = entity;
-            TitleBlock.Title = title;
-            Addbutton.Content = $"Add {entity.Name}";
-            for (int i = bindings.Count - 1; i >= 0; i--)
-            {
-                DataGridTextColumn column = new DataGridTextColumn();
-                column.Header = bindings[i].Item1;
-                column.Binding = new Binding(bindings[i].Item2);
-                datagrid1.Columns.Insert(0, column);
-            }
+            dataGridView.Addbutton.Content = $"Add {entity.Name}";
+            dataGridView.SetBindings(bindings);
+            dataGridView.SearchAttributes = searchAttributes;
+            TitleBlock.Text = title;
             this.deleteFunc = deleteFunc;
-            this.entryForm = entryForm;
-            if (isEdit == true && deleteFunc != null)
-                EditDeleteColumn.Visibility = Visibility.Visible;
-            else if (isEdit == true)
-                EditColumn.Visibility = Visibility.Visible;
-            else if (deleteFunc != null)
-                DeleteColumn.Visibility = Visibility.Visible;
             this.getTable = getTable;
-            datagrid1.ItemsSource = ((DataTable)getTable.DynamicInvoke()).DefaultView;
-            searchBar.SearchAttributes = searchAttributes;
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { this, -1 });
-        }
-
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            DataTable table = ((DataView)datagrid1.ItemsSource).Table;
-            int id = (int)table.DefaultView[datagrid1.SelectedIndex].Row.ItemArray[0];
-            ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { this, id });
+            this.entryForm = entryForm;
+            dataGridView.IsAdd = true;
+            dataGridView.IsEdit = true;
+            dataGridView.IsDelete = true;
+            dataGridView.AddButtonClicked += DataGridView_AddButtonClicked;
+            dataGridView.EditButtonClicked += DataGridView_EditButtonClicked;
+            dataGridView.DeleteButtonClicked += DataGridView_DeleteButtonClicked;
+            RefreshData();
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void DataGridView_DeleteButtonClicked(DataTable table, int selectedIndex)
         {
-            DataTable table = ((DataView)datagrid1.ItemsSource).Table;
-            object[] id = { (int)table.DefaultView[datagrid1.SelectedIndex].Row.ItemArray[0] };
+            object[] id = { (int)table.DefaultView[selectedIndex].Row.ItemArray[0] };
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
@@ -75,16 +55,20 @@ namespace StationeryStoreManagementSystem.UI
             }
             RefreshData();
         }
+
+        private void DataGridView_EditButtonClicked(DataTable table, int selectedIndex)
+        {
+            int id = (int)table.DefaultView[selectedIndex].Row.ItemArray[0];
+            ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { this, id });
+        }
+
+        private void DataGridView_AddButtonClicked(object sender, RoutedEventArgs e)
+        {
+            ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { this, -1 });
+        }
         public void RefreshData()
         {
-            datagrid1.ItemsSource = ((DataTable)getTable.DynamicInvoke()).DefaultView;
-            string filterString = searchBar.FilterString;
-            ((DataView)datagrid1.ItemsSource).RowFilter = filterString;
-        }
-        private void SearchBar_SearchRequested(object sender, EventArgs e)
-        {
-            string filterString = searchBar.FilterString;
-            ((DataView)datagrid1.ItemsSource).RowFilter = filterString;
+            dataGridView.Refresh((DataTable)getTable.DynamicInvoke());
         }
     }
 }

@@ -5,14 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StationeryStoreManagementSystem.UI.Controls"
              mc:Ignorable="d" 
+             x:Name="SearchBarControl"
              d:Height="40" d:DesignWidth="300">
     <Grid KeyUp="SearchTextBox_KeyUp">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="60px"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="SearchTextBox" 
-
+        <TextBox x:Name="SearchTextBox"
+                 KeyUp="SearchTextBox_KeyUp"
+                 Text="{Binding ElementName=SearchBarControl,Path=Text,Mode=TwoWay}"
                  MaxLines="1"/>
         <Button x:Name="SearchButton"
                 Grid.Column="1" 

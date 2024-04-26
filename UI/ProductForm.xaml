@@ -20,12 +20,12 @@
         <Components:TitleBlock x:Name="titleBlock" Title="Add Product" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
             <Grid ScrollViewer.CanContentScroll="True">
+                <Grid>
+                    
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -35,6 +35,12 @@
                 <Controls:TextEntry Grid.Row="0" Grid.Column="1" Text="{Binding ReorderThreshold}" LabelText="Reorder Threshold" MaxLength="10"/>
                 <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="0" SelectedItem="{Binding Company}" x:Name="CompanyField" LabelText="Company"/>
                 <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Category}" x:Name="CategoryField" LabelText="Category"/>
+                </Grid>
+                <Grid x:Name="SuppliersGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                </Grid>
             </Grid>
         </ScrollViewer>
     </Grid>

@@ -24,17 +24,23 @@ namespace StationeryStoreManagementSystem.UI
     {
         private Product product;
         private bool isEdit = false;
-        public ProductForm(ManageEntity callingInstance,int id = -1):base(callingInstance)
+        public ProductForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
             InitializeComponent();
-            if(id!=-1)
+            if (id != -1)
             {
                 product = ProductDL.GetProduct(id);
             }
-            CompanyField.ItemSource = CompanyDL.GetCompanies();
-            CompanyField.DisplayPathName = "Name";
-            CategoryField.ItemSource = CategoryDL.GetCategories();
-            CategoryField.DisplayPathName = "Name";
+            var suppliersView = new ManageEntity(null
+                               , typeof(Supplier)
+                               , SupplierDL.GetSuppliersView
+                               , new List<(string, string)>
+            {
+                ("Name", "Name"),
+                ("Contact", "Contact")
+            }, null, null, false, false);
+            Grid.SetRow(suppliersView, 2);
+            SuppliersGrid.Children.Add(suppliersView);
         }
     }
 }
