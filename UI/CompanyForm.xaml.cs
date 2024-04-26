@@ -47,7 +47,7 @@ namespace StationeryStoreManagementSystem.UI
         {
             if (C.Id != -1)
             {
-                CompanyDL.SaveCategory(C);
+                CompanyDL.SaveCompany(C);
                 ((Border)Parent).Child = new UI.ManageCompanies();
             }
             else

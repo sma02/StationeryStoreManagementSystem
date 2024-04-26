@@ -2,6 +2,7 @@
 using StationeryStoreManagementSystem.BL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,11 @@ namespace StationeryStoreManagementSystem.DL
 {
     static class ProductDL
     {
+        public static DataTable GetProductsView()
+        {
+            List<object> list = new List<object>();
+            return DataHandler.FillDataTable(@"SELECT * FROM Product");
+        }
         public static Product GetProduct(int id)
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT Id
