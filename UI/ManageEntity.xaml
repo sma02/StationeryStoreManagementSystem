@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <Components:TitleBlock x:Name="TitleBlock" Grid.Row="0"/>
         <StackPanel Grid.Row="1" Margin="50 15 50 0">
-            <Controls:SearchBar x:Name="searchBar"/>
+            <Controls:SearchBar x:Name="searchBar" SearchRequested="SearchBar_SearchRequested"/>
             <Button x:Name="Addbutton" Click="Button_Click" Margin="0 20 0 40" Height="30"  HorizontalAlignment="Left"/>
         </StackPanel>
         <DataGrid Grid.Row="3" Margin="20" x:Name="datagrid1" AutoGenerateColumns="False" IsReadOnly="True">

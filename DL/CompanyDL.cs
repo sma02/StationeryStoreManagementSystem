@@ -23,7 +23,7 @@ namespace StationeryStoreManagementSystem.DL
             Utils.ExecuteQuery(query);
         }
 
-        public static void SaveCategory(Company C, bool isAdd = false)
+        public static void SaveCompany(Company C, bool isAdd = false)
         {
             List<(string, object)> args = new List<(string, object)>
             {
@@ -31,7 +31,7 @@ namespace StationeryStoreManagementSystem.DL
             };
             if (isAdd == true)
             {
-                DataHandler.InsertDataSP(args, "stpInsertCategory");
+                DataHandler.InsertDataSP(args, "stpInsertCompany");
             }
             else
             {

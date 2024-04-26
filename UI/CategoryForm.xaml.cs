@@ -48,14 +48,13 @@ namespace StationeryStoreManagementSystem.UI
         {
             if (C.Id != -1)
             {
-                CategoryDL.SaveCategory(C);
-                ((Border)Parent).Child = new UI.ManageCategories();
+                C.Save(false);
             }
             else
             {
-                CategoryDL.SaveCategory(C, true);
-                ((Border)Parent).Child = new UI.ManageCategories();
+                C.Save(true);
             }
+            ((Border)Parent).Child = new UI.ManageCategories();
         }
 
         private void cancel_btn_Click(object sender, RoutedEventArgs e)

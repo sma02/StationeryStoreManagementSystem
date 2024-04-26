@@ -30,7 +30,6 @@ namespace StationeryStoreManagementSystem.DL
             else
             {
                 C.InitialArgs.RemoveAt(1);
-                args.Add(("UpdatedOn", ("CURRENT_TIMESTAMP", true)));
                 DataHandler.UpdateData(args, C.InitialArgs, C.GetType().Name, (nameof(C.Id), C.Id));
                 args.Clear();
                 args.Add(("CategoryId",C.Id));

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    internal class Category
+    class Category
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -26,6 +26,10 @@ namespace StationeryStoreManagementSystem.BL
             GST = (double?)args[2];
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
+        }
+        public void Save(bool isAdd = false)
+        {
+            CategoryDL.SaveCategory(this, isAdd);
         }
     }
 }

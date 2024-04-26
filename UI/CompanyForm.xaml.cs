@@ -40,6 +40,7 @@ namespace StationeryStoreManagementSystem.UI
                 title.Title = "Add Company";
                 C = new Company();
             }
+            C.Id = id;
             DataContext = C;
         }
 
@@ -47,15 +48,13 @@ namespace StationeryStoreManagementSystem.UI
         {
             if (C.Id != -1)
             {
-                CompanyDL.SaveCategory(C);
-                ((Border)Parent).Child = new UI.ManageCompanies();
+                C.Save(false);
             }
             else
             {
-                Company C = new Company(company_name.Text.ToString());
-                CompanyDL.InsertCompany(C);
-                ((Border)Parent).Child = new UI.ManageCompanies();
+                C.Save(true);
             }
+            ((Border)Parent).Child = new UI.ManageCompanies();
         }
 
         private void cancel_btn_Click(object sender, RoutedEventArgs e)

@@ -68,6 +68,7 @@ namespace StationeryStoreManagementSystem
                                                 typeof(Supplier),
                                                 SupplierDL.GetSuppliersView(),
                                                 bindings,
+                                                new List<string>{ "Name"},
                                                 typeof(SupplierForm),
                                                 true,
                                                 SupplierDL.DeleteSupplier);
@@ -75,12 +76,42 @@ namespace StationeryStoreManagementSystem
 
         private void ManageCompaniesButton_Click(object sender, RoutedEventArgs e)
         {
-            Content.Child = new UI.ManageCompanies();
+            // Content.Child = new UI.ManageCompanies();
+            List<(string, string)> bindings = new List<(string, string)>
+            {
+                ("Company Name","Name")
+             };
+            Content.Child = new UI.ManageEntity("Manage Companies",
+                                                typeof(Company),
+                                                CompanyDL.GetCompanies(),
+                                                bindings,
+                                                new List<string> { "Name" },
+                                                typeof(CompanyForm),
+                                                true,
+                                                CompanyDL.DeleteCompany);
         }
 
         private void ManageCategoriesButton_Click(Object sender, RoutedEventArgs e)
         {
             Content.Child = new UI.ManageCategories();
+            List<(string, string)> bindings = new List<(string, string)>
+            {
+                ("Name","Name"),
+                ("GST", "GST")
+             };
+            Content.Child = new UI.ManageEntity("Manage Categories",
+                                                typeof(Category),
+                                                CategoryDL.GetCategories(),
+                                                bindings,
+                                                new List<string> { "Name" },
+                                                typeof(CategoryForm),
+                                                true,
+                                                CategoryDL.DeleteCategory);
+        }
+
+        private void ManageEmployeesButton_Click(Object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

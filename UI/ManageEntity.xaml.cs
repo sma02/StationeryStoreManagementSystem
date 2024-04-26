@@ -25,7 +25,7 @@ namespace StationeryStoreManagementSystem.UI
         private Type entity;
         private Type entryForm;
         private Delegate? deleteFunc;
-        public ManageEntity(string title,Type entity,DataTable table,List<(string,string)> bindings,Type? entryForm,bool isEdit, Delegate? deleteFunc = null)
+        public ManageEntity(string title,Type entity,DataTable table,List<(string,string)> bindings,List<string>? searchAttributes,Type? entryForm,bool isEdit, Delegate? deleteFunc = null)
         {
             InitializeComponent();
             this.entity = entity;
@@ -47,6 +47,7 @@ namespace StationeryStoreManagementSystem.UI
             else if (deleteFunc != null)
                 DeleteColumn.Visibility = Visibility.Visible;
             datagrid1.ItemsSource = table.DefaultView;
+            searchBar.SearchAttributes = searchAttributes;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -65,6 +66,12 @@ namespace StationeryStoreManagementSystem.UI
             DataTable table = ((DataView)datagrid1.ItemsSource).Table;
             object[] id = { (int)table.DefaultView[datagrid1.SelectedIndex].Row.ItemArray[0] };
             deleteFunc.DynamicInvoke(id);
+        }
+
+        private void SearchBar_SearchRequested(object sender, EventArgs e)
+        {
+            string filterString = searchBar.FilterString;
+            ((DataView)datagrid1.ItemsSource).RowFilter = filterString;
         }
     }
 }

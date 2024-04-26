@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    internal class Company
+    class Company
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -23,6 +23,10 @@ namespace StationeryStoreManagementSystem.BL
             Name = (string)args[1];
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
+        }
+        public void Save(bool isAdd = false)
+        {
+            CompanyDL.SaveCompany(this, isAdd);
         }
     }
 }
