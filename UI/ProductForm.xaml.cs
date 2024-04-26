@@ -31,16 +31,8 @@ namespace StationeryStoreManagementSystem.UI
             {
                 product = ProductDL.GetProduct(id);
             }
-            var suppliersView = new ManageEntity(null
-                               , typeof(Supplier)
-                               , SupplierDL.GetSuppliersView
-                               , new List<(string, string)>
-            {
-                ("Name", "Name"),
-                ("Contact", "Contact")
-            }, null, null, false, false);
-            Grid.SetRow(suppliersView, 2);
-            SuppliersGrid.Children.Add(suppliersView);
+            suppliersDataHandler2.SearchAttributes = new List<string>() { "Name" };
+            suppliersDataHandler2.IsSelect = true;
         }
     }
 }

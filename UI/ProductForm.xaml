@@ -7,12 +7,8 @@
              xmlns:Components="clr-namespace:StationeryStoreManagementSystem.UI.Components"
              xmlns:Controls="clr-namespace:StationeryStoreManagementSystem.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="1200" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="247*"/>
-            <ColumnDefinition Width="553*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60px"/>
             <RowDefinition/>
@@ -21,11 +17,14 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
             <Grid ScrollViewer.CanContentScroll="True">
                 <Grid>
-                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
-
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -36,12 +35,16 @@
                 <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="0" SelectedItem="{Binding Company}" x:Name="CompanyField" LabelText="Company"/>
                 <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Category}" x:Name="CategoryField" LabelText="Category"/>
                 </Grid>
-                <Grid x:Name="SuppliersGrid">
+                <Grid Grid.Row="1" x:Name="SuppliersGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
+                    <Components:DataHandler Height="400" x:Name="suppliersDataHandler1"/>
+                    <Components:DataHandler Height="400" Grid.Row="1" x:Name="suppliersDataHandler2"/>
                 </Grid>
             </Grid>
+                </Grid>
         </ScrollViewer>
     </Grid>
 </local:AbstractEntryForm>

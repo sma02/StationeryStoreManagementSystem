@@ -47,6 +47,18 @@ namespace StationeryStoreManagementSystem.UI.Components
 
 
 
+
+
+        private bool row1Visbility
+        {
+            get { return (bool)GetValue(row1VisbilityProperty); }
+            set { SetValue(row1VisbilityProperty, value); }
+        }
+        private static readonly DependencyProperty row1VisbilityProperty =
+            DependencyProperty.Register("row1Visbility", typeof(bool), typeof(DataHandler), new PropertyMetadata(false));
+
+
+
         public bool IsAdd
         {
             get { return (bool)GetValue(IsAddProperty); }
@@ -56,6 +68,7 @@ namespace StationeryStoreManagementSystem.UI.Components
                     Addbutton.Visibility = Visibility.Visible;
                 else
                     Addbutton.Visibility = Visibility.Collapsed;
+                SetStackPanel();
             }
         }
         public static readonly DependencyProperty IsAddProperty =
@@ -117,6 +130,7 @@ namespace StationeryStoreManagementSystem.UI.Components
                     searchBar.Visibility = Visibility.Collapsed;
                 else
                     searchBar.Visibility = Visibility.Visible;
+                SetStackPanel();
             }
         }
         public static readonly DependencyProperty SearchAttributesProperty =
@@ -173,6 +187,18 @@ namespace StationeryStoreManagementSystem.UI.Components
                 EditColumn.Visibility = Visibility.Visible;
             else if (IsDelete == true)
                 DeleteColumn.Visibility = Visibility.Visible;
+        }
+        private void SetStackPanel()
+        {
+            if (IsAdd == false && SearchAttributes == null)
+            {
+                row1Visbility = false;
+
+            }
+            else
+            {
+                row1Visbility = true;
+            }
         }
         public void Refresh(DataTable source)
         {
