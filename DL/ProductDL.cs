@@ -11,7 +11,7 @@ namespace StationeryStoreManagementSystem.DL
 {
     static class ProductDL
     {
-        public static DataTable GetProductsView()
+        public static DataTable GetProducts_View()
         {
             List<object> list = new List<object>();
             return DataHandler.FillDataTable(@"SELECT * FROM Product");

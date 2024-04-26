@@ -26,7 +26,7 @@ namespace StationeryStoreManagementSystem.UI
         public ManageCategories()
         {
             InitializeComponent();
-            var categories = CategoryDL.GetCategories();
+            var categories = CategoryDL.GetCategories_View();
             dg_categories.ItemsSource = categories.DefaultView;
             searchBar.SearchAttributes = new List<string>() { "Name" };
         }

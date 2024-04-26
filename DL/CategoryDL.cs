@@ -11,10 +11,21 @@ namespace StationeryStoreManagementSystem.DL
 {
     static class CategoryDL
     {
-        public static DataTable GetCategories()
+        public static DataTable GetCategories_View()
         {
             List<object> list = new List<object>();
             return DataHandler.FillDataTable(@"Select * from GetCategories_View");
+        }
+        public static List<Category> GetCategories()
+        {
+                SqlDataReader reader = Utils.ReadData(@"SELECT Id
+                                                   	   ,Name
+                                                   	   ,(SELECT TOP 1 GST 
+                                                   	     FROM TaxLog 
+                                                   		 WHERE TaxLog.CategoryId=Category.Id 
+                                                   		 ORDER BY AddedOn DESC) GST
+                                                        FROM Category");
+                return DataHandler.ConstructObjects(reader, typeof(Category)).Cast<Category>().ToList();
         }
         public static void SaveCategory(Category C, bool isAdd = false)
         {

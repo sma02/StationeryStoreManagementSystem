@@ -83,7 +83,7 @@ namespace StationeryStoreManagementSystem
              };
             Content.Child = new UI.ManageEntity("Manage Companies",
                                                 typeof(Company),
-                                                CompanyDL.GetCompanies(),
+                                                CompanyDL.GetCompanies_View,
                                                 bindings,
                                                 new List<string> { "Name" },
                                                 typeof(CompanyForm),
@@ -101,7 +101,7 @@ namespace StationeryStoreManagementSystem
              };
             Content.Child = new UI.ManageEntity("Manage Categories",
                                                 typeof(Category),
-                                                CategoryDL.GetCategories(),
+                                                CategoryDL.GetCategories_View,
                                                 bindings,
                                                 new List<string> { "Name" },
                                                 typeof(CategoryForm),
@@ -122,8 +122,9 @@ namespace StationeryStoreManagementSystem
              };
             Content.Child = new UI.ManageEntity("Manage Products",
                                                 typeof(Product),
-                                                ProductDL.GetProductsView,
+                                                ProductDL.GetProducts_View,
                                                 bindings,
+                                                new List<string> { "Name" },
                                                 typeof(ProductForm),
                                                 true);
         }

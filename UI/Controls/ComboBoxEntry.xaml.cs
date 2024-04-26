@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,15 +42,15 @@ namespace StationeryStoreManagementSystem.UI.Controls
         }
 
 
-        public List<string> ItemSource
+        public IEnumerable ItemSource
         {
-            get { return (List<string>)GetValue(ItemSourceProperty); }
+            get { return (IEnumerable)GetValue(ItemSourceProperty); }
             set { SetValue(ItemSourceProperty, value); }
         }
 
         public static readonly DependencyProperty ItemSourceProperty =
             DependencyProperty.Register("ItemSource",
-                                        typeof(List<string>),
+                                        typeof(IEnumerable),
                                         typeof(ComboBoxEntry),
                                         new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 

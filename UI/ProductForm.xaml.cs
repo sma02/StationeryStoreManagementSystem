@@ -31,7 +31,10 @@ namespace StationeryStoreManagementSystem.UI
             {
                 product = ProductDL.GetProduct(id);
             }
-            DataContext = product;
+            CompanyField.ItemSource = CompanyDL.GetCompanies();
+            CompanyField.DisplayPathName = "Name";
+            CategoryField.ItemSource = CategoryDL.GetCategories();
+            CategoryField.DisplayPathName = "Name";
         }
     }
 }

@@ -33,8 +33,8 @@
                 </Grid.ColumnDefinitions>
                 <Controls:TextEntry Grid.Row="0" Grid.Column="0" Text="{Binding Name}"  LabelText="Name" MaxLength="30"/>
                 <Controls:TextEntry Grid.Row="0" Grid.Column="1" Text="{Binding ReorderThreshold}" LabelText="Reorder Threshold" MaxLength="10"/>
-                <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="0" SelectedItem="{Binding Company}" x:Name="CountryField" LabelText="Company"/>
-                <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Category}" x:Name="CityField" LabelText="Category"/>
+                <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="0" SelectedItem="{Binding Company}" x:Name="CompanyField" LabelText="Company"/>
+                <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Category}" x:Name="CategoryField" LabelText="Category"/>
             </Grid>
         </ScrollViewer>
     </Grid>
