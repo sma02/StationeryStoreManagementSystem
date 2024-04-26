@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StationeryStoreManagementSystem.DL;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -25,7 +26,8 @@ namespace StationeryStoreManagementSystem.UI
         private Type entity;
         private Type entryForm;
         private Delegate? deleteFunc;
-        public ManageEntity(string title,Type entity,DataTable table,List<(string,string)> bindings,List<string>? searchAttributes,Type? entryForm,bool isEdit, Delegate? deleteFunc = null)
+        private Delegate getTable;
+        public ManageEntity(string title,Type entity,Delegate getTable,List<(string,string)> bindings,Type? entryForm,bool isEdit, Delegate? deleteFunc = null)
         {
             InitializeComponent();
             this.entity = entity;
@@ -46,8 +48,8 @@ namespace StationeryStoreManagementSystem.UI
                 EditColumn.Visibility = Visibility.Visible;
             else if (deleteFunc != null)
                 DeleteColumn.Visibility = Visibility.Visible;
-            datagrid1.ItemsSource = table.DefaultView;
-            searchBar.SearchAttributes = searchAttributes;
+            this.getTable = getTable;
+            datagrid1.ItemsSource = ((DataTable)getTable.DynamicInvoke()).DefaultView;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -65,7 +67,13 @@ namespace StationeryStoreManagementSystem.UI
         {
             DataTable table = ((DataView)datagrid1.ItemsSource).Table;
             object[] id = { (int)table.DefaultView[datagrid1.SelectedIndex].Row.ItemArray[0] };
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
             deleteFunc.DynamicInvoke(id);
+            }
+            datagrid1.ItemsSource = ((DataTable)getTable.DynamicInvoke()).DefaultView;
+        }
         }
 
         private void SearchBar_SearchRequested(object sender, EventArgs e)

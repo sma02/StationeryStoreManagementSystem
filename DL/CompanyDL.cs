@@ -11,10 +11,15 @@ namespace StationeryStoreManagementSystem.DL
 {
     static class CompanyDL
     {
-        public static DataTable GetCompanies()
+        public static DataTable GetCompanies_View()
         {
             List<object> list = new List<object>();
             return DataHandler.FillDataTable(@"SELECT * FROM GetCompanies_View");
+        }
+        public static List<Company> GetCompanies()
+        {
+            SqlDataReader reader = Utils.ReadData(@"SELECT * FROM Company");
+            return DataHandler.ConstructObjects(reader, typeof(Supplier)).Cast<Company>().ToList();
         }
 
         public static void InsertCompany(Company C)

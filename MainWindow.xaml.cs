@@ -66,7 +66,7 @@ namespace StationeryStoreManagementSystem
              };
             Content.Child = new UI.ManageEntity("Manage Suppliers",
                                                 typeof(Supplier),
-                                                SupplierDL.GetSuppliersView(),
+                                                SupplierDL.GetSuppliersView,
                                                 bindings,
                                                 new List<string>{ "Name"},
                                                 typeof(SupplierForm),
@@ -112,6 +112,20 @@ namespace StationeryStoreManagementSystem
         private void ManageEmployeesButton_Click(Object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ManageProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<(string, string)> bindings = new List<(string, string)>
+            {
+                ("Name","Name")
+             };
+            Content.Child = new UI.ManageEntity("Manage Products",
+                                                typeof(Product),
+                                                ProductDL.GetProductsView,
+                                                bindings,
+                                                typeof(ProductForm),
+                                                true);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace StationeryStoreManagementSystem.UI
         public ManageCompanies()
         {
             InitializeComponent();
-            var companies = CompanyDL.GetCompanies();
+            var companies = CompanyDL.GetCompanies_View();
             dg_companies.ItemsSource = companies.DefaultView;
             searchBar.SearchAttributes = new List<string>() { "Name" };
         }
