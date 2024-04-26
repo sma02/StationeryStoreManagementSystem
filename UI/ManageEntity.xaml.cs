@@ -27,13 +27,13 @@ namespace StationeryStoreManagementSystem.UI
         private Type entryForm;
         private Delegate? deleteFunc;
         private Delegate getTable;
-        public ManageEntity(string title,Type entity,Delegate getTable,List<(string,string)> bindings,List<string> searchAttributes,Type? entryForm,bool isEdit, Delegate? deleteFunc = null)
+        public ManageEntity(string title, Type entity, Delegate getTable, List<(string, string)> bindings, List<string> searchAttributes, Type? entryForm, bool isEdit, Delegate? deleteFunc = null)
         {
             InitializeComponent();
             this.entity = entity;
             TitleBlock.Title = title;
             Addbutton.Content = $"Add {entity.Name}";
-            for(int i = bindings.Count-1;i>=0;i--)
+            for (int i = bindings.Count - 1; i >= 0; i--)
             {
                 DataGridTextColumn column = new DataGridTextColumn();
                 column.Header = bindings[i].Item1;
@@ -42,7 +42,7 @@ namespace StationeryStoreManagementSystem.UI
             }
             this.deleteFunc = deleteFunc;
             this.entryForm = entryForm;
-            if (isEdit ==true && deleteFunc != null)
+            if (isEdit == true && deleteFunc != null)
                 EditDeleteColumn.Visibility = Visibility.Visible;
             else if (isEdit == true)
                 EditColumn.Visibility = Visibility.Visible;
@@ -54,14 +54,14 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { -1});
+            ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { this, -1 });
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             DataTable table = ((DataView)datagrid1.ItemsSource).Table;
             int id = (int)table.DefaultView[datagrid1.SelectedIndex].Row.ItemArray[0];
-            ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm,new object[] { id });
+            ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { this, id });
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -71,11 +71,16 @@ namespace StationeryStoreManagementSystem.UI
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-            deleteFunc.DynamicInvoke(id);
+                deleteFunc.DynamicInvoke(id);
             }
-            datagrid1.ItemsSource = ((DataTable)getTable.DynamicInvoke()).DefaultView;
+            RefreshData();
         }
-
+        public void RefreshData()
+        {
+            datagrid1.ItemsSource = ((DataTable)getTable.DynamicInvoke()).DefaultView;
+            string filterString = searchBar.FilterString;
+            ((DataView)datagrid1.ItemsSource).RowFilter = filterString;
+        }
         private void SearchBar_SearchRequested(object sender, EventArgs e)
         {
             string filterString = searchBar.FilterString;

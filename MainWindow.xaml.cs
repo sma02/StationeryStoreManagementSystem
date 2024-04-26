@@ -93,7 +93,6 @@ namespace StationeryStoreManagementSystem
 
         private void ManageCategoriesButton_Click(Object sender, RoutedEventArgs e)
         {
-            Content.Child = new UI.ManageCategories();
             List<(string, string)> bindings = new List<(string, string)>
             {
                 ("Name","Name"),

@@ -20,11 +20,10 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for SupplierForm.xaml
     /// </summary>
-    public partial class SupplierForm : UserControl
+    public partial class SupplierForm : AbstractEntryForm
     {
         private Supplier supplier;
-        private bool isEdit = false;
-        public SupplierForm(int id=-1)
+        public SupplierForm(ManageEntity callingInstance, int id=-1):base(callingInstance)
         {
             InitializeComponent();
             CountryField.Items = new List<string>()
@@ -54,12 +53,12 @@ namespace StationeryStoreManagementSystem.UI
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             supplier.Save(!isEdit);
-            ((Border)Parent).Child = new ManageSuppliers();
+            NavigateCallingForm();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            ((Border)Parent).Child = new ManageSuppliers();
+            NavigateCallingForm();
         }
     }
 }

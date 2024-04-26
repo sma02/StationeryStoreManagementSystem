@@ -20,11 +20,11 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for ProductForm.xaml
     /// </summary>
-    public partial class ProductForm : UserControl
+    public partial class ProductForm : AbstractEntryForm
     {
         private Product product;
         private bool isEdit = false;
-        public ProductForm(int id = -1)
+        public ProductForm(ManageEntity callingInstance,int id = -1):base(callingInstance)
         {
             InitializeComponent();
             if(id!=-1)
