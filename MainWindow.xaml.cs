@@ -71,6 +71,7 @@ namespace StationeryStoreManagementSystem
                                                 new List<string>{ "Name"},
                                                 typeof(SupplierForm),
                                                 true,
+                                                true,
                                                 SupplierDL.DeleteSupplier);
         }
 
@@ -88,12 +89,12 @@ namespace StationeryStoreManagementSystem
                                                 new List<string> { "Name" },
                                                 typeof(CompanyForm),
                                                 true,
+                                                true,
                                                 CompanyDL.DeleteCompany);
         }
 
         private void ManageCategoriesButton_Click(Object sender, RoutedEventArgs e)
         {
-            Content.Child = new UI.ManageCategories();
             List<(string, string)> bindings = new List<(string, string)>
             {
                 ("Name","Name"),
@@ -105,6 +106,7 @@ namespace StationeryStoreManagementSystem
                                                 bindings,
                                                 new List<string> { "Name" },
                                                 typeof(CategoryForm),
+                                                true,
                                                 true,
                                                 CategoryDL.DeleteCategory);
         }
@@ -126,7 +128,9 @@ namespace StationeryStoreManagementSystem
                                                 bindings,
                                                 new List<string> { "Name" },
                                                 typeof(ProductForm),
-                                                true);
+                                                true,
+                                                true
+                                                );
         }
     }
 }

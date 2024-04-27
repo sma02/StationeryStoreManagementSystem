@@ -20,21 +20,19 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for ProductForm.xaml
     /// </summary>
-    public partial class ProductForm : UserControl
+    public partial class ProductForm : AbstractEntryForm
     {
         private Product product;
         private bool isEdit = false;
-        public ProductForm(int id = -1)
+        public ProductForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
             InitializeComponent();
-            if(id!=-1)
+            if (id != -1)
             {
                 product = ProductDL.GetProduct(id);
             }
-            CompanyField.ItemSource = CompanyDL.GetCompanies();
-            CompanyField.DisplayPathName = "Name";
-            CategoryField.ItemSource = CategoryDL.GetCategories();
-            CategoryField.DisplayPathName = "Name";
+            suppliersDataHandler2.SearchAttributes = new List<string>() { "Name" };
+            suppliersDataHandler2.IsSelect = true;
         }
     }
 }

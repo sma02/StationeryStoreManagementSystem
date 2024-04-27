@@ -11,45 +11,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60px"/>
-            <RowDefinition Height="100"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Components:TitleBlock x:Name="TitleBlock" Grid.Row="0"/>
-        <StackPanel Grid.Row="1" Margin="50 15 50 0">
-            <Controls:SearchBar x:Name="searchBar" SearchRequested="SearchBar_SearchRequested"/>
-            <Button x:Name="Addbutton" Click="Button_Click" Margin="0 20 0 40" Height="30"  HorizontalAlignment="Left"/>
-        </StackPanel>
-        <DataGrid Grid.Row="3" Margin="20" x:Name="datagrid1" AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn x:Name="EditDeleteColumn" Visibility="Collapsed">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="EditButton" Margin="0 0 2px 0" Width="60px" FontSize="14" Click="EditButton_Click">Edit</Button>
-                                <Button x:Name="DeleteButton" Margin="2px 0 0 0" Width="60px" FontSize="14" Click="DeleteButton_Click">Delete</Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn x:Name="EditColumn" Visibility="Collapsed">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="EditButton" Margin="0 0 2px 0" Width="60px" FontSize="14" Click="EditButton_Click">Edit</Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn x:Name="DeleteColumn" Visibility="Collapsed">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="DeleteButton" Margin="2px 0 0 0" Width="60px" FontSize="14" Click="DeleteButton_Click">Delete</Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Components:DataHandler x:Name="dataGridView" Grid.Row="1"/>
     </Grid>
 </UserControl>

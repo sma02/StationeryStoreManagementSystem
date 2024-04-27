@@ -14,12 +14,12 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel x:Name="sideBar" Grid.Column="0" Width="auto" Orientation="Vertical">
-            <Button Margin="5 100 5 0" Click="Button_Click">Change Theme</Button>
-            <Button Margin="5 10 5 0" Click="ManageSuppliersButton_Click">Manage Suppliers</Button>
-            <Button Margin="5 10 5 0" Click="ManageCompaniesButton_Click">Manage Companies</Button>
-            <Button Margin="5 10 5 0" Click="ManageCategoriesButton_Click">Manage Categories</Button>
-            <Button Margin="5 10 5 0" Click="ManageProductButton_Click">Manage Product</Button>
-            <Button Margin="5 10 5 0" Click="ManageEmployeesButton_Click">Manage Employees</Button>
+            <Button Margin="5 60 5 0" Height="40" Click="Button_Click">Change Theme</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="ManageSuppliersButton_Click">Manage Suppliers</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="ManageCompaniesButton_Click">Manage Companies</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="ManageCategoriesButton_Click">Manage Categories</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="ManageProductButton_Click">Manage Product</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="ManageEmployeesButton_Click">Manage Employees</Button>
         </StackPanel>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
         <Border x:Name="Content" Grid.Column="2"/>

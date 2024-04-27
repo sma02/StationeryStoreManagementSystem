@@ -21,11 +21,10 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for CategoryForm.xaml
     /// </summary>
-    public partial class CategoryForm : UserControl
+    public partial class CategoryForm : AbstractEntryForm
     {
         private Category C;
-        private ManageEntity ME;
-        public CategoryForm(ManageEntity entity, int id = -1)
+        public CategoryForm(ManageEntity callingInstance,int id = -1):base(callingInstance)
         {
             InitializeComponent();
 
@@ -56,12 +55,12 @@ namespace StationeryStoreManagementSystem.UI
             {
                 C.Save(true);
             }
-            ((Border)Parent).Child = ME;
+            NavigateCallingForm();
         }
 
         private void cancel_btn_Click(object sender, RoutedEventArgs e)
         {
-            ((Border)Parent).Child = ME;
+            NavigateCallingForm();
         }
     }
 }

@@ -21,10 +21,10 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for CompanyForm.xaml
     /// </summary>
-    public partial class CompanyForm : UserControl
+    public partial class CompanyForm : AbstractEntryForm
     {
         private Company C;
-        public CompanyForm(int id = -1)
+        public CompanyForm(ManageEntity callingInstance,int id = -1):base(callingInstance)
         {
             InitializeComponent();
 
@@ -54,12 +54,12 @@ namespace StationeryStoreManagementSystem.UI
             {
                 C.Save(true);
             }
-            ((Border)Parent).Child = new UI.ManageCompanies();
+            NavigateCallingForm();
         }
 
         private void cancel_btn_Click(object sender, RoutedEventArgs e)
         {
-            ((Border)Parent).Child = new UI.ManageCompanies();
+            NavigateCallingForm();
         }
     }
 }

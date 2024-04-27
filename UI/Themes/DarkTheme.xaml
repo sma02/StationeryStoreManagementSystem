@@ -2624,6 +2624,11 @@
         </Setter>
     </Style>
 
+    
+    <!-- DatePicker  -->
+
+    
+    
     <!--  RadioButton  -->
 
     <Style TargetType="{x:Type RadioButton}">
