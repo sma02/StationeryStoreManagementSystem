@@ -24,7 +24,8 @@ namespace StationeryStoreManagementSystem.UI
     public partial class CategoryForm : UserControl
     {
         private Category C;
-        public CategoryForm(int id = -1)
+        private ManageEntity ME;
+        public CategoryForm(ManageEntity entity, int id = -1)
         {
             InitializeComponent();
 
@@ -41,6 +42,7 @@ namespace StationeryStoreManagementSystem.UI
                 C = new Category();
             }
             C.Id = id;
+            ME = entity;
             DataContext = C;
         }
 
@@ -54,12 +56,12 @@ namespace StationeryStoreManagementSystem.UI
             {
                 C.Save(true);
             }
-            ((Border)Parent).Child = new UI.ManageCategories();
+            ((Border)Parent).Child = ME;
         }
 
         private void cancel_btn_Click(object sender, RoutedEventArgs e)
         {
-            ((Border)Parent).Child = new UI.ManageCategories();
+            ((Border)Parent).Child = ME;
         }
     }
 }

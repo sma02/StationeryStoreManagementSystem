@@ -38,14 +38,14 @@ namespace StationeryStoreManagementSystem.UI
 
         private void add_button_Click(object sender, RoutedEventArgs e)
         {
-            ((Border)Parent).Child = new UI.CategoryForm();
+            // ((Border)Parent).Child = new UI.CategoryForm();
         }
 
         private void edit_Click(object sender, RoutedEventArgs e)
         {
             DataTable table = ((DataView)dg_categories.ItemsSource).Table;
             int id = (int)table.DefaultView[dg_categories.SelectedIndex].Row.ItemArray[0];
-            ((Border)Parent).Child = new UI.CategoryForm(id);
+            //((Border)Parent).Child = new UI.CategoryForm(id);
         }
 
         private void delete_Click(object sender, RoutedEventArgs e)
