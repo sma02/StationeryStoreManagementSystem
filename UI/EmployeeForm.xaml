@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="StationeryStoreManagementSystem.UI.Themes.EmployeeForm"
+﻿<local:AbstractEntryForm x:Class="StationeryStoreManagementSystem.UI.EmployeeForm"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:StationeryStoreManagementSystem.UI.Themes"
+             xmlns:local="clr-namespace:StationeryStoreManagementSystem.UI"
              xmlns:Components="clr-namespace:StationeryStoreManagementSystem.UI.Components"
              xmlns:Controls="clr-namespace:StationeryStoreManagementSystem.UI.Controls"
              mc:Ignorable="d" 
@@ -33,31 +33,33 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Controls:TextEntry Grid.Row="0" Grid.Column="0" Text="{Binding Username}" LabelText="Username" MaxLength="8"/>
-                <Controls:TextEntry Grid.Row="0" Grid.Column="1" LabelText="Password" MaxLength="5"/>
+                <Controls:TextEntry x:Name="cell1" Grid.Row="0" Grid.Column="0" Text="{Binding Username}" LabelText="Username" MaxLength="8"/>
+                <Controls:TextEntry x:Name="cell2" Grid.Row="0" Grid.Column="1" Text="{Binding Password}" LabelText="Password" MaxLength="5"/>
 
                 <Controls:TextEntry Grid.Row="1" Grid.Column="0" Text="{Binding FirstName}" LabelText="First Name" MaxLength="30"/>
                 <Controls:TextEntry Grid.Row="1" Grid.Column="1" Text="{Binding LastName}" LabelText="Last Name" MaxLength="30"/>
-                <Controls:ComboBoxEntry Grid.Row="2" Grid.Column="0" SelectedItem="{Binding Gender}" LabelText="Gender"/>
+                <Controls:ComboBoxEntry x:Name="gender_cb" Grid.Row="2" Grid.Column="0" SelectedItem="{Binding Gender}" LabelText="Gender" />
 
                 <Controls:TextEntry Grid.Row="2" Grid.Column="1" Text="{Binding CNIC}" LabelText="CNIC" MaxLength="13"/>
-                <Controls:TextEntry Grid.Row="3" Grid.Column="0" Text="{Binding DateOfBirth}" LabelText="Date of Birth" MaxLength="13"/>
+                <Controls:DateEntry Grid.Row="3" Grid.Column="0" SelectedDate="{Binding DateOfBirth}" LabelText="Date of Birth"/>
 
                 <Controls:TextEntry Grid.Row="3" Grid.Column="1" Text="{Binding Contact}" LabelText="Contact Number" MaxLength="11"/>
                 <Controls:TextEntry Grid.Row="4" Grid.Column="0" Text="{Binding Email}" LabelText="Email" MaxLength="50"/>
 
-                <Controls:ComboBoxEntry Grid.Row="4" Grid.Column="1" LabelText="Role"/>
+                <Controls:ComboBoxEntry x:Name="role_cb" Grid.Row="4" Grid.Column="1" LabelText="Role"/>
                 <Controls:TextEntry Grid.Row="5" Grid.Column="0" Text="{Binding Salary}" LabelText="Salary" MaxLength="8"/>
 
-                <Controls:ComboBoxEntry Grid.Row="5" Grid.Column="1" SelectedItem="{Binding City}" x:Name="CityField" LabelText="City"/>
-                <Controls:TextEntry Grid.Row="6" Grid.Column="0" Text="{Binding Town}" LabelText="Town" MaxLength="25"/>
-                <Controls:TextEntry Grid.Row="6" Grid.Column="1" Text="{Binding StreetAddress}" LabelText="Street Address" MaxLength="25"/>
-                <Controls:TextEntry Grid.Row="7" Grid.Column="0" Text="{Binding PostalCode}" LabelText="Postal Code" MaxLength="6"/>
+                <Button x:Name="ResetButton" Grid.Row="5" Grid.Column="1" Height="60" Width="250" HorizontalAlignment="Center" Content="Reset Password" Visibility="Collapsed"/>
+
+                <Controls:ComboBoxEntry x:Name="city_cb" Grid.Row="6" Grid.Column="0" SelectedItem="{Binding City}" LabelText="City"/>
+                <Controls:TextEntry Grid.Row="6" Grid.Column="1" Text="{Binding Town}" LabelText="Town" MaxLength="25"/>
+                <Controls:TextEntry Grid.Row="7" Grid.Column="0" Text="{Binding StreetAddress}" LabelText="Street Address" MaxLength="25"/>
+                <Controls:TextEntry Grid.Row="7" Grid.Column="1" Text="{Binding PostalCode}" LabelText="Postal Code" MaxLength="6"/>
 
 
-                <Button x:Name="ConfirmButton" Grid.Row="8" Grid.Column="0" Height="50" Width="100" HorizontalAlignment="Right" Margin="0 0 30 0" Content="Add" />
-                <Button Grid.Row="8" Grid.Column="1" Height="50" Width="100" HorizontalAlignment="Left" Margin="30 0 0 0" Content="Cancel" />
+                <Button x:Name="ConfirmButton" Grid.Row="8" Grid.Column="0" Height="50" Width="100" HorizontalAlignment="Right" Margin="0 0 30 0" Content="Add" Click="ConfirmButton_Click"/>
+                <Button Grid.Row="8" Grid.Column="1" Height="50" Width="100" HorizontalAlignment="Left" Margin="30 0 0 0" Content="Cancel" Click="CancelButton_Click"/>
             </Grid>
         </ScrollViewer>
     </Grid>
-</UserControl>
+</local:AbstractEntryForm>

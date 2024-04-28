@@ -41,7 +41,6 @@ namespace StationeryStoreManagementSystem.UI
                 C = new Category();
             }
             C.Id = id;
-            ME = entity;
             DataContext = C;
         }
 

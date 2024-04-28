@@ -17,8 +17,10 @@
                     HorizontalAlignment="Stretch"
                     IsHitTestVisible="False"/>
             <DatePicker 
-                SelectedDate="{Binding ElementName=DateEntryControl,Path=SelectedDate,Mode=TwoWay}"
-                >
+                SelectedDate="{Binding ElementName=DateEntryControl,Path=SelectedDate,Mode=TwoWay}" Margin="10 10 10 10"
+                 FontSize="12px"
+                 Padding="18 8"
+                 BorderThickness="1">
                 
                 <DatePicker.Resources>
                     <Style TargetType="{x:Type DatePickerTextBox}">

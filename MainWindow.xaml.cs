@@ -37,11 +37,11 @@ namespace StationeryStoreManagementSystem
             Collection<ResourceDictionary> dictionary = Resources.MergedDictionaries;
             dictionary.Clear();
             string path;
-            if(theme==true)
+            if (theme == true)
                 path = "/UI/Themes/DarkTheme.xaml";
             else
                 path = "/UI/Themes/LightTheme.xaml";
-            dictionary.Add(new ResourceDictionary() { Source = new Uri(path,UriKind.RelativeOrAbsolute) });
+            dictionary.Add(new ResourceDictionary() { Source = new Uri(path, UriKind.RelativeOrAbsolute) });
             currentTheme = theme;
 
         }
@@ -68,7 +68,7 @@ namespace StationeryStoreManagementSystem
                                                 typeof(Supplier),
                                                 SupplierDL.GetSuppliersView,
                                                 bindings,
-                                                new List<string>{ "Name"},
+                                                new List<string> { "Name" },
                                                 typeof(SupplierForm),
                                                 true,
                                                 true,
@@ -113,7 +113,24 @@ namespace StationeryStoreManagementSystem
 
         private void ManageEmployeesButton_Click(Object sender, RoutedEventArgs e)
         {
-
+            List<(string, string)> bindings = new List<(string, string)>
+            {
+                ("Username","Username"),
+                ("Name","Name"),
+                ("CNIC","CNIC"),
+                ("Contact","Contact"),
+                ("Role","Role"),
+                ("Gender","Gender")
+            };
+            Content.Child = new UI.ManageEntity("Manage Employees",
+                                                typeof(Employee),
+                                                EmployeeDL.GetEmployeessView,
+                                                bindings,
+                                                new List<string> { "Name" },
+                                                typeof(EmployeeForm),
+                                                true,
+                                                true,
+                                                EmployeeDL.DeleteEmployee);
         }
 
         private void ManageProductButton_Click(object sender, RoutedEventArgs e)
