@@ -11,8 +11,8 @@ namespace StationeryStoreManagementSystem.BL
     class Supplier
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? Contact { get; set; }
+        public string Name { get; set; }
+        public string Contact { get; set; }
         public string? Email { get; set; }
         public string? StreetAddress { get; set; }
         public string? Town { get; set; }
@@ -20,14 +20,25 @@ namespace StationeryStoreManagementSystem.BL
         public string? Country { get; set; }
         public string? PostalCode { get; set; }
         public List<object> InitialArgs;
-        public Supplier(string? name = null
-                       , string? contact = null
+        public Supplier(int id):this()
+        {
+            Id = id;
+        }
+        public Supplier()
+        {
+            Id = -1;
+            Name = "";
+            Contact = "";
+            InitialArgs = new List<object>();
+        }
+        public Supplier(string name
+                       , string contact
                        , string? email = null
                        , string? streetAddress = null
                        , string? town = null
                        , string? city = null
                        , string? country = null
-                       , string? postalCode = null)
+                       , string? postalCode = null):this()
 
         {
             Name = name;

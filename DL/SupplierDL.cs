@@ -34,7 +34,28 @@ namespace StationeryStoreManagementSystem.DL
                                                     WHERE Id="+id.ToString());
             return (Supplier)DataHandler.ConstructObject(reader, typeof(Supplier));
 ;        }
-        public static void SaveSupplier(Supplier supplier,bool IsAdd)
+        public static List<Supplier> GetProductSuppliers(Product product)
+        {
+            return GetProductSuppliers(product.Id);
+        }
+        public static List<Supplier> GetProductSuppliers(int ProductId)
+        {
+            SqlDataReader reader = Utils.ReadData(@"SELECT Id
+                                                          ,Name
+                                                          ,Contact
+                                                          ,Email
+                                                          ,StreetAddress
+                                                          ,Town
+                                                          ,City
+                                                          ,Country
+                                                          ,PostalCode
+                                                    FROM ProductSupplier
+                                                    JOIN Supplier
+                                                    ON Supplier.Id=ProductSupplier.SupplierId
+                                                    WHERE ProductId=" + ProductId.ToString());
+            return DataHandler.ConstructObjects(reader, typeof(Supplier)).Cast<Supplier>().ToList();
+        }
+        public static void SaveSupplier(Supplier supplier,bool isAdd)
         {
             List<(string, object)> args = new List<(string, object)>
             {
@@ -47,7 +68,7 @@ namespace StationeryStoreManagementSystem.DL
                 (nameof(supplier.Country),supplier.Country),
                 (nameof(supplier.PostalCode),supplier.PostalCode)
             };
-            if (IsAdd == true)
+            if (isAdd == true)
             {
                 DataHandler.InsertDataSP(args, "stpInsertSupplier");
             }

@@ -20,6 +20,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                 <Grid>
                 <Grid.RowDefinitions>
@@ -33,16 +34,24 @@
                 <Controls:TextEntry Grid.Row="0" Grid.Column="0" Text="{Binding Name}"  LabelText="Name" MaxLength="30"/>
                 <Controls:TextEntry Grid.Row="0" Grid.Column="1" Text="{Binding ReorderThreshold}" LabelText="Reorder Threshold" MaxLength="10"/>
                 <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="0" SelectedItem="{Binding Company}" x:Name="CompanyField" LabelText="Company"/>
-                <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Category}" x:Name="CategoryField" LabelText="Category"/>
+                        <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Category}" x:Name="CategoryField" LabelText="Category"/>
                 </Grid>
                 <Grid Grid.Row="1" x:Name="SuppliersGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Components:DataHandler Height="400" x:Name="suppliersDataHandler1"/>
-                    <Components:DataHandler Height="400" Grid.Row="1" x:Name="suppliersDataHandler2"/>
+                    <Components:DataHandler Margin="50 0" Height="400" Grid.Row="0" x:Name="suppliersDataHandler1"/>
+                    <Components:DataHandler Margin="50 -20 50 0" Height="400" Grid.Row="1" x:Name="suppliersDataHandler2"/>
                 </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="ConfirmButton" Grid.Column="0" Height="50" Width="100" HorizontalAlignment="Right" Margin="0 0 30 0" Content="Add" Click="ConfirmButton_Click"/>
+                        <Button Grid.Column="1" Height="50" Width="100" HorizontalAlignment="Left" Margin="30 0 0 0" Content="Cancel" Click="CancelButton_Click"/>
+                    </Grid>
             </Grid>
                 </Grid>
         </ScrollViewer>

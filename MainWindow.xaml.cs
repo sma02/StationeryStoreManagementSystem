@@ -137,7 +137,14 @@ namespace StationeryStoreManagementSystem
         {
             List<(string, string)> bindings = new List<(string, string)>
             {
-                ("Name","Name")
+                ("Name","Name"),
+                ("Price","Price"),
+                ("Retail Rs","RetailPrice"),
+                ("Discount Rs","DiscountAmount"),
+                ("Company","Company"),
+                ("Category","Category"),
+                ("No. Suppliers","[No. Suppliers]"),
+                ("Q.ty","Stock")
              };
             Content.Child = new UI.ManageEntity("Manage Products",
                                                 typeof(Product),
@@ -146,8 +153,8 @@ namespace StationeryStoreManagementSystem
                                                 new List<string> { "Name" },
                                                 typeof(ProductForm),
                                                 true,
-                                                true
-                                                );
+                                                true,
+                                                ProductDL.DeleteProduct);
         }
     }
 }

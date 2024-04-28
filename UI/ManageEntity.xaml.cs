@@ -45,9 +45,9 @@ namespace StationeryStoreManagementSystem.UI
             RefreshData();
         }
 
-        private void DataGridView_DeleteButtonClicked(DataTable table, int selectedIndex)
+        private void DataGridView_DeleteButtonClicked(DataGrid dataGrid, int selectedIndex)
         {
-            object[] id = { (int)table.DefaultView[selectedIndex].Row.ItemArray[0] };
+            object[] id = { ((DataView)(dataGrid.ItemsSource))[selectedIndex].Row.ItemArray[0] };
             MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
@@ -56,9 +56,9 @@ namespace StationeryStoreManagementSystem.UI
             RefreshData();
         }
 
-        private void DataGridView_EditButtonClicked(DataTable table, int selectedIndex)
+        private void DataGridView_EditButtonClicked(DataGrid dataGrid, int selectedIndex)
         {
-            int id = (int)table.DefaultView[selectedIndex].Row.ItemArray[0];
+            int id = (int)((DataView)(dataGrid.ItemsSource))[selectedIndex].Row.ItemArray[0];
             ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { this, id });
         }
 

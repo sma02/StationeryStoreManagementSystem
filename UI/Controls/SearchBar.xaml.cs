@@ -36,6 +36,8 @@ namespace StationeryStoreManagementSystem.UI.Controls
         {
             get
             {
+                if (SearchAttributes == null)
+                    return "";
                 string[] strings = SearchAttributes.ToArray();
                 for (int i = 0; i < SearchAttributes.Count; i++)
                 {

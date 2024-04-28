@@ -83,8 +83,12 @@ namespace StationeryStoreManagementSystem.UI.Controls
 
         public object SelectedItem
         {
-            get { return (object)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get {
+                return GetValue(SelectedItemProperty); }
+            set {
+                SetValue(SelectedItemProperty, value);
+                ComboBox1.SelectedItem = value;
+            }
         }
 
         public static readonly DependencyProperty SelectedItemProperty =

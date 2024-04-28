@@ -23,8 +23,7 @@ namespace StationeryStoreManagementSystem.UI.Components
     /// </summary>
     public partial class DataHandler : UserControl
     {
-        public delegate void DataGridButtonPressedEventHandler(DataTable table,int selectedIndex);
-        public delegate void ButtonPressedEventHandler(DataTable table,int selectedIndex);
+        public delegate void DataGridButtonPressedEventHandler(DataGrid dataGrid,int selectedIndex);
         public event RoutedEventHandler? AddButtonClicked;
         public event DataGridButtonPressedEventHandler? SelectButtonClicked;
         public event DataGridButtonPressedEventHandler? EditButtonClicked;
@@ -208,23 +207,23 @@ namespace StationeryStoreManagementSystem.UI.Components
         }
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            AddButtonClicked(sender, e);
+            AddButtonClicked?.Invoke(this, e);
         }
 
         private void SelectButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectButtonClicked(((DataView)datagrid.ItemsSource).Table, datagrid.SelectedIndex);
+            SelectButtonClicked?.Invoke(datagrid, datagrid.SelectedIndex);
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            EditButtonClicked(((DataView)datagrid.ItemsSource).Table, datagrid.SelectedIndex);
+            EditButtonClicked?.Invoke(datagrid, datagrid.SelectedIndex);
 
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            DeleteButtonClicked(((DataView)datagrid.ItemsSource).Table, datagrid.SelectedIndex);
+            DeleteButtonClicked?.Invoke(datagrid, datagrid.SelectedIndex);
         }
     }
 }

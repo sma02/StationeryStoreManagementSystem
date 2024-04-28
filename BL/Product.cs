@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StationeryStoreManagementSystem.DL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,19 +10,28 @@ namespace StationeryStoreManagementSystem.BL
     class Product
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public Company? Company { get; set; }
         public int? ReorderThreshold { get; set; }
         public Category? Category { get; set; }
+        public List<Supplier> Suppliers { get; set; }
         public List<object> InitialArgs { get; set; }
 
-        public Product(int id, string? name, Company? company, int? reorderThreshold, Category? category)
+        public Product(int id):this()
         {
             Id = id;
+        }
+        public Product()
+        {
+
+        }
+        public Product(string name, Company? company, int? reorderThreshold, Category? category, List<Supplier> suppliers):this()
+        {
             Name = name;
             Company = company;
             ReorderThreshold = reorderThreshold;
             Category = category;
+            Suppliers = suppliers;
         }
         public Product(List<object> args) 
         {
@@ -30,8 +40,13 @@ namespace StationeryStoreManagementSystem.BL
             Company = (Company)args[2];
             ReorderThreshold = (int)args[3];
             Category = (Category)args[4];
+            Suppliers = ((List<Supplier>)args[5]); 
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
+        }
+        public void Save(bool isAdd = false)
+        {
+            ProductDL.Save(this, isAdd);
         }
     }
 }
