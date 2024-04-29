@@ -14,7 +14,7 @@ namespace StationeryStoreManagementSystem.BL
                         string? lastname = null,
                         string? cnic = null,
                         string? contact = null,
-                        string? gender = null,
+                        KeyValuePair<int, string>? gender = null,
                         string? dateofbirth = null,
                         string? town = null,
                         string? city = null,
@@ -32,7 +32,7 @@ namespace StationeryStoreManagementSystem.BL
             Id = (int)args[0];
             FirstName = (string?)args[1];
             LastName = (string?)args[2];
-            Gender = (string?)args[3];
+            Gender = DataHandler.LookupData("Gender").Where(x => x.Value == args[3].ToString()).FirstOrDefault();
             CNIC = (string?)args[4];
             DateOfBirth = (string?)args[5].ToString();
             Contact = (string?)args[6];
@@ -41,7 +41,7 @@ namespace StationeryStoreManagementSystem.BL
             Town = (string?)args[9];
             StreetAddress = (string?)args[10];
             PostalCode = (string?)args[11];
-            Salary = (double)args[12];
+            Salary = double.Parse(args[12].ToString());
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
             

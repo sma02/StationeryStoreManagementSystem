@@ -115,6 +115,18 @@ namespace StationeryStoreManagementSystem.DL
             if (adjustedAttributes.Count != 0)
                 Utils.ExecuteQuery($"INSERT INTO {relationName} VALUES ({string.Join(',', adjustedAttributes)}) ");
         }
+
+        public static Dictionary<int,string> LookupData(string category)
+        {
+            Dictionary<int,string> keyValuePairs = new Dictionary<int, string>();
+            SqlDataReader reader = Utils.ReadData($"SELECT Id, Value FROM Lookup WHERE Category = '{category}'");
+            while (reader.Read())
+            {
+                keyValuePairs.Add(reader.GetInt32(0),reader.GetString(1));
+
+            }
+            return keyValuePairs;
+        }
     }
 }
 

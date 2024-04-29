@@ -26,11 +26,19 @@ namespace StationeryStoreManagementSystem
     public partial class MainWindow : Window
     {
         private bool currentTheme = true;
+        private List<Button> AdminBtns = new List<Button>()
+        {
+            new Button() { Content = "Manage Suppliers" },
+            new Button() { Content = "Manage Companies" },
+            new Button() { Content = "Manage Categories" },
+            new Button() { Content = "Manage Employees" },
+            new Button() { Content = "Manage Products" }
+        };
         public MainWindow()
         {
             InitializeComponent();
-            /*sideBar.Visibility = Visibility.Collapsed;
-            Content.Child = new UI.Login();*/
+            sideBar.Visibility = Visibility.Collapsed;
+            Content.Child = new Login();
         }
         public void changeTheme(bool theme)
         {

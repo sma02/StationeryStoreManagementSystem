@@ -26,22 +26,12 @@ namespace StationeryStoreManagementSystem.UI
         public EmployeeForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
             InitializeComponent();
-            gender_cb.Items = new List<string>()
-            {
-                "Male",
-                "Female"
-            };
-            role_cb.Items = new List<string>()
-            {
-                "Admin",
-                "Cashier"
-            };
-            city_cb.Items = new List<string>()
-            {
-                "Islamabad",
-                "Karachi",
-                "Lahore"
-            };
+            gender_cb.ItemSource = DataHandler.LookupData("Gender");
+            gender_cb.DisplayPathName = "Value";
+            role_cb.ItemSource = DataHandler.LookupData("Role");
+            role_cb.DisplayPathName = "Value";
+            city_cb.ItemSource = DataHandler.LookupData("CityPakistan");
+            city_cb.DisplayPathName = "Value";
             if (id != -1)
             {
                 cell1.Visibility = Visibility.Collapsed;
@@ -50,6 +40,7 @@ namespace StationeryStoreManagementSystem.UI
                 ConfirmButton.Content = "Update";
                 titleBlock.Title = "Edit Employee";
                 cashier = (Cashier)EmployeeDL.GetEmployee(id);
+                role_cb.SelectedItem = DataHandler.LookupData("Role").Where(x => x.Value == cashier.DetermineRole(cashier)).FirstOrDefault();
                 cashier.Id = id;
             }
             else
@@ -62,7 +53,14 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            cashier.Save(true);
+            if (cashier.Id != -1)
+            {
+                cashier.Save(false);
+            }
+            else
+            {
+                cashier.Save(true);
+            }
             NavigateCallingForm();
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)

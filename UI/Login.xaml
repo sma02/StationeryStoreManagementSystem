@@ -23,13 +23,13 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Controls:TextEntry x:Name="username" Grid.Row="0" LabelText="Username" MaxLength="30"
+            <Controls:TextEntry x:Name="username_tb" Grid.Row="0" LabelText="Username" MaxLength="30"
                             VerticalAlignment="Center"/>
-            <Controls:TextEntry x:Name="password" Grid.Row="1" LabelText="Password" MaxLength="30"
+            <Controls:TextEntry x:Name="password_tb" Grid.Row="1" LabelText="Password" MaxLength="30"
                             VerticalAlignment="Center"/>
         </Grid>
 
         <Button x:Name="button" Grid.Row="2" Content="Login" Height="50" Width="100" FontSize="14"
-                HorizontalAlignment="Center"/>
+                HorizontalAlignment="Center" Click="button_Click"/>
     </Grid>
 </UserControl>

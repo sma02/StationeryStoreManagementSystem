@@ -35,38 +35,41 @@ namespace StationeryStoreManagementSystem.DL
 
         public static void SaveEmployee(Employee E, bool IsAdd)
         {
-            string role = E.DetermineRole(E);
+            KeyValuePair<int, string> gender = DataHandler.LookupData("Gender").Where(x => x.Value == E.Gender.Value.Value).FirstOrDefault();
+            int role = DataHandler.LookupData("Role").Where(x => x.Value == E.DetermineRole(E)).Select(X => X.Key).FirstOrDefault();
             List<(string, object)> args = new List<(string, object)>
             {
                 (nameof(E.FirstName), E.FirstName),
                 (nameof(E.LastName), E.LastName),
+                (nameof(E.Gender), gender.Value),
                 (nameof(E.CNIC), E.CNIC),
-                (nameof(E.Contact), E.Contact),
-                (nameof(E.Gender), E.Gender),
                 (nameof(E.DateOfBirth), E.DateOfBirth),
-                (nameof(E.Town),E.Town),
+                (nameof(E.Contact), E.Contact),
                 (nameof(E.City),E.City),
+                (nameof(E.Town),E.Town),
                 (nameof(E.StreetAddress),E.StreetAddress),
                 (nameof(E.PostalCode),E.PostalCode),
-                (nameof(E.Username),E.Username),
-                (nameof(E.Email),E.Email),
-                (nameof(E.Password),E.Password),
-                ("Role",role),
-                (nameof(E.Salary),E.Salary),
             };
             if (IsAdd == true)
             {
+                args.Add((nameof(E.Username), E.Username));
+                args.Add((nameof(E.Email), E.Email));
+                args.Add((nameof(E.Password),E.Password));
+                args.Add(("Role", role));
+                args.Add((nameof(E.Salary), E.Salary));
                 DataHandler.InsertDataSP(args, "stpInsertEmployee");
             }
             else
             {
+                E.InitialArgs.RemoveAt(11);
+                E.InitialArgs.RemoveAt(7);
                 args.Add(("UpdatedOn", ("CURRENT_TIMESTAMP", true)));
-                DataHandler.UpdateData(args, E.InitialArgs, E.GetType().Name, (nameof(E.Id), E.Id));
+                DataHandler.UpdateData(args, E.InitialArgs, "[User]", (nameof(E.Id), E.Id));
             }
         }
         public static void DeleteEmployee(int id)
         {
-
+            DataHandler.DeleteDataSP("stpDeleteEmployee", (nameof(id), id));
         }
     }
 }
