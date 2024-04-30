@@ -1,7 +1,9 @@
-﻿using StationeryStoreManagementSystem.BL;
+﻿using Microsoft.Data.SqlClient;
+using StationeryStoreManagementSystem.BL;
 using StationeryStoreManagementSystem.DL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace StationeryStoreManagementSystem.UI
 {
@@ -36,7 +39,6 @@ namespace StationeryStoreManagementSystem.UI
             {
                 cell1.Visibility = Visibility.Collapsed;
                 cell2.Visibility = Visibility.Collapsed;
-                ResetButton.Visibility = Visibility.Visible;
                 ConfirmButton.Content = "Update";
                 titleBlock.Title = "Edit Employee";
                 cashier = (Cashier)EmployeeDL.GetEmployee(id);
@@ -45,6 +47,7 @@ namespace StationeryStoreManagementSystem.UI
             }
             else
             {
+                ResetButton.Visibility = Visibility.Collapsed;
                 ConfirmButton.Content = "Add";
                 titleBlock.Title = "Add Employee";
                 cashier = new Cashier();
@@ -66,6 +69,19 @@ namespace StationeryStoreManagementSystem.UI
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             NavigateCallingForm();
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            Utils.CloseReader();
+            var conn = Configuration.getInstance().getConnection();
+            string query = "EXEC ResetPassword @UserId, @NewPassword OUTPUT";
+            SqlCommand command = new SqlCommand(query, conn);
+            command.Parameters.AddWithValue("@UserId", cashier.Id);
+            command.Parameters.Add("@NewPassword", SqlDbType.NVarChar, 5).Direction = ParameterDirection.Output;
+            command.ExecuteNonQuery();
+            string newPassword = command.Parameters["@NewPassword"].Value.ToString();
+            MessageBox.Show("Password Reset to: " + newPassword);
         }
     }
 }
