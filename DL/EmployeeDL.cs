@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using System.Windows.Media.Imaging;
 
 namespace StationeryStoreManagementSystem.DL
 {
@@ -19,17 +20,20 @@ namespace StationeryStoreManagementSystem.DL
 
         public static Cashier GetEmployee(int id)
         {
-            SqlDataReader reader = Utils.ReadData(@"SELECT U.Id, U.FirstName, U.LastName, G.Value AS Gender, U.CNIC, U.DateOfBirth, U.Contact, 
-                                                        UA.Email, U.City, U.Town, U.StreetAddress, U.PostalCode, ES.Salary
+            SqlDataReader reader = Utils.ReadData(@"SELECT U.Id, U.FirstName, U.LastName, G.Value AS Gender, U.CNIC, U.DateOfBirth, U.Contact, UA.Email, U.City, U.Town, U.StreetAddress, U.PostalCode, ES.Salary
                                                     FROM UserAccount UA
                                                     JOIN [User] U ON UA.UserId = U.Id
                                                     JOIN Employee E ON U.Id = E.Id
-													JOIN EmployeeSalary ES ON E.Id = ES.EmployeeId
+                                                    JOIN (
+                                                        SELECT EmployeeId, MAX(AddedOn) AS MaxCreatedOn
+                                                        FROM EmployeeSalary
+                                                        GROUP BY EmployeeId
+                                                    ) AS ME ON ME.EmployeeId = U.Id
+                                                    JOIN EmployeeSalary ES ON ES.EmployeeId = ME.EmployeeId AND ES.AddedOn = ME.MaxCreatedOn
                                                     JOIN Lookup RL ON E.Role = RL.Id
                                                     JOIN Lookup SL ON E.Status = SL.Id
                                                     JOIN Lookup G ON U.Gender = G.Id
-                                                WHERE U.Id = " + id.ToString());
-
+                                                    WHERE SL.Value = 'Active' AND U.Id = " + id.ToString());
             return (Cashier)DataHandler.ConstructObject(reader, typeof(Cashier));
         }
 
@@ -61,10 +65,23 @@ namespace StationeryStoreManagementSystem.DL
             }
             else
             {
+                string email = E.InitialArgs[6].ToString();
                 E.InitialArgs.RemoveAt(11);
                 E.InitialArgs.RemoveAt(7);
                 args.Add(("UpdatedOn", ("CURRENT_TIMESTAMP", true)));
                 DataHandler.UpdateData(args, E.InitialArgs, "[User]", (nameof(E.Id), E.Id));
+                args = new List<(string, object)>
+                {
+                    (nameof(E.Email), E.Email)
+                };
+                DataHandler.UpdateData(args, new List<object> { email }, "UserAccount", ("UserId", E.Id));
+                args = new List<(string, object)>
+                {
+                    ("EmployeeId", E.Id),
+                    (nameof(E.Salary), E.Salary),
+                    ("AddedOn", ("CURRENT_TIMESTAMP", true))
+                };
+                DataHandler.InsertData(args, "EmployeeSalary");
             }
         }
         public static void DeleteEmployee(int id)
