@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -83,7 +84,7 @@ namespace StationeryStoreManagementSystem.DL
                 updatedAttributes.Add(struc.Item1 + " = " + Utils.NormalizeForQuery(struc.Item2));
 
             }
-            if (updatedAttributes.Count != 0)
+            if (updatedAttributes.Count != 0 && !updatedAttributes[0].Contains("CURRENT_TIMESTAMP"))
             {
                 Utils.ExecuteQuery($"UPDATE {relation} SET {string.Join(',', updatedAttributes)} WHERE {id.Item1}={id.Item2}");
 
@@ -99,6 +100,19 @@ namespace StationeryStoreManagementSystem.DL
             }
             if (adjustedAttributes.Count != 0)
                 Utils.ExecuteQuery($"EXEC  {stpName} {string.Join(',', adjustedAttributes)}");
+        }
+        public static void BulkDataExecuteSP(string parameterName,string objectTypeName,string stpName,IEnumerable value)
+        {
+            SqlParameter parameter = new SqlParameter();
+            parameter.ParameterName = $"@{parameterName}";
+            parameter.TypeName = objectTypeName;
+            parameter.SqlDbType = SqlDbType.Structured;
+            parameter.Value = value;
+            SqlCommand command = new SqlCommand(stpName, Configuration.getInstance().getConnection());
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add(parameter);
+            Utils.CloseReader();
+            command.ExecuteNonQuery();
         }
         public static void DeleteDataSP(string stpName, (string, object) id)
         {

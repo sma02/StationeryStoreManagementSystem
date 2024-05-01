@@ -42,6 +42,7 @@ namespace StationeryStoreManagementSystem.UI
                 ConfirmButton.Content = "Update";
                 titleBlock.Title = "Edit Employee";
                 cashier = (Cashier)EmployeeDL.GetEmployee(id);
+                gender_cb.SelectedItem = ((Dictionary<int, string>)gender_cb.ItemSource).Where(x => x.Value == cashier.Gender).FirstOrDefault();
                 role_cb.SelectedItem = DataHandler.LookupData("Role").Where(x => x.Value == cashier.DetermineRole(cashier)).FirstOrDefault();
                 cashier.Id = id;
             }
@@ -56,6 +57,7 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            cashier.Gender = gender_cb.Text;
             if (cashier.Id != -1)
             {
                 cashier.Save(false);

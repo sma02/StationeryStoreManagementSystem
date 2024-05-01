@@ -15,7 +15,7 @@ namespace StationeryStoreManagementSystem.BL
         public string Name => $"{FirstName} {LastName}";
         public string CNIC { get; set; }
         public string Contact { get; set; }
-        public KeyValuePair<int,string>? Gender { get; set; }
+        public string? Gender { get; set; }
         public string? DateOfBirth { get; set; }
         public string? Town { get; set; }
         public string? City { get; set; }

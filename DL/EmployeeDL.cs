@@ -39,13 +39,12 @@ namespace StationeryStoreManagementSystem.DL
 
         public static void SaveEmployee(Employee E, bool IsAdd)
         {
-            KeyValuePair<int, string> gender = DataHandler.LookupData("Gender").Where(x => x.Value == E.Gender.Value.Value).FirstOrDefault();
             int role = DataHandler.LookupData("Role").Where(x => x.Value == E.DetermineRole(E)).Select(X => X.Key).FirstOrDefault();
             List<(string, object)> args = new List<(string, object)>
             {
                 (nameof(E.FirstName), E.FirstName),
                 (nameof(E.LastName), E.LastName),
-                (nameof(E.Gender), gender.Value),
+                (nameof(E.Gender), E.Gender),
                 (nameof(E.CNIC), E.CNIC),
                 (nameof(E.DateOfBirth), E.DateOfBirth),
                 (nameof(E.Contact), E.Contact),

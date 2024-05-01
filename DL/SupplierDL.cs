@@ -52,7 +52,7 @@ namespace StationeryStoreManagementSystem.DL
                                                     FROM ProductSupplier
                                                     JOIN Supplier
                                                     ON Supplier.Id=ProductSupplier.SupplierId
-                                                    WHERE ProductId=" + ProductId.ToString());
+                                                    WHERE ProductSupplier.isDeleted=0 AND ProductId=" + ProductId.ToString());
             return DataHandler.ConstructObjects(reader, typeof(Supplier)).Cast<Supplier>().ToList();
         }
         public static void SaveSupplier(Supplier supplier,bool isAdd)

@@ -18,7 +18,7 @@
             <Button Margin="5 10 5 0" Height="40" Click="ManageSuppliersButton_Click">Manage Suppliers</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageCompaniesButton_Click">Manage Companies</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageCategoriesButton_Click">Manage Categories</Button>
-            <Button Margin="5 10 5 0" Height="40" Click="ManageProductButton_Click">Manage Product</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="ManageProductButton_Click">Manage Products</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageEmployeesButton_Click">Manage Employees</Button>
         </StackPanel>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>

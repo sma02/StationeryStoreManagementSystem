@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient.Server;
 using StationeryStoreManagementSystem.BL;
 using System;
 using System.Collections.Generic;
@@ -40,12 +41,14 @@ namespace StationeryStoreManagementSystem.DL
         }
         public static void Save(Product product,bool isAdd) 
         {
+            int? CompanyId = product.Company?.Id;
+            int? CategoryId = product.Category?.Id;
             List<(string, object)> args = new List<(string, object)>
             {
                 (nameof(product.Name),product.Name),
-                ("CompanyId",product.Company.Id),
+                ("CompanyId",CompanyId),
                 (nameof(product.ReorderThreshold),product.ReorderThreshold),
-                ("CategoryId",product.Category.Id),
+                ("CategoryId",CategoryId),
             };
             if(isAdd==true)
             {
@@ -53,11 +56,50 @@ namespace StationeryStoreManagementSystem.DL
             }
             else
             {
+                List<object> initialArgs = new List<object>(product.InitialArgs);
+                initialArgs[1] = ((Company)initialArgs[1])?.Id;
+                initialArgs[3] = ((Category)initialArgs[3])?.Id;
                 args.Add(("UpdatedOn", ("CURRENT_TIMESTAMP", true)));
-                DataHandler.UpdateData(args, product.InitialArgs, product.GetType().Name, (nameof(product.Id), product.Id));
+                DataHandler.UpdateData(args, initialArgs, product.GetType().Name, (nameof(product.Id), product.Id));
 
             }
-        }
+            List<int> newIds = new List<int>();
+            List<int> deleteIds = new List<int>();
+            newIds = product.Suppliers.Select(x => x.Id).ToList();
+            if (product.InitialArgs != null)
+            {
+                List<int> prevIds = ((List<Supplier>)product.InitialArgs[4]).Select(x => x.Id).ToList();
+                deleteIds = prevIds.Except(newIds).ToList();
+                newIds = newIds.Except(prevIds).ToList();
+            }
+            SqlMetaData[] sqlMetas = new SqlMetaData[]
+                {
+                    new SqlMetaData("SupplierId",SqlDbType.Int),
+                    new SqlMetaData("ProductId",SqlDbType.Int)
+                };
+            if (newIds.Count > 0)
+            {
+                var valueInsert = newIds.Select(x =>
+                {
+                    SqlDataRecord record = new SqlDataRecord(sqlMetas);
+                    record.SetInt32(0, x);
+                    record.SetInt32(1, product.Id);
+                    return record;
+                });
+                DataHandler.BulkDataExecuteSP("ProductSuppliers", "udtt_ProductSuppliers", "stpInsertProductSuppliers", valueInsert);
+            }
+            if (deleteIds.Count > 0)
+            {
+                var valueDelete = deleteIds.Select(x =>
+                {
+                    SqlDataRecord record = new SqlDataRecord(sqlMetas);
+                    record.SetInt32(0, x);
+                    record.SetInt32(1, product.Id);
+                    return record;
+                });
+                DataHandler.BulkDataExecuteSP("ProductSuppliers", "udtt_ProductSuppliers", "stpDeleteProductSuppliers", valueDelete);
+            }
+            }
         public static void DeleteProduct(int id)
         {
             DataHandler.DeleteDataSP("stpDeleteProduct", ("Id", id));

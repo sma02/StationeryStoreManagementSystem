@@ -21,7 +21,7 @@ namespace StationeryStoreManagementSystem.BL
                         string? lastname = null,
                         string? cnic = null,
                         string? contact = null,
-                        KeyValuePair<int,string>? gender = null,
+                        string gender = null,
                         string? dateofbirth = null,
                         string? town = null,
                         string? city = null,

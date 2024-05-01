@@ -76,6 +76,7 @@ namespace StationeryStoreManagementSystem.UI
                         indexes.Add(i);
                     }
                 }
+                indexes.Reverse();
                 foreach (int index in indexes)
                     table.Rows.RemoveAt(index);
                 isEdit = true;
