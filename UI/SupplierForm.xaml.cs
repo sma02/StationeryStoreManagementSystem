@@ -26,16 +26,8 @@ namespace StationeryStoreManagementSystem.UI
         public SupplierForm(ManageEntity callingInstance, int id=-1):base(callingInstance)
         {
             InitializeComponent();
-            CountryField.Items = new List<string>()
-            {
-                "Pakistan"
-            };
-            CityField.Items = new List<string>()
-            {
-                "Islamabad",
-                "Karachi",
-                "Lahore"
-            };
+            CountryField.ItemSource = DataHandler.LookupData("Country");
+            CountryField.DisplayPathName = "Value";
             if (id != -1)
             {
                 titleBlock.Text = "Edit Supplier";
@@ -59,6 +51,15 @@ namespace StationeryStoreManagementSystem.UI
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             NavigateCallingForm();
+        }
+
+        private void CountryField_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CountryField.SelectedValue != null)
+            {
+                CityField.ItemSource = DataHandler.LookupData($"City{CountryField.SelectedValue}");
+                CityField.DisplayPathName = "Value";
+            }
         }
     }
 }

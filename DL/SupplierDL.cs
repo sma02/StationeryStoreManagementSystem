@@ -16,12 +16,11 @@ namespace StationeryStoreManagementSystem.DL
     {
         public static DataTable GetSuppliersView()
         {
-            List<object> list = new List<object>();
             return DataHandler.FillDataTable(@"SELECT * FROM GetSuppliers_View");
         }
         public static Supplier GetSupplier(int id)
         {
-            SqlDataReader reader = Utils.ReadData(@"SELECT Id
+            SqlDataReader reader = Utils.ReadData(@"SELECT Supplier.Id
                                                           ,Name
                                                     	  ,Contact
                                                     	  ,Email
@@ -31,7 +30,7 @@ namespace StationeryStoreManagementSystem.DL
                                                     	  ,Country
                                                     	  ,PostalCode
                                                     FROM Supplier
-                                                    WHERE Id="+id.ToString());
+                                                    WHERE Id=" + id.ToString());
             return (Supplier)DataHandler.ConstructObject(reader, typeof(Supplier));
 ;        }
         public static List<Supplier> GetProductSuppliers(Product product)
@@ -40,16 +39,20 @@ namespace StationeryStoreManagementSystem.DL
         }
         public static List<Supplier> GetProductSuppliers(int ProductId)
         {
-            SqlDataReader reader = Utils.ReadData(@"SELECT Id
+            SqlDataReader reader = Utils.ReadData(@"SELECT Supplier.Id
                                                           ,Name
                                                           ,Contact
                                                           ,Email
                                                           ,StreetAddress
                                                           ,Town
-                                                          ,City
-                                                          ,Country
+                                                    	  ,l1.Value City
+                                                    	  ,l2.Value Country
                                                           ,PostalCode
                                                     FROM ProductSupplier
+													JOIN Lookup l1
+													ON l1.Id=City
+													JOIN Lookup l2
+													ON l2.Id=Country
                                                     JOIN Supplier
                                                     ON Supplier.Id=ProductSupplier.SupplierId
                                                     WHERE ProductSupplier.isDeleted=0 AND ProductId=" + ProductId.ToString());
@@ -57,6 +60,8 @@ namespace StationeryStoreManagementSystem.DL
         }
         public static void SaveSupplier(Supplier supplier,bool isAdd)
         {
+            int CountryId = DataHandler.LookupData("Country").Where(x => x.Value == supplier.Country).Select(x => x.Key).FirstOrDefault();
+            int cityId = DataHandler.LookupData($"City{supplier.Country}").Where(x => x.Value == supplier.City).Select(x => x.Key).FirstOrDefault();
             List<(string, object)> args = new List<(string, object)>
             {
                 (nameof(supplier.Name), supplier.Name),
@@ -64,8 +69,8 @@ namespace StationeryStoreManagementSystem.DL
                 (nameof(supplier.Email),supplier.Email),
                 (nameof(supplier.StreetAddress),supplier.StreetAddress),
                 (nameof(supplier.Town),supplier.Town),
-                (nameof(supplier.City),supplier.City),
-                (nameof(supplier.Country),supplier.Country),
+                (nameof(supplier.City),cityId),
+                (nameof(supplier.Country),CountryId),
                 (nameof(supplier.PostalCode),supplier.PostalCode)
             };
             if (isAdd == true)

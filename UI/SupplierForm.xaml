@@ -30,10 +30,10 @@
                 <Controls:TextEntry Grid.Row="0" Grid.Column="0" Text="{Binding Name}"  LabelText="Name" MaxLength="30"/>
                 <Controls:TextEntry Grid.Row="0" Grid.Column="1" Text="{Binding Contact}" LabelText="Contact Number" MaxLength="30"/>
                 <Controls:TextEntry Grid.Row="1" Grid.Column="0" Text="{Binding Email}" LabelText="Email Address"/>
-                <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Country}" x:Name="CountryField" LabelText="Country"/>
+                <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedValue="{Binding Country}" SelectedValuePath="Value" x:Name="CountryField" SelectionChanged="CountryField_SelectionChanged" LabelText="Country"/>
                 <Controls:TextEntry Grid.Row="2" Grid.Column="0" Text="{Binding StreetAddress}" LabelText="Street Address" MaxLength="25"/>
                 <Controls:TextEntry Grid.Row="2" Grid.Column="1" Text="{Binding Town}" LabelText="Town" MaxLength="25"/>
-                <Controls:ComboBoxEntry Grid.Row="3" Grid.Column="0" SelectedItem="{Binding City}" x:Name="CityField" LabelText="City"/>
+                <Controls:ComboBoxEntry Grid.Row="3" Grid.Column="0" SelectedValue="{Binding City}" SelectedValuePath="Value" x:Name="CityField" LabelText="City"/>
                 <Controls:TextEntry Grid.Row="3" Grid.Column="1" Text="{Binding PostalCode}" LabelText="Postal Code" MaxLength="6"/>
                 <Button x:Name="ConfirmButton" Grid.Row="4" Grid.Column="0" Height="50" Width="100" HorizontalAlignment="Right" Margin="0 0 30 0" Content="Add" Click="ConfirmButton_Click"/>
                 <Button Grid.Row="4" Grid.Column="1" Height="50" Width="100" HorizontalAlignment="Left" Margin="30 0 0 0" Content="Cancel" Click="CancelButton_Click"/>

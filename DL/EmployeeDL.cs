@@ -20,7 +20,7 @@ namespace StationeryStoreManagementSystem.DL
 
         public static Cashier GetEmployee(int id)
         {
-            SqlDataReader reader = Utils.ReadData(@"SELECT U.Id, U.FirstName, U.LastName, G.Value AS Gender, U.CNIC, U.DateOfBirth, U.Contact, UA.Email, U.City, U.Town, U.StreetAddress, U.PostalCode, ES.Salary
+            SqlDataReader reader = Utils.ReadData(@"SELECT U.Id, U.FirstName, U.LastName, G.Value AS Gender, U.CNIC, U.DateOfBirth, U.Contact, UA.Email, L.Value City, U.Town, U.StreetAddress, U.PostalCode, ES.Salary
                                                     FROM UserAccount UA
                                                     JOIN [User] U ON UA.UserId = U.Id
                                                     JOIN Employee E ON U.Id = E.Id
@@ -29,6 +29,7 @@ namespace StationeryStoreManagementSystem.DL
                                                         FROM EmployeeSalary
                                                         GROUP BY EmployeeId
                                                     ) AS ME ON ME.EmployeeId = U.Id
+                                                    JOIN Lookup L ON L.Id=U.City
                                                     JOIN EmployeeSalary ES ON ES.EmployeeId = ME.EmployeeId AND ES.AddedOn = ME.MaxCreatedOn
                                                     JOIN Lookup RL ON E.Role = RL.Id
                                                     JOIN Lookup SL ON E.Status = SL.Id
@@ -41,6 +42,7 @@ namespace StationeryStoreManagementSystem.DL
         {
             int role = DataHandler.LookupData("Role").Where(x => x.Value == E.DetermineRole(E)).Select(X => X.Key).FirstOrDefault();
             int gender = DataHandler.LookupData("Gender").Where(x => x.Value == E.Gender).Select(X => X.Key).FirstOrDefault();
+            int cityId = DataHandler.LookupData("CityPakistan").Where(x => x.Value == E.City).Select(X => X.Key).FirstOrDefault();
             List<(string, object)> args = new List<(string, object)>
             {
                 (nameof(E.FirstName), E.FirstName),
@@ -49,7 +51,7 @@ namespace StationeryStoreManagementSystem.DL
                 (nameof(E.CNIC), E.CNIC),
                 (nameof(E.DateOfBirth), E.DateOfBirth),
                 (nameof(E.Contact), E.Contact),
-                (nameof(E.City),E.City),
+                (nameof(E.City),cityId),
                 (nameof(E.Town),E.Town),
                 (nameof(E.StreetAddress),E.StreetAddress),
                 (nameof(E.PostalCode),E.PostalCode),

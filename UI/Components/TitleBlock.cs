@@ -20,7 +20,7 @@ namespace StationeryStoreManagementSystem.UI.Components
         public TitleBlock()
         {
             FontSize = 20;
-            Padding = new System.Windows.Thickness(20);
+            Padding = new Thickness(10);
             VerticalAlignment = VerticalAlignment.Center;
             InitializeComponent();
         }

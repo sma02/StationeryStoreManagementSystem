@@ -57,7 +57,6 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            cashier.Gender = gender_cb.Text;
             if (cashier.Id != -1)
             {
                 cashier.Save(false);

@@ -23,6 +23,7 @@ namespace StationeryStoreManagementSystem.UI.Controls
     /// </summary>
     public partial class ComboBoxEntry : UserControl
     {
+        public event SelectionChangedEventHandler SelectionChanged;
         public string LabelText
         {
             get => TextBlockLabel.Text;
@@ -68,17 +69,31 @@ namespace StationeryStoreManagementSystem.UI.Controls
                 Items = items;
             }
         }
-        public string SelectedValue
+        public object SelectedValue
         {
-            get { return (string)GetValue(SelectedValueProperty); }
+            get { return GetValue(SelectedValueProperty); }
             set { SetValue(SelectedValueProperty, value); }
         }
 
         public static readonly DependencyProperty SelectedValueProperty =
             DependencyProperty.Register("SelectedValue",
+                                        typeof(object),
+                                        typeof(ComboBoxEntry),
+                                        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
+        public string SelectedValuePath
+        {
+            get { return (string)GetValue(SelectedValuePathProperty); }
+            set { SetValue(SelectedValuePathProperty, value); }
+        }
+        public static readonly DependencyProperty SelectedValuePathProperty =
+            DependencyProperty.Register("SelectedValuePath",
                                         typeof(string),
                                         typeof(ComboBoxEntry),
                                         new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
 
 
         public object SelectedItem
@@ -112,22 +127,6 @@ namespace StationeryStoreManagementSystem.UI.Controls
                                         typeof(ComboBoxEntry),
                                         new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-
-        public string ItemSourcePath
-        {
-            get { return (string)GetValue(ItemSourcePathProperty); }
-            set { SetValue(ItemSourcePathProperty, value); }
-        }
-
-        public static readonly DependencyProperty ItemSourcePathProperty =
-            DependencyProperty.Register("ItemSourcePath",
-                                        typeof(string),
-                                        typeof(ComboBoxEntry),
-                                        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-
-
-
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
@@ -144,6 +143,11 @@ namespace StationeryStoreManagementSystem.UI.Controls
         public ComboBoxEntry()
         {
             InitializeComponent();
+        }
+
+        private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectionChanged?.Invoke(this, e);
         }
     }
 }

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StationeryStoreManagementSystem"
         mc:Ignorable="d"
-        Title="Stationery Store Management System" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Title="Stationery Store Management System" Height="600" Width="1000"
         Style="{DynamicResource WindowStyle}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,6 +21,7 @@
             <Button Margin="5 10 5 0" Height="40" Click="ManageCategoriesButton_Click">Manage Categories</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageProductButton_Click">Manage Products</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageEmployeesButton_Click">Manage Employees</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="ManageShipmentsButton_Click">Manage Shipments</Button>
         </StackPanel>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
         <Border x:Name="Content" Grid.Column="2"/>

@@ -164,5 +164,22 @@ namespace StationeryStoreManagementSystem
                                                 true,
                                                 ProductDL.DeleteProduct);
         }
+
+        private void ManageShipmentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<(string, string)> bindings = new List<(string, string)>
+            {
+                ("Name","Name"),
+                ("Timestamp","AddedOn"),
+             };
+            Content.Child = new UI.ManageEntity("Manage Shipments",
+                                                typeof(object),
+                                                ShipmentDL.GetShipmentsView,
+                                                bindings,
+                                                new List<string> { "Name" },
+                                                typeof(object),
+                                                false,
+                                                false);
+        }
     }
 }

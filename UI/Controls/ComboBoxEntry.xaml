@@ -16,12 +16,13 @@
                     HorizontalAlignment="Stretch"
                     IsHitTestVisible="False"/>
             <ComboBox 
-                Name="ComboBox1"
+                 Name="ComboBox1"
+                 SelectionChanged="ComboBox1_SelectionChanged"
                  ItemsSource="{Binding ElementName=ComboBoxEntryControl,Path=ItemSource,Mode=TwoWay}"
-                 SelectedValuePath="{Binding ElementName=ComboBoxEntryControl,Path=ItemSourcePath,Mode=TwoWay}"
                  DisplayMemberPath="{Binding ElementName=ComboBoxEntryControl,Path=DisplayPathName,Mode=TwoWay}"
                  SelectedItem="{Binding ElementName=ComboBoxEntryControl,Path=SelectedItem,Mode=TwoWay}"
                  SelectedValue="{Binding ElementName=ComboBoxEntryControl,Path=SelectedValue,Mode=TwoWay}"
+                 SelectedValuePath="{Binding ElementName=ComboBoxEntryControl,Path=SelectedValuePath,Mode=TwoWay}"
                  Margin="10 10 10 10"
                  FontSize="12px"
                  Padding="18 8"

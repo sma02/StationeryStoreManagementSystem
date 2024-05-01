@@ -24,9 +24,10 @@ namespace StationeryStoreManagementSystem.UI
     {
 
         private Type entryForm;
+        private Type viewForm;
         private Delegate? deleteFunc;
         private Delegate getTable;
-        public ManageEntity(string title, Type entity, Delegate getTable, List<(string, string)> bindings, List<string>? searchAttributes, Type? entryForm, bool isAdd, bool isEdit, Delegate? deleteFunc = null)
+        public ManageEntity(string title, Type entity, Delegate getTable, List<(string, string)> bindings, List<string>? searchAttributes, Type? entryForm, bool isAdd, bool isEdit, Delegate? deleteFunc = null, Delegate? selectFunc = null,Type? viewForm = null)
         {
             InitializeComponent();
             dataGridView.Addbutton.Content = $"Add {entity.Name}";
@@ -36,12 +37,17 @@ namespace StationeryStoreManagementSystem.UI
             this.deleteFunc = deleteFunc;
             this.getTable = getTable;
             this.entryForm = entryForm;
-            dataGridView.IsAdd = true;
-            dataGridView.IsEdit = true;
-            dataGridView.IsDelete = true;
+            this.viewForm = viewForm;
+            dataGridView.IsAdd = isAdd;
+            dataGridView.IsEdit = isEdit;
+            if(deleteFunc!=null)
+                dataGridView.IsDelete = true;
+            if (isAdd == false && isEdit == false)
+                dataGridView.IsSelect = true;
             dataGridView.AddButtonClicked += DataGridView_AddButtonClicked;
             dataGridView.EditButtonClicked += DataGridView_EditButtonClicked;
             dataGridView.DeleteButtonClicked += DataGridView_DeleteButtonClicked;
+            dataGridView.SelectButtonClicked += DataGridView_SelectButtonClicked;
             RefreshData();
         }
 
@@ -58,10 +64,14 @@ namespace StationeryStoreManagementSystem.UI
 
         private void DataGridView_EditButtonClicked(DataGrid dataGrid, int selectedIndex)
         {
-            int id = (int)((DataView)(dataGrid.ItemsSource))[selectedIndex].Row.ItemArray[0];
+            object id = ((DataView)(dataGrid.ItemsSource))[selectedIndex].Row.ItemArray[0];
             ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { this, id });
         }
-
+        private void DataGridView_SelectButtonClicked(DataGrid dataGrid, int selectedIndex)
+        {
+            object id = ((DataView)(dataGrid.ItemsSource))[selectedIndex].Row.ItemArray[0];
+            ((Border)Parent).Child = (UIElement)Activator.CreateInstance(viewForm, new object[] { this, id });
+        }
         private void DataGridView_AddButtonClicked(object sender, RoutedEventArgs e)
         {
             ((Border)Parent).Child = (UIElement)Activator.CreateInstance(entryForm, new object[] { this, -1 });
