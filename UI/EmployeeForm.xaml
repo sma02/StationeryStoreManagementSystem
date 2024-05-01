@@ -38,7 +38,7 @@
 
                 <Controls:TextEntry Grid.Row="1" Grid.Column="0" Text="{Binding FirstName}" LabelText="First Name" MaxLength="30"/>
                 <Controls:TextEntry Grid.Row="1" Grid.Column="1" Text="{Binding LastName}" LabelText="Last Name" MaxLength="30"/>
-                <Controls:ComboBoxEntry x:Name="gender_cb" Grid.Row="2" Grid.Column="0" SelectedItem="{Binding Gender}" LabelText="Gender" />
+                <Controls:ComboBoxEntry x:Name="gender_cb" Grid.Row="2" Grid.Column="0" LabelText="Gender" />
 
                 <Controls:TextEntry Grid.Row="2" Grid.Column="1" Text="{Binding CNIC}" LabelText="CNIC" MaxLength="13"/>
                 <Controls:DateEntry Grid.Row="3" Grid.Column="0" SelectedDate="{Binding DateOfBirth}" LabelText="Date of Birth"/>
