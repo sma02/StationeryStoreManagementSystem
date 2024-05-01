@@ -53,9 +53,15 @@ namespace StationeryStoreManagementSystem.DL
 
         public static Category GetCategory(int id)
         {
-            SqlDataReader reader = Utils.ReadData(@"SELECT Id, Name, GST 
+            SqlDataReader reader = Utils.ReadData(@"SELECT C.Id, C.Name, T.GST
                                                     FROM Category C
-                                                    JOIN TaxLog T ON C.Id = T.CategoryId
+                                                    JOIN (
+                                                        SELECT CategoryId, MAX(AddedOn) AS MaxCreatedOn
+                                                        FROM TaxLog
+                                                        GROUP BY CategoryId
+                                                    ) AS MD 
+                                                    ON C.Id = MD.CategoryId
+                                                    JOIN TaxLog T ON T.CategoryId = MD.CategoryId AND T.AddedOn = MD.MaxCreatedOn
                                                     WHERE Id=" + id.ToString());
             return (Category)DataHandler.ConstructObject(reader, typeof(Category));
         }

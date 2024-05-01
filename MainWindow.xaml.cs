@@ -181,5 +181,23 @@ namespace StationeryStoreManagementSystem
                                                 false,
                                                 false);
         }
+        private void ManageCustomersButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<(string, string)> bindings = new List<(string, string)>
+            {
+                ("CNIC","CNIC"),
+                ("Name","Name"),
+                ("Contact","Contact"),
+                ("Gender","Gender")
+            };
+            Content.Child = new UI.ManageEntity("Manage Customers",
+                                                typeof(Customer),
+                                                CustomerDL.GetCustomersView,
+                                                bindings,
+                                                new List<string> { "Name" },
+                                                typeof(CustomerForm),
+                                                true,
+                                                true);
+        }
     }
 }

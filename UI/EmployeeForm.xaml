@@ -51,9 +51,9 @@
 
                 <Button x:Name="ResetButton" Grid.Row="5" Grid.Column="1" Height="60" Width="250" HorizontalAlignment="Center" Content="Reset Password" Click="ResetButton_Click"/>
 
-                <Controls:ComboBoxEntry x:Name="city_cb" Grid.Row="6" Grid.Column="0" SelectedValue="{Binding City}" SelectedValuePath="Value" LabelText="City"/>
+                <Controls:TextEntry Grid.Row="6" Grid.Column="0" Text="{Binding StreetAddress}" LabelText="Street Address" MaxLength="25"/>
                 <Controls:TextEntry Grid.Row="6" Grid.Column="1" Text="{Binding Town}" LabelText="Town" MaxLength="25"/>
-                <Controls:TextEntry Grid.Row="7" Grid.Column="0" Text="{Binding StreetAddress}" LabelText="Street Address" MaxLength="25"/>
+                <Controls:ComboBoxEntry x:Name="city_cb" Grid.Row="7" Grid.Column="0" SelectedValue="{Binding City}" SelectedValuePath="Value" LabelText="City"/>
                 <Controls:TextEntry Grid.Row="7" Grid.Column="1" Text="{Binding PostalCode}" LabelText="Postal Code" MaxLength="6"/>
 
 

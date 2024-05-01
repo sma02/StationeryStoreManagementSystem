@@ -44,7 +44,6 @@ namespace StationeryStoreManagementSystem.UI
                 cashier = (Cashier)EmployeeDL.GetEmployee(id);
                 gender_cb.SelectedItem = ((Dictionary<int, string>)gender_cb.ItemSource).Where(x => x.Value == cashier.Gender).FirstOrDefault();
                 role_cb.SelectedItem = DataHandler.LookupData("Role").Where(x => x.Value == cashier.DetermineRole(cashier)).FirstOrDefault();
-                cashier.Id = id;
             }
             else
             {
@@ -53,6 +52,7 @@ namespace StationeryStoreManagementSystem.UI
                 titleBlock.Title = "Add Employee";
                 cashier = new Cashier();
             }
+            cashier.Id = id;
             DataContext = cashier;
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
