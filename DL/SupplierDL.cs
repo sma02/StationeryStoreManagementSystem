@@ -49,12 +49,12 @@ namespace StationeryStoreManagementSystem.DL
                                                     	  ,l2.Value Country
                                                           ,PostalCode
                                                     FROM ProductSupplier
-													JOIN Lookup l1
-													ON l1.Id=City
-													JOIN Lookup l2
-													ON l2.Id=Country
                                                     JOIN Supplier
                                                     ON Supplier.Id=ProductSupplier.SupplierId
+                                                    LEFT JOIN Lookup l1
+                                                    ON l1.Id=City
+                                                    LEFT JOIN Lookup l2
+                                                    ON l1.Id=Country
                                                     WHERE ProductSupplier.isDeleted=0 AND ProductId=" + ProductId.ToString());
             return DataHandler.ConstructObjects(reader, typeof(Supplier)).Cast<Supplier>().ToList();
         }
