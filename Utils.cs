@@ -14,6 +14,7 @@ namespace StationeryStoreManagementSystem
     static class Utils
     {
         private static SqlDataReader reader;
+        public static MainWindow? CurrentMainWindow { get; set; }
         public static object NormalizeForQuery(object value)
         {
             if (value == null)

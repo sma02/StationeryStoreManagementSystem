@@ -27,7 +27,12 @@ namespace StationeryStoreManagementSystem.DL
                     SupplierId = reader.GetInt32(1);
                 ids.Add((reader.GetInt32(0),reader.GetInt32(2)));
             }
-            List<Product> products = ProductDL.GetProducts(ids);
+            List<Product> products = ProductDL.GetProducts(ids.Select(x=>x.Item1).ToList());
+            Supplier supplier = SupplierDL.GetSupplier(SupplierId);
+            for(int i=0;i<ids.Count;i++)
+            {
+                products[i].Stocks.Add(new Stock(supplier, products[i], 0, 0, 0, ids[i].Item2));
+            }
             return (SupplierId, products);
         }
         public static DataTable GetShipmentsView()
@@ -47,7 +52,7 @@ namespace StationeryStoreManagementSystem.DL
                     SqlDataRecord record = new SqlDataRecord(sqlMetas);
                     record.SetInt32(0, SupplierId);
                     record.SetInt32(1, x.Id);
-                    record.SetInt32(2, x.Quantity);
+                    record.SetInt32(2, x.SupplierQuantity);
                     return record;
                 });
             DataHandler.BulkDataExecuteSP("Shipment", "udtt_Shipment", "stpInsertShipment", values);

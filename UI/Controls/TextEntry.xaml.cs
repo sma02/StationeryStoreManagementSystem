@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,21 +21,30 @@ namespace StationeryStoreManagementSystem.UI.Controls
     /// </summary>
     public partial class TextEntry : UserControl
     {
-        public bool ReadOnly
+
+        public bool PositiveNumbersOnly
         {
-            get => TextBoxText.IsReadOnly;
-            set
-            {
-                TextBoxText.IsReadOnly = value;
-            }
+            get { return (bool)GetValue(PositiveNumbersOnlyProperty); }
+            set { SetValue(PositiveNumbersOnlyProperty, value); }
         }
+        public static readonly DependencyProperty PositiveNumbersOnlyProperty =
+            DependencyProperty.Register("PositiveNumbersOnly", typeof(bool), typeof(TextEntry), new PropertyMetadata(false));
+
+
+        public bool IsReadOnly
+        {
+            get { return (bool)GetValue(IsReadOnlyProperty); }
+            set { SetValue(IsReadOnlyProperty, value); }
+        }
+        public static readonly DependencyProperty IsReadOnlyProperty =
+            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(TextEntry), new PropertyMetadata(false));
+
+
         public string LabelText
         {
             get { return (string)GetValue(LabelTextProperty); }
             set { SetValue(LabelTextProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for LabelText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelTextProperty =
             DependencyProperty.Register("LabelText",
                                         typeof(string),
@@ -101,6 +111,33 @@ namespace StationeryStoreManagementSystem.UI.Controls
         {
             InitializeComponent();
         }
+        private static readonly Regex regexNumbers = new Regex("[^0-9]+");
+        private bool MatchesRules(string text)
+        {
+            if (PositiveNumbersOnly == true)
+                return !regexNumbers.IsMatch(text);
+            else
+                return true;
+        }
+        private void TextBoxText_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !MatchesRules(e.Text);
+        }
 
+        private void TextBoxText_Pasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(string)))
+            {
+                string text = (string)e.DataObject.GetData(typeof(string));
+                if (!MatchesRules(text))
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
     }
 }

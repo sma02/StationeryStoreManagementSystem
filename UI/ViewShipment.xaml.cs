@@ -35,7 +35,7 @@ namespace StationeryStoreManagementSystem.UI
                             ("Product Name","Name"),
                             ("Company Name","Company.Name"),
                             ("Category","Category.Name"),
-                            ("Quantity","Quantity"),
+                            ("Quantity","SupplierQuantity"),
             });
             dataViewer.datagrid.ItemsSource = products;
         }

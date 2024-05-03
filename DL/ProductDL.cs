@@ -25,7 +25,7 @@ namespace StationeryStoreManagementSystem.DL
                                                         ,ReorderThreshold
                                                         ,CategoryId
                                                     FROM Product
-                                                    WHERE Id="+id.ToString());
+                                                    WHERE Id=" + id.ToString());
             List<object> args = Utils.GetArgs(reader);
             if (args.Count != 0)
              {
@@ -33,14 +33,34 @@ namespace StationeryStoreManagementSystem.DL
                      args[2] = CompanyDL.GetCompany((int)args[2]);
                  if (args[4] != null)
                      args[4] = CategoryDL.GetCategory((int)args[4]);
-                args.Add(0);
                 args.Add(SupplierDL.GetProductSuppliers((int)args[0]));
-                 return new Product(args);
+                Product product =  new Product(args);
+                reader = Utils.ReadData(@"SELECT s1.SupplierId,s1.Stock,p1.Price,p1.RetailPrice,p1.DiscountAmount
+                                                    FROM (SELECT SupplierId,ProductId,SUM(Stock) Stock
+                                                    FROM SupplierStock
+                                                    GROUP BY ProductId,SupplierId) s1
+                                                    JOIN PriceLog p1
+                                                    ON p1.SupplierId=s1.SupplierId AND p1.ProductId=s1.ProductId
+                                                    WHERE p1.AddedOn = (SELECT MAX(AddedOn)
+                                                    	                FROM PriceLog p2
+                                                    	                WHERE p1.SupplierId=p2.SupplierId)
+                                                    AND p1.ProductId=" + id.ToString());
+                    while(reader.Read())
+                    {
+                        Stock stock = new Stock(product.Suppliers.Where(x => x.Id == reader.GetInt32(0)).FirstOrDefault()
+                                               , product
+                                               , reader.GetSqlMoney(2).ToDouble()
+                                               , reader.GetSqlMoney(3).ToDouble()
+                                               , reader.GetSqlMoney(4).ToDouble()
+                                               , reader.GetInt32(1));
+                        product.Stocks.Add(stock);
+                    }
+                return product;
              }
              else
             return null;
         }
-        public static List<Product> GetProducts(List<(int,int)> ids)
+        public static List<Product> GetProducts(List<int> ids)
         {
             List<object> products = new List<object>();
             SqlDataReader reader = Utils.ReadData(@"SELECT Id
@@ -49,7 +69,7 @@ namespace StationeryStoreManagementSystem.DL
                                                         ,ReorderThreshold
                                                         ,CategoryId
                                                     FROM Product
-                                                    WHERE Id IN (" + string.Join(',', ids.Select(x=>x.Item1)) + ")");
+                                                    WHERE Id IN (" + string.Join(',', ids) + ")");
             List<object> args;
             do
             {
@@ -65,19 +85,15 @@ namespace StationeryStoreManagementSystem.DL
                     row[2] = CompanyDL.GetCompany((int)row[2]);
                 if (row[4] != null)
                     row[4] = CategoryDL.GetCategory((int)row[4]);
-                row.Add(ids[i].Item2);
                 row.Add(new List<Supplier>());
                 products[i] = new Product(row);
             }
             return products.Cast<Product>().ToList();
         }
-        public static List<Product> GetProducts(List<int> ids)
-        {
-            return GetProducts(ids.Select(x => (x, 0)).ToList());
-        }
         public static List<Product> GetSupplierProducts(int SupplierId)
         {
             List<object> products = new List<object>();
+            Supplier supplier = SupplierDL.GetSupplier(SupplierId);
             SqlDataReader reader = Utils.ReadData(@"SELECT ProductId
                                                     	  ,Product.Name
                                                     	  ,Product.CompanyId
@@ -102,9 +118,9 @@ namespace StationeryStoreManagementSystem.DL
                     row[2] = CompanyDL.GetCompany((int)row[2]);
                 if (row[4] != null)
                     row[4] = CategoryDL.GetCategory((int)row[4]);
-                row.Add(0);
                 row.Add(new List<Supplier>());
                 products[i] = new Product(row);
+                ((Product)products[i]).Stocks.Add(new Stock(supplier, (Product)products[i], 0, 0, 0, 0));
             }
             return products.Cast<Product>().ToList();
         }
