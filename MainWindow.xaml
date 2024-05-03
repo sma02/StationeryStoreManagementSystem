@@ -23,6 +23,7 @@
             <Button Margin="5 10 5 0" Height="40" Click="ManageEmployeesButton_Click">Manage Employees</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageShipmentsButton_Click">Manage Shipments</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageCustomersButton_Click">Manage Customers</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="ManageNotificationsButton_Click">Manage Notifications</Button>
         </StackPanel>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
         <Border x:Name="Content" Grid.Column="2"/>

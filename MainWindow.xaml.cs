@@ -32,7 +32,10 @@ namespace StationeryStoreManagementSystem
             new Button() { Content = "Manage Companies" },
             new Button() { Content = "Manage Categories" },
             new Button() { Content = "Manage Employees" },
-            new Button() { Content = "Manage Products" }
+            new Button() { Content = "Manage Products" },
+            new Button() { Content = "Manage Shipments" },
+            new Button() { Content = "Manage Customers" },
+            new Button() { Content = "Manage Notifications" }
         };
         public MainWindow()
         {
@@ -200,6 +203,26 @@ namespace StationeryStoreManagementSystem
                                                 typeof(CustomerForm),
                                                 true,
                                                 true);
+        }
+        private void ManageNotificationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<(string, string)> bindings = new List<(string, string)>
+            {
+                ("From","From"),
+                ("IsViewed","IsViewed"),
+                ("Notification","Notification")
+            };
+            Content.Child = new UI.ManageEntity("Manage Notifications",
+                                                typeof(Notification).Name,
+                                                NotificationDL.GetNotifications_View,
+                                                bindings,
+                                                new List<string> { "From" },
+                                                typeof(NotificationForm),
+                                                true,
+                                                false,
+                                                null,
+                                                typeof(ViewNotification));
+
         }
     }
 }

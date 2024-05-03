@@ -37,7 +37,24 @@ namespace StationeryStoreManagementSystem.DL
                                                     WHERE SL.Value = 'Active' AND U.Id = " + id.ToString());
             return (Cashier)DataHandler.ConstructObject(reader, typeof(Cashier));
         }
-
+        public static List<Cashier> GetEmployees()
+        {
+            SqlDataReader reader = Utils.ReadData(@"SELECT U.Id, U.FirstName, U.LastName, G.Value AS Gender, U.CNIC, U.DateOfBirth, U.Contact, UA.Email, L.Value City, U.Town, U.StreetAddress, U.PostalCode, ES.Salary
+                                                    FROM UserAccount UA
+                                                    JOIN [User] U ON UA.UserId = U.Id
+                                                    JOIN Employee E ON U.Id = E.Id
+                                                    JOIN (
+                                                    SELECT EmployeeId, MAX(AddedOn) AS MaxCreatedOn
+                                                    FROM EmployeeSalary
+                                                    GROUP BY EmployeeId
+                                                    ) AS ME ON ME.EmployeeId = U.Id
+                                                    JOIN Lookup L ON L.Id=U.City
+                                                    JOIN EmployeeSalary ES ON ES.EmployeeId = ME.EmployeeId AND ES.AddedOn = ME.MaxCreatedOn
+                                                    JOIN Lookup RL ON E.Role = RL.Id
+                                                    JOIN Lookup SL ON E.Status = SL.Id
+                                                    JOIN Lookup G ON U.Gender = G.Id");
+            return DataHandler.ConstructObjects(reader, typeof(Cashier)).Cast<Cashier>().ToList();
+        }
         public static void SaveEmployee(Employee E, bool IsAdd)
         {
             int role = DataHandler.LookupData("Role").Where(x => x.Value == E.DetermineRole(E)).Select(X => X.Key).FirstOrDefault();
