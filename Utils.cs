@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using StationeryStoreManagementSystem.BL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace StationeryStoreManagementSystem
     {
         private static SqlDataReader reader;
         public static MainWindow? CurrentMainWindow { get; set; }
+        public static Employee? CurrentEmployee { get; set; }
         public static object NormalizeForQuery(object value)
         {
             if (value == null)

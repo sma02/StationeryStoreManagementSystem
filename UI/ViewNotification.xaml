@@ -12,7 +12,7 @@
         <Components:TitleBlock Title="View Notification"/>
         <Controls:DataLabel x:Name="fromLabel" LabelData="From: " FontSize="20" Margin="20 20 20 0"/>
         <Controls:DataLabel x:Name="timestampLabel" LabelData="Timestamp: " FontSize="20" Margin="20 20 20 0"/>
-        <Controls:TextEntry x:Name="content" LabelText="Notification" FontSize="16" Margin="20 20 20 0" ReadOnly="True"/>
+        <Controls:TextEntry x:Name="content" LabelText="Notification" FontSize="16" Margin="20 20 20 0" IsReadOnly="True"/>
         <Button Content="Back" HorizontalAlignment="Center" Height="50" Width="100" Click="BackButton_Click"/>
     </StackPanel>
 </local:AbstractEntryForm>

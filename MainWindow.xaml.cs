@@ -26,6 +26,7 @@ namespace StationeryStoreManagementSystem
     public partial class MainWindow : Window
     {
         private bool currentTheme = true;
+        Employee currentEmployee = null;
         private List<Button> AdminBtns = new List<Button>()
         {
             new Button() { Content = "Manage Suppliers" },

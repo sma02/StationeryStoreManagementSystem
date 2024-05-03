@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using StationeryStoreManagementSystem.DL;
 
 namespace StationeryStoreManagementSystem.UI
 {
@@ -37,27 +38,28 @@ namespace StationeryStoreManagementSystem.UI
             username = username_tb.Text;
             password = password_tb.Text;
 
-            if (IsValid())
+            if (IsValid() != null)
             {
                 ((Border)Parent).Child = null;
+                Utils.CurrentEmployee = EmployeeDL.GetEmployee(IsValid());
             }
             else
             {
                 MessageBox.Show("Invalid Credentials");
             }
         }
-        public bool IsValid()
+        public int IsValid()
         {
             Utils.CloseReader();
             var conn = Configuration.getInstance().getConnection();
-            string query = "EXEC CheckCredentials @Username, @Password, @IsValid OUTPUT";
+            string query = "EXEC CheckCredentials @Username, @Password, @UserId OUTPUT";
             SqlCommand command = new SqlCommand(query, conn);
             command.Parameters.AddWithValue("@Username", username);
             command.Parameters.AddWithValue("@Password", password);
-            command.Parameters.Add("@IsValid", SqlDbType.Bit).Direction = ParameterDirection.Output;
+            command.Parameters.Add("@UserId", SqlDbType.Int).Direction = ParameterDirection.Output;
             command.ExecuteNonQuery();
-            bool valid = (bool)command.Parameters["@IsValid"].Value;
-            return valid;
+            int Id = Convert.ToInt32(command.Parameters["@UserId"].Value);
+            return Id;
         }
     }
 }
