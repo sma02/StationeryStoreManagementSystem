@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StationeryStoreManagementSystem"
+        xmlns:Components="clr-namespace:StationeryStoreManagementSystem.UI.Components"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Stationery Store Management System" Height="600" Width="1000"
         Style="{DynamicResource WindowStyle}">
     <Grid>
+        <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="10px"/>
@@ -27,5 +29,8 @@
         </StackPanel>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
         <Border x:Name="Content" Grid.Column="2"/>
+        </Grid>
+        <Border x:Name="overlay" Background="#59000000" BorderThickness="0" Visibility="Hidden">
+        </Border>
     </Grid>
 </Window>

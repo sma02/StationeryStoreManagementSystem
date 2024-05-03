@@ -3,6 +3,7 @@ using StationeryStoreManagementSystem.DL;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
@@ -53,7 +54,7 @@ namespace StationeryStoreManagementSystem.UI
                     ("Product Name","Name",true),
                     ("Company Name","Company.Name",true),
                     ("Category", "Category.Name", true),
-                    ("Quantity", "Quantity", false)
+                    ("Quantity", "SupplierQuantity", false),
             };
             for (int i = bindings.Count - 1; i >= 0; i--)
             {

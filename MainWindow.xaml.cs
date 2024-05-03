@@ -40,6 +40,8 @@ namespace StationeryStoreManagementSystem
         public MainWindow()
         {
             InitializeComponent();
+            Utils.ExecuteQuery("SELECT 1");
+            Utils.CurrentMainWindow = this;
             /*sideBar.Visibility = Visibility.Collapsed;
             Content.Child = new Login();*/
         }

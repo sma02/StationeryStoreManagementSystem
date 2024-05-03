@@ -27,7 +27,9 @@
                  TextWrapping="{Binding ElementName=TextEntryControl,Path=TextWrapping,Mode=TwoWay}" 
                  VerticalScrollBarVisibility="Auto"
                  Height="{Binding ElementName=TextEntryControl,Path=Height,Mode=TwoWay}"
-                 IsReadOnly="{Binding ReadOnly}"
+                 IsReadOnly="{Binding ElementName=TextEntryControl,Path=IsReadOnly,Mode=TwoWay}"
+                 PreviewTextInput="TextBoxText_PreviewTextInput"
+                 DataObject.Pasting="TextBoxText_Pasting"
                  Text="{Binding ElementName=TextEntryControl,Path=Text,Mode=TwoWay}"/>
         </StackPanel>
     </Grid>

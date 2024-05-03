@@ -54,8 +54,8 @@ namespace StationeryStoreManagementSystem.UI
         private void DataGridView_DeleteButtonClicked(DataGrid dataGrid, int selectedIndex)
         {
             object[] id = { ((DataView)(dataGrid.ItemsSource))[selectedIndex].Row.ItemArray[0] };
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            UI.Components.MessageBox.MessageBoxResult result = UI.Components.MessageBox.Show("Are you sure you want to delete?", "Confirmation", UI.Components.MessageBox.Type.YesNo);
+            if (result == UI.Components.MessageBox.MessageBoxResult.Yes)
             {
                 deleteFunc.DynamicInvoke(id);
             }
