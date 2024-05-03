@@ -33,6 +33,13 @@ namespace StationeryStoreManagementSystem.UI
                 titleBlock.Text = "Edit Supplier";
                 ConfirmButton.Content = "Update";
                 supplier = SupplierDL.GetSupplier(id);
+                CountryField.SelectedValue = ((Dictionary<int, string>)CountryField.ItemSource).Where(x => x.Value == supplier.Country).Select(x=>x.Value).FirstOrDefault();
+                if (CountryField.SelectedValue != null)
+                {
+                    CityField.ItemSource = DataHandler.LookupData($"City{CountryField.SelectedValue}");
+                    CityField.DisplayPathName = "Value";
+                    CityField.SelectedValue = ((Dictionary<int, string>)CityField.ItemSource).Where(x => x.Value == supplier.City).Select(x => x.Value).FirstOrDefault();
+                }
                 isEdit = true;
             }
             else

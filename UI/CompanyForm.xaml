@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Controls:TextEntry x:Name="company_name" Grid.Column="0" LabelText="Company Name" MaxLength="30"
+            <Controls:TextEntry AcceptsReturn="True" TextWrapping="Wrap" x:Name="company_name" Grid.Column="0" LabelText="Company Name" MaxLength="30"
                                 VerticalAlignment="Center" Text="{Binding Name}"/>
         </Grid>
         

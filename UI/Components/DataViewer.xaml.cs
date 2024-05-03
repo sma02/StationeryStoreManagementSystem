@@ -21,7 +21,7 @@ namespace StationeryStoreManagementSystem.UI.Components
     /// <summary>
     /// Interaction logic for DataHandler.xaml
     /// </summary>
-    public partial class DataHandler : UserControl
+    public partial class DataViewer : UserControl
     {
         public delegate void DataGridButtonPressedEventHandler(DataGrid dataGrid,int selectedIndex);
         public event RoutedEventHandler? AddButtonClicked;
@@ -41,7 +41,7 @@ namespace StationeryStoreManagementSystem.UI.Components
         public static readonly DependencyProperty AddButtonContentProperty =
             DependencyProperty.Register("AddButtonContent",
                                         typeof(object),
-                                        typeof(DataHandler),
+                                        typeof(DataViewer),
                                         new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
@@ -54,7 +54,7 @@ namespace StationeryStoreManagementSystem.UI.Components
             set { SetValue(row1VisbilityProperty, value); }
         }
         private static readonly DependencyProperty row1VisbilityProperty =
-            DependencyProperty.Register("row1Visbility", typeof(bool), typeof(DataHandler), new PropertyMetadata(false));
+            DependencyProperty.Register("row1Visbility", typeof(bool), typeof(DataViewer), new PropertyMetadata(false));
 
 
 
@@ -71,7 +71,7 @@ namespace StationeryStoreManagementSystem.UI.Components
             }
         }
         public static readonly DependencyProperty IsAddProperty =
-            DependencyProperty.Register("IsAdd", typeof(bool), typeof(DataHandler), new PropertyMetadata(false));
+            DependencyProperty.Register("IsAdd", typeof(bool), typeof(DataViewer), new PropertyMetadata(false));
 
 
 
@@ -84,7 +84,7 @@ namespace StationeryStoreManagementSystem.UI.Components
             }
         }
         public static readonly DependencyProperty IsEditProperty =
-            DependencyProperty.Register("IsEdit", typeof(bool), typeof(DataHandler), new PropertyMetadata(false));
+            DependencyProperty.Register("IsEdit", typeof(bool), typeof(DataViewer), new PropertyMetadata(false));
 
 
 
@@ -97,7 +97,7 @@ namespace StationeryStoreManagementSystem.UI.Components
             }
         }
         public static readonly DependencyProperty IsDeleteProperty =
-            DependencyProperty.Register("IsDelete", typeof(bool), typeof(DataHandler), new PropertyMetadata(false));
+            DependencyProperty.Register("IsDelete", typeof(bool), typeof(DataViewer), new PropertyMetadata(false));
 
 
 
@@ -115,7 +115,7 @@ namespace StationeryStoreManagementSystem.UI.Components
 
         // Using a DependencyProperty as the backing store for IsSelect.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsSelectProperty =
-            DependencyProperty.Register("IsSelect", typeof(bool), typeof(DataHandler), new PropertyMetadata(false));
+            DependencyProperty.Register("IsSelect", typeof(bool), typeof(DataViewer), new PropertyMetadata(false));
 
 
 
@@ -135,7 +135,7 @@ namespace StationeryStoreManagementSystem.UI.Components
         public static readonly DependencyProperty SearchAttributesProperty =
             DependencyProperty.Register("SearchAttributes",
                                         typeof(List<string>),
-                                        typeof(DataHandler),
+                                        typeof(DataViewer),
                                         new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
@@ -150,12 +150,12 @@ namespace StationeryStoreManagementSystem.UI.Components
         public static readonly DependencyProperty ItemSourceProperty =
             DependencyProperty.Register("ItemSource",
                                         typeof(IEnumerable),
-                                        typeof(DataHandler),
+                                        typeof(DataViewer),
                                         new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
 
-        public DataHandler()
+        public DataViewer()
         {
             InitializeComponent();
         }

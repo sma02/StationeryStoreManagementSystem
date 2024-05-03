@@ -26,11 +26,15 @@ namespace StationeryStoreManagementSystem.DL
                                                     	  ,Email
                                                     	  ,StreetAddress
                                                     	  ,Town
-                                                    	  ,City
-                                                    	  ,Country
+                                                    	  ,l1.Value City
+                                                    	  ,l2.Value Country
                                                     	  ,PostalCode
                                                     FROM Supplier
-                                                    WHERE Id=" + id.ToString());
+                                                    LEFT JOIN Lookup l1
+                                                    ON l1.Id=City
+                                                    LEFT JOIN Lookup l2
+                                                    ON l2.Id=Country
+                                                    WHERE Supplier.Id=" + id.ToString());
             return (Supplier)DataHandler.ConstructObject(reader, typeof(Supplier));
 ;        }
         public static List<Supplier> GetProductSuppliers(Product product)

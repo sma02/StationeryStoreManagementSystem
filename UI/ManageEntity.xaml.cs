@@ -27,10 +27,10 @@ namespace StationeryStoreManagementSystem.UI
         private Type viewForm;
         private Delegate? deleteFunc;
         private Delegate getTable;
-        public ManageEntity(string title, Type entity, Delegate getTable, List<(string, string)> bindings, List<string>? searchAttributes, Type? entryForm, bool isAdd, bool isEdit, Delegate? deleteFunc = null, Delegate? selectFunc = null,Type? viewForm = null)
+        public ManageEntity(string title,string entityName, Delegate getTable, List<(string, string)> bindings, List<string>? searchAttributes, Type? entryForm, bool isAdd, bool isEdit, Delegate? deleteFunc = null,Type? viewForm = null)
         {
             InitializeComponent();
-            dataGridView.Addbutton.Content = $"Add {entity.Name}";
+            dataGridView.Addbutton.Content = $"Add {entityName}";
             dataGridView.SetBindings(bindings);
             dataGridView.SearchAttributes = searchAttributes;
             TitleBlock.Text = title;
@@ -42,7 +42,7 @@ namespace StationeryStoreManagementSystem.UI
             dataGridView.IsEdit = isEdit;
             if(deleteFunc!=null)
                 dataGridView.IsDelete = true;
-            if (isAdd == false && isEdit == false)
+            if (viewForm!=null)
                 dataGridView.IsSelect = true;
             dataGridView.AddButtonClicked += DataGridView_AddButtonClicked;
             dataGridView.EditButtonClicked += DataGridView_EditButtonClicked;

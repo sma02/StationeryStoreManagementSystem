@@ -73,7 +73,7 @@ namespace StationeryStoreManagementSystem
                 ("Postal Code","PostalCode")
              };
             Content.Child = new UI.ManageEntity("Manage Suppliers",
-                                                typeof(Supplier),
+                                                typeof(Supplier).Name,
                                                 SupplierDL.GetSuppliersView,
                                                 bindings,
                                                 new List<string> { "Name" },
@@ -91,7 +91,7 @@ namespace StationeryStoreManagementSystem
                 ("Company Name","Name")
              };
             Content.Child = new UI.ManageEntity("Manage Companies",
-                                                typeof(Company),
+                                                typeof(Company).Name,
                                                 CompanyDL.GetCompanies_View,
                                                 bindings,
                                                 new List<string> { "Name" },
@@ -109,7 +109,7 @@ namespace StationeryStoreManagementSystem
                 ("GST", "GST")
              };
             Content.Child = new UI.ManageEntity("Manage Categories",
-                                                typeof(Category),
+                                                typeof(Category).Name,
                                                 CategoryDL.GetCategories_View,
                                                 bindings,
                                                 new List<string> { "Name" },
@@ -131,7 +131,7 @@ namespace StationeryStoreManagementSystem
                 ("Gender","Gender")
             };
             Content.Child = new UI.ManageEntity("Manage Employees",
-                                                typeof(Employee),
+                                                typeof(Employee).Name,
                                                 EmployeeDL.GetEmployeessView,
                                                 bindings,
                                                 new List<string> { "Name" },
@@ -155,7 +155,7 @@ namespace StationeryStoreManagementSystem
                 ("Q.ty","Stock")
              };
             Content.Child = new UI.ManageEntity("Manage Products",
-                                                typeof(Product),
+                                                typeof(Product).Name,
                                                 ProductDL.GetProducts_View,
                                                 bindings,
                                                 new List<string> { "Name" },
@@ -173,13 +173,15 @@ namespace StationeryStoreManagementSystem
                 ("Timestamp","AddedOn"),
              };
             Content.Child = new UI.ManageEntity("Manage Shipments",
-                                                typeof(object),
+                                                "Shipment",
                                                 ShipmentDL.GetShipmentsView,
                                                 bindings,
                                                 new List<string> { "Name" },
-                                                typeof(object),
+                                                typeof(ShipmentForm),
+                                                true,
                                                 false,
-                                                false);
+                                                null,
+                                                typeof(ViewShipment));
         }
         private void ManageCustomersButton_Click(object sender, RoutedEventArgs e)
         {
@@ -191,7 +193,7 @@ namespace StationeryStoreManagementSystem
                 ("Gender","Gender")
             };
             Content.Child = new UI.ManageEntity("Manage Customers",
-                                                typeof(Customer),
+                                                typeof(Customer).Name,
                                                 CustomerDL.GetCustomersView,
                                                 bindings,
                                                 new List<string> { "Name" },

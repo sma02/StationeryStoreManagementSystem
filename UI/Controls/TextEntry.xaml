@@ -23,7 +23,9 @@
                  BorderThickness="1"
                  BorderBrush="Gray"
                  HorizontalAlignment="Stretch" 
-                 TextWrapping="NoWrap" 
+                 AcceptsReturn="{Binding ElementName=TextEntryControl,Path=AcceptsReturn,Mode=TwoWay}"
+                 TextWrapping="{Binding ElementName=TextEntryControl,Path=TextWrapping,Mode=TwoWay}" 
+                 VerticalScrollBarVisibility="Auto"
                  Height="{Binding ElementName=TextEntryControl,Path=Height,Mode=TwoWay}"
                  IsReadOnly="{Binding ReadOnly}"
                  Text="{Binding ElementName=TextEntryControl,Path=Text,Mode=TwoWay}"/>

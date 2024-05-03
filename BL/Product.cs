@@ -1,6 +1,7 @@
 ﻿using StationeryStoreManagementSystem.DL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace StationeryStoreManagementSystem.BL
         public Company? Company { get; set; }
         public int? ReorderThreshold { get; set; }
         public Category? Category { get; set; }
+        public int Quantity { get; set; }
         public List<Supplier> Suppliers { get; set; }
         public List<object> InitialArgs { get; set; }
 
@@ -25,13 +27,14 @@ namespace StationeryStoreManagementSystem.BL
         {
 
         }
-        public Product(string name, Company? company, int? reorderThreshold, Category? category, List<Supplier> suppliers):this()
+        public Product(string name, Company? company, int? reorderThreshold, Category? category, int quantity, List<Supplier> suppliers) : this()
         {
             Name = name;
             Company = company;
             ReorderThreshold = reorderThreshold;
             Category = category;
             Suppliers = suppliers;
+            Quantity = quantity;
         }
         public Product(List<object> args) 
         {
@@ -40,8 +43,10 @@ namespace StationeryStoreManagementSystem.BL
             Company = (Company)args[2];
             ReorderThreshold = (int)args[3];
             Category = (Category)args[4];
-            Suppliers = ((List<Supplier>)args[5]); 
+            Quantity = (int)args[5];
+            Suppliers = ((List<Supplier>)args[6]); 
             InitialArgs = args;
+            InitialArgs.RemoveAt(5);
             InitialArgs.RemoveAt(0);
         }
         public void Save(bool isAdd = false)
