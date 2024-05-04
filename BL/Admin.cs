@@ -44,5 +44,9 @@ namespace StationeryStoreManagementSystem.BL
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }
+        public void Save(bool isAdd = false)
+        {
+            EmployeeDL.SaveEmployee(this, isAdd);
+        }
     }
 }

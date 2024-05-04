@@ -18,9 +18,9 @@ namespace StationeryStoreManagementSystem.DL
             return DataHandler.FillDataTable(@"SELECT * FROM GetEmployees_View");
         }
 
-        public static Cashier GetEmployee(int id)
+        public static Employee GetEmployee(int id)
         {
-            SqlDataReader reader = Utils.ReadData(@"SELECT U.Id, U.FirstName, U.LastName, G.Value AS Gender, U.CNIC, U.DateOfBirth, U.Contact, UA.Email, L.Value City, U.Town, U.StreetAddress, U.PostalCode, ES.Salary
+            SqlDataReader reader = Utils.ReadData(@"SELECT U.Id, U.FirstName, U.LastName, G.Value AS Gender, U.CNIC, U.DateOfBirth, U.Contact, UA.Email, L.Value City, U.Town, U.StreetAddress, U.PostalCode, ES.Salary, RL.Value AS Role
                                                     FROM UserAccount UA
                                                     JOIN [User] U ON UA.UserId = U.Id
                                                     JOIN Employee E ON U.Id = E.Id
@@ -35,7 +35,22 @@ namespace StationeryStoreManagementSystem.DL
                                                     JOIN Lookup SL ON E.Status = SL.Id
                                                     JOIN Lookup G ON U.Gender = G.Id
                                                     WHERE SL.Value = 'Active' AND U.Id = " + id.ToString());
-            return (Cashier)DataHandler.ConstructObject(reader, typeof(Cashier));
+
+            Employee e = null;
+            if (reader.Read())
+            {
+                string role = reader["Role"].ToString();
+
+                if (role == "Admin")
+                {
+                    e = (Admin)DataHandler.ConstructObject(reader, typeof(Admin));
+                }
+                else
+                {
+                    e = (Cashier)DataHandler.ConstructObject(reader, typeof(Cashier));
+                }
+            }
+            return e;
         }
         public static List<Cashier> GetEmployees()
         {
@@ -77,7 +92,7 @@ namespace StationeryStoreManagementSystem.DL
             {
                 args.Add((nameof(E.Username), E.Username));
                 args.Add((nameof(E.Email), E.Email));
-                args.Add((nameof(E.Password),E.Password));
+                args.Add((nameof(E.Password), E.Password));
                 args.Add(("Role", role));
                 args.Add((nameof(E.Salary), E.Salary));
                 DataHandler.InsertDataSP(args, "stpInsertEmployee");

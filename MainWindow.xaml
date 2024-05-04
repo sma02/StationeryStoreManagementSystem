@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StationeryStoreManagementSystem"
-        xmlns:Components="clr-namespace:StationeryStoreManagementSystem.UI.Components"
+        xmlns:UserControl="clr-namespace:StationeryStoreManagementSystem.UI"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Stationery Store Management System" Height="600" Width="1000"

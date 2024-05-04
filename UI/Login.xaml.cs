@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using StationeryStoreManagementSystem.DL;
+using StationeryStoreManagementSystem.BL;
 
 namespace StationeryStoreManagementSystem.UI
 {
@@ -26,6 +27,7 @@ namespace StationeryStoreManagementSystem.UI
     /// </summary>
     public partial class Login : UserControl
     {
+        public event EventHandler LoginClicked;
         string username;
         string password;
         public Login()
@@ -37,11 +39,14 @@ namespace StationeryStoreManagementSystem.UI
         {
             username = username_tb.Text;
             password = password_tb.Text;
+            int id = IsValid();
 
-            if (IsValid() != null)
+            if (id != null)
             {
                 ((Border)Parent).Child = null;
-                Utils.CurrentEmployee = EmployeeDL.GetEmployee(IsValid());
+                Utils.CurrentEmployee = EmployeeDL.GetEmployee(id);
+                LoginClicked?.Invoke(this, e);
+                
             }
             else
             {

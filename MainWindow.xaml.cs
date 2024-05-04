@@ -26,7 +26,6 @@ namespace StationeryStoreManagementSystem
     public partial class MainWindow : Window
     {
         private bool currentTheme = true;
-        Employee currentEmployee = null;
         private List<Button> AdminBtns = new List<Button>()
         {
             new Button() { Content = "Manage Suppliers" },
@@ -38,13 +37,21 @@ namespace StationeryStoreManagementSystem
             new Button() { Content = "Manage Customers" },
             new Button() { Content = "Manage Notifications" }
         };
+        private List<Button> CashierBtns = new List<Button>()
+        {
+            new Button() { Content = "Manage Products" },
+            new Button() { Content = "Manage Shipments" },
+            new Button() { Content = "Manage Customers" },
+            new Button() { Content = "Manage Notifications" }
+        };
+
         public MainWindow()
         {
             InitializeComponent();
             Utils.ExecuteQuery("SELECT 1");
             Utils.CurrentMainWindow = this;
-            /*sideBar.Visibility = Visibility.Collapsed;
-            Content.Child = new Login();*/
+            sideBar.Children.Clear();
+            InitializeLogin();
         }
         public void changeTheme(bool theme)
         {
@@ -189,6 +196,7 @@ namespace StationeryStoreManagementSystem
                                                 null,
                                                 typeof(ViewShipment));
         }
+        
         private void ManageCustomersButton_Click(object sender, RoutedEventArgs e)
         {
             List<(string, string)> bindings = new List<(string, string)>
@@ -207,6 +215,7 @@ namespace StationeryStoreManagementSystem
                                                 true,
                                                 true);
         }
+        
         private void ManageNotificationsButton_Click(object sender, RoutedEventArgs e)
         {
             List<(string, string)> bindings = new List<(string, string)>
@@ -226,6 +235,67 @@ namespace StationeryStoreManagementSystem
                                                 null,
                                                 typeof(ViewNotification));
 
+        }
+        
+        private void InitializeLogin()
+        {
+            sideBar.Visibility = Visibility.Collapsed;
+            Login login = new Login();
+            Content.Child = login;
+            login.LoginClicked += SetButtons;
+        }
+        
+        private void SetButtons(object sender, EventArgs e)
+        {
+            sideBar.Visibility = Visibility.Visible;
+            if (Utils.CurrentEmployee is Admin)
+            {
+                foreach (Button btn in AdminBtns)
+                {
+                    sideBar.Children.Add(btn);
+                    btn.Click += ButtonClick;
+                }
+            }
+            else if (Utils.CurrentEmployee is Cashier)
+            {
+                foreach (Button btn in CashierBtns)
+                {
+                    sideBar.Children.Add(btn);
+                    btn.Click += ButtonClick;
+                }
+            }
+        }
+        private void ButtonClick(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+
+            switch (btn.Content.ToString())
+            {
+                case "Manage Suppliers":
+                    ManageSuppliersButton_Click(sender, e);
+                    break;
+                case "Manage Companies":
+                    ManageCompaniesButton_Click(sender, e);
+                    break;
+                case "Manage Categories":
+                    ManageCategoriesButton_Click(sender, e);
+                    break;
+                case "Manage Employees":
+                    ManageEmployeesButton_Click(sender, e);
+                    break;
+                case "Manage Products":
+                    ManageProductButton_Click(sender, e);
+                    break;
+                case "Manage Shipments":
+                    ManageShipmentsButton_Click(sender, e);
+                    break;
+                case "Manage Customers":
+                    ManageCustomersButton_Click(sender, e);
+                    break;
+                case "Manage Notifications":
+                    ManageNotificationsButton_Click(sender, e);
+                    break;
+            }
         }
     }
 }

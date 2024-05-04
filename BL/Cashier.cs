@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    class Cashier:Employee
+    class Cashier : Employee
     {
         public Cashier(string? firstname = null,
                         string? lastname = null,
@@ -23,7 +23,7 @@ namespace StationeryStoreManagementSystem.BL
                         string? username = null,
                         string? password = null,
                         string? email = null,
-                        double? salary = null):base(firstname,lastname,cnic,contact,gender,dateofbirth,town,city,streetaddress,postalcode,username,password,email,salary)
+                        double? salary = null) : base(firstname, lastname, cnic, contact, gender, dateofbirth, town, city, streetaddress, postalcode, username, password, email, salary)
         {
 
         }
@@ -44,7 +44,7 @@ namespace StationeryStoreManagementSystem.BL
             Salary = double.Parse(args[12].ToString());
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
-            
+
         }
         public void Save(bool isAdd = false)
         {
