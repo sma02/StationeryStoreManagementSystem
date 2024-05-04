@@ -2,6 +2,7 @@
 using StationeryStoreManagementSystem.DL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,24 @@ namespace StationeryStoreManagementSystem.UI
             InitializeComponent();
             CountryField.ItemSource = DataHandler.LookupData("Country");
             CountryField.DisplayPathName = "Value";
+            List<(string, string)> bindings = new List<(string, string)>()
+            {
+                ("Product Name","Name"),
+                ("Company Name","Company"),
+                ("Category","Category"),
+                ("Price","Price")
+            };
+            productsDataHandler2.SearchAttributes = new List<string>() { "Name" };
+            productsDataHandler1.IsDelete = true;
+            productsDataHandler2.IsSelect = true;
+            productsDataHandler1.SetBindings(bindings);
+            productsDataHandler2.SetBindings(bindings);
+            DataTable table = ProductDL.GetProducts_View();
+            DataTable table1 = table.Clone();
+            productsDataHandler2.ItemSource = table.DefaultView;
+            productsDataHandler1.ItemSource = table1.DefaultView;
+            productsDataHandler2.SelectButtonClicked += ProductsDataHandler2_SelectButtonClicked;
+            productsDataHandler1.DeleteButtonClicked += ProductsDataHandler1_DeleteButtonClicked;
             if (id != -1)
             {
                 titleBlock.Text = "Edit Supplier";
@@ -40,6 +59,19 @@ namespace StationeryStoreManagementSystem.UI
                     CityField.DisplayPathName = "Value";
                     CityField.SelectedValue = ((Dictionary<int, string>)CityField.ItemSource).Where(x => x.Value == supplier.City).Select(x => x.Value).FirstOrDefault();
                 }
+                List<int> initialProductsIds = supplier.Products.Select(x => x.Id).ToList();
+                List<int> indexes = new List<int>();
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    if (initialProductsIds.Exists(x => x == (int)table.Rows[i].ItemArray[0]))
+                    {
+                        table1.Rows.Add(table.Rows[i].ItemArray);
+                        indexes.Add(i);
+                    }
+                }
+                indexes.Reverse();
+                foreach (int index in indexes)
+                    table.Rows.RemoveAt(index);
                 isEdit = true;
             }
             else
@@ -49,8 +81,29 @@ namespace StationeryStoreManagementSystem.UI
             DataContext = supplier;
         }
 
+        private void ProductsDataHandler1_DeleteButtonClicked(DataGrid dataGrid, int selectedIndex)
+        {
+            DataRow dataRow = ((DataRowView)dataGrid.SelectedItem).Row;
+            ((DataView)productsDataHandler2.ItemSource).Table.Rows.Add(dataRow.ItemArray);
+            ((DataView)productsDataHandler1.ItemSource).Table.Rows.Remove(dataRow);
+        }
+
+        private void ProductsDataHandler2_SelectButtonClicked(DataGrid dataGrid, int selectedIndex)
+        {
+            DataRow dataRow = ((DataRowView)dataGrid.SelectedItem).Row;
+            ((DataView)productsDataHandler1.ItemSource).Table.Rows.Add(dataRow.ItemArray);
+            ((DataView)productsDataHandler2.ItemSource).Table.Rows.Remove(dataRow);
+        }
+
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            List<Product> products = new List<Product>();
+            var rows = ((DataView)productsDataHandler1.ItemSource).Table.Rows;
+            foreach (DataRow row in rows)
+            {
+                products.Add(new Product((int)row.ItemArray[0]));
+            }
+            supplier.Products = products;
             supplier.Save(!isEdit);
             NavigateCallingForm();
         }

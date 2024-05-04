@@ -19,6 +19,7 @@ namespace StationeryStoreManagementSystem.BL
         public string? City { get; set; }
         public string? Country { get; set; }
         public string? PostalCode { get; set; }
+        public List<Product> Products { get; set; }
         public List<object> InitialArgs;
         public Supplier(int id):this()
         {
@@ -38,7 +39,8 @@ namespace StationeryStoreManagementSystem.BL
                        , string? town = null
                        , string? city = null
                        , string? country = null
-                       , string? postalCode = null):this()
+                       , string? postalCode = null
+                       , List<Product> products = null) : this()
 
         {
             Name = name;
@@ -49,7 +51,7 @@ namespace StationeryStoreManagementSystem.BL
             City = city;
             Country = country;
             PostalCode = postalCode;
-
+            Products = products;
         }
         public Supplier(List<object> args)
         {
@@ -62,6 +64,10 @@ namespace StationeryStoreManagementSystem.BL
             City = (string?)args[6];
             Country = (string?)args[7];
             PostalCode = (string?)args[8];
+            if (args.Count < 10)
+                Products = new List<Product>();
+            else
+                Products = (List<Product>?)args[9];
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }

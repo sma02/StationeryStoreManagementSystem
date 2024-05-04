@@ -24,7 +24,6 @@ namespace StationeryStoreManagementSystem.UI
     public partial class ProductForm : AbstractEntryForm
     {
         private Product product;
-        private List<int> initialSupplierIds;
         private bool isEdit = false;
         public ProductForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
@@ -53,8 +52,8 @@ namespace StationeryStoreManagementSystem.UI
             suppliersDataHandler2.SetBindings(bindings);
             DataTable table = SupplierDL.GetSuppliersView();
             DataTable table1 = table.Clone();
+            suppliersDataHandler2.ItemSource = table.DefaultView;
             suppliersDataHandler1.ItemSource = table1.DefaultView;
-            suppliersDataHandler2.Refresh(table);
             suppliersDataHandler2.SelectButtonClicked += SuppliersDataHandler2_SelectButtonClicked;
             suppliersDataHandler1.DeleteButtonClicked += SuppliersDataHandler1_DeleteButtonClicked; ;
             if (id != -1)
@@ -66,7 +65,7 @@ namespace StationeryStoreManagementSystem.UI
                     product.Company = companies.Find(x => x.Id == product.Company.Id);
                 if (product.Category != null)
                     product.Category = categories.Find(x => x.Id == product.Category.Id);
-                initialSupplierIds = product.Suppliers.Select(x => x.Id).ToList();
+                List<int> initialSupplierIds = product.Suppliers.Select(x => x.Id).ToList();
                 List<int> indexes = new List<int>();
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
@@ -102,9 +101,8 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            //  product.Save(!isEdit);
             List<Supplier> suppliers = new List<Supplier>();
-          var rows =   ((DataView)suppliersDataHandler1.ItemSource).Table.Rows;
+            var rows =   ((DataView)suppliersDataHandler1.ItemSource).Table.Rows;
             foreach(DataRow row in rows)
             {
                 suppliers.Add(new Supplier((int)row.ItemArray[0]));

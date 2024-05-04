@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient.Server;
 using StationeryStoreManagementSystem.BL;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,9 @@ namespace StationeryStoreManagementSystem.DL
                                                     LEFT JOIN Lookup l2
                                                     ON l2.Id=Country
                                                     WHERE Supplier.Id=" + id.ToString());
-            return (Supplier)DataHandler.ConstructObject(reader, typeof(Supplier));
+            List<object> args = Utils.GetArgs(reader);
+            args.Add(ProductDL.GetSupplierProducts((int)args[0],false));
+            return new Supplier(args);
 ;        }
         public static List<Supplier> GetProductSuppliers(Product product)
         {
@@ -85,6 +88,42 @@ namespace StationeryStoreManagementSystem.DL
             {
                 args.Add(("UpdatedOn",("CURRENT_TIMESTAMP",true)));
                 DataHandler.UpdateData(args, supplier.InitialArgs, supplier.GetType().Name, (nameof(supplier.Id), supplier.Id));
+            }
+            List<int> newIds = new List<int>();
+            List<int> deleteIds = new List<int>();
+            newIds = supplier.Products.Select(x => x.Id).ToList();
+            if (supplier.InitialArgs != null)
+            {
+                List<int> prevIds = ((List<Product>)supplier.InitialArgs[8]).Select(x => x.Id).ToList();
+                deleteIds = prevIds.Except(newIds).ToList();
+                newIds = newIds.Except(prevIds).ToList();
+            }
+            SqlMetaData[] sqlMetas = new SqlMetaData[]
+                {
+                    new SqlMetaData("SupplierId",SqlDbType.Int),
+                    new SqlMetaData("ProductId",SqlDbType.Int)
+                };
+            if (newIds.Count > 0)
+            {
+                var valueInsert = newIds.Select(x =>
+                {
+                    SqlDataRecord record = new SqlDataRecord(sqlMetas);
+                    record.SetInt32(0, supplier.Id);
+                    record.SetInt32(1, x);
+                    return record;
+                });
+                DataHandler.BulkDataExecuteSP("ProductSuppliers", "udtt_ProductSuppliers", "stpInsertProductSuppliers", valueInsert);
+            }
+            if (deleteIds.Count > 0)
+            {
+                var valueDelete = deleteIds.Select(x =>
+                {
+                    SqlDataRecord record = new SqlDataRecord(sqlMetas);
+                    record.SetInt32(0, supplier.Id);
+                    record.SetInt32(1, x);
+                    return record;
+                });
+                DataHandler.BulkDataExecuteSP("ProductSuppliers", "udtt_ProductSuppliers", "stpDeleteProductSuppliers", valueDelete);
             }
         }
         public static void DeleteSupplier(int id)

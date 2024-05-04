@@ -33,8 +33,9 @@ namespace StationeryStoreManagementSystem.DL
                      args[2] = CompanyDL.GetCompany((int)args[2]);
                  if (args[4] != null)
                      args[4] = CategoryDL.GetCategory((int)args[4]);
-                args.Add(SupplierDL.GetProductSuppliers((int)args[0]));
-                Product product =  new Product(args);
+                args.Add(SupplierDL.GetProductSuppliers(id));
+                Product product = new Product(args);
+                ;
                 reader = Utils.ReadData(@"SELECT s1.SupplierId,s1.Stock,p1.Price,p1.RetailPrice,p1.DiscountAmount
                                                     FROM (SELECT SupplierId,ProductId,SUM(Stock) Stock
                                                     FROM SupplierStock
@@ -90,10 +91,9 @@ namespace StationeryStoreManagementSystem.DL
             }
             return products.Cast<Product>().ToList();
         }
-        public static List<Product> GetSupplierProducts(int SupplierId)
+        public static List<Product> GetSupplierProducts(int supplierId,bool populateStock = true)
         {
             List<object> products = new List<object>();
-            Supplier supplier = SupplierDL.GetSupplier(SupplierId);
             SqlDataReader reader = Utils.ReadData(@"SELECT ProductId
                                                     	  ,Product.Name
                                                     	  ,Product.CompanyId
@@ -102,7 +102,7 @@ namespace StationeryStoreManagementSystem.DL
                                                     FROM ProductSupplier
                                                     JOIN Product
                                                     ON Product.Id=ProductSupplier.ProductId
-                                                    WHERE ProductSupplier.isDeleted=0 AND SupplierId=" + SupplierId.ToString());
+                                                    WHERE ProductSupplier.isDeleted=0 AND SupplierId=" + supplierId.ToString());
             List<object> args;
             do
             {
@@ -111,6 +111,9 @@ namespace StationeryStoreManagementSystem.DL
                     products.Add(args);
             }
             while (args!=null && args.Count != 0);
+            Supplier supplier = null;
+            if (populateStock==true)
+                 supplier = SupplierDL.GetSupplier(supplierId);
             for(int i=0;i<products.Count;i++)
             {
                 var row = (List<object>)products[i];
@@ -120,7 +123,8 @@ namespace StationeryStoreManagementSystem.DL
                     row[4] = CategoryDL.GetCategory((int)row[4]);
                 row.Add(new List<Supplier>());
                 products[i] = new Product(row);
-                ((Product)products[i]).Stocks.Add(new Stock(supplier, (Product)products[i], 0, 0, 0, 0));
+                if(populateStock==true)
+                    ((Product)products[i]).Stocks.Add(new Stock(supplier, (Product)products[i], 0, 0, 0, 0));
             }
             return products.Cast<Product>().ToList();
         }
