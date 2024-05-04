@@ -31,7 +31,7 @@ namespace StationeryStoreManagementSystem.UI
             stock = product.Stocks.Where(x => x.Supplier.Id == supplierId).FirstOrDefault();
             if (stock == null)
             {
-                stock = new Stock(new Supplier() { Name = supplierName }, product, 0, 0, 0, 0);
+                stock = new Stock(new Supplier() {Id = supplierId, Name = supplierName }, 0, 0, 0, 0);
                 isEdit = false;
             }
             else

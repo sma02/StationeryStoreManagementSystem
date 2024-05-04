@@ -115,6 +115,7 @@ namespace StationeryStoreManagementSystem.UI
                 suppliers.Add(new Supplier((int)row.ItemArray[0]));
             }
             product.Suppliers = suppliers;
+            product.Stocks = product.Stocks.Where(x=>suppliers.Select(y=>y.Id).Contains(x.Supplier.Id)).ToList();
             product.Save(!isEdit);
             NavigateCallingForm();
         }

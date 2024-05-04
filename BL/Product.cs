@@ -58,8 +58,7 @@ namespace StationeryStoreManagementSystem.BL
             ReorderThreshold = (int)args[3];
             Category = (Category)args[4];
             Suppliers = ((List<Supplier>)args[5]);
-            ((List<Stock>)args[6]).Select(x => x.Product = this);
-            Stocks = (List<Stock>)args[6];
+            Stocks = ((List<Stock>)args[6]).Select(x=>new Stock(x)).ToList();
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }

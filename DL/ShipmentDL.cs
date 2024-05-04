@@ -31,7 +31,7 @@ namespace StationeryStoreManagementSystem.DL
             Supplier supplier = SupplierDL.GetSupplier(SupplierId);
             for(int i=0;i<ids.Count;i++)
             {
-                products[i].Stocks.Add(new Stock(supplier, products[i], 0, 0, 0, ids[i].Item2));
+                products[i].Stocks.Add(new Stock(supplier, 0, 0, 0, ids[i].Item2));
             }
             return (SupplierId, products);
         }
