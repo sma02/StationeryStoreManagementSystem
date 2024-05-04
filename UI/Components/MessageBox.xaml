@@ -18,12 +18,12 @@
             <TextBlock x:Name="messageblock" Grid.Row="1" FontSize="18" Text="message goeshere" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <Border Grid.Row="2" Background="{DynamicResource CheckBoxFillPathDisabled}">
                 <StackPanel>
-                    <StackPanel x:Name="yesno" Visibility="Hidden" Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <StackPanel x:Name="yesno" Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Button Content="Yes" Width="100" Height="30" Margin="10" Click="Button_Click"/>
                         <Button Content="No" Width="100" Height="30" Margin="10" Click="Button_Click_1"/>
                     </StackPanel>
-                    <StackPanel x:Name="confirmation" Visibility="Hidden" Orientation="Horizontal" HorizontalAlignment="Center" >
-                        <Button Content="Ok" Width="100" Height="30" Click="Button_Click_2"/>
+                    <StackPanel x:Name="confirmation" Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button Content="Ok" Width="100" Height="30" Margin="10" Click="Button_Click_2"/>
                     </StackPanel>
                 </StackPanel>
             </Border>

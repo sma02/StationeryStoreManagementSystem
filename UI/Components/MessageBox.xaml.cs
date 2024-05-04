@@ -47,6 +47,10 @@ namespace StationeryStoreManagementSystem.UI.Components
             {
                 messageBox.yesno.Visibility = Visibility.Visible;
             }
+            else if(type==Type.Message)
+            {
+                messageBox.confirmation.Visibility = Visibility.Visible;
+            }
             while (messageBox.Result == MessageBoxResult.None)
             {
                 if (messageBox.Dispatcher.HasShutdownStarted ||

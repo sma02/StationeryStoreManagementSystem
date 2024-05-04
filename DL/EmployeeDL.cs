@@ -43,11 +43,11 @@ namespace StationeryStoreManagementSystem.DL
 
                 if (role == "Admin")
                 {
-                    e = (Admin)DataHandler.ConstructObject(reader, typeof(Admin));
+                    e = (Admin)DataHandler.ConstructObject(reader, typeof(Admin),false);
                 }
                 else
                 {
-                    e = (Cashier)DataHandler.ConstructObject(reader, typeof(Cashier));
+                    e = (Cashier)DataHandler.ConstructObject(reader, typeof(Cashier),false);
                 }
             }
             return e;

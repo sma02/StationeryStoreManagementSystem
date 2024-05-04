@@ -27,11 +27,11 @@ namespace StationeryStoreManagementSystem.DL
             }
             return objs;
         }
-        public static object ConstructObject(SqlDataReader reader, Type type)
+        public static object ConstructObject(SqlDataReader reader, Type type,bool isRead=true)
         {
             List<object> args;
             object obj;
-            if (reader.Read())
+            if (isRead==false || reader.Read())
             {
                 args = new List<object>();
                 var dbColumns = reader.GetColumnSchema();

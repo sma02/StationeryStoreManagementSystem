@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using StationeryStoreManagementSystem.DL;
 using StationeryStoreManagementSystem.BL;
+using Microsoft.IdentityModel.Tokens;
 
 namespace StationeryStoreManagementSystem.UI
 {
@@ -39,22 +40,24 @@ namespace StationeryStoreManagementSystem.UI
         {
             username = username_tb.Text;
             password = password_tb.Text;
-            int id = IsValid();
+            int? id = IsValid();
 
             if (id != null)
             {
                 ((Border)Parent).Child = null;
-                Utils.CurrentEmployee = EmployeeDL.GetEmployee(id);
+                Utils.CurrentEmployee = EmployeeDL.GetEmployee((int)id);
                 LoginClicked?.Invoke(this, e);
                 
             }
             else
             {
-                MessageBox.Show("Invalid Credentials");
+                UI.Components.MessageBox.Show("Invalid Credentials", "Error", UI.Components.MessageBox.Type.Message);
             }
         }
-        public int IsValid()
+        public int? IsValid()
         {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrEmpty(password))
+                return null;
             Utils.CloseReader();
             var conn = Configuration.getInstance().getConnection();
             string query = "EXEC CheckCredentials @Username, @Password, @UserId OUTPUT";
@@ -63,6 +66,8 @@ namespace StationeryStoreManagementSystem.UI
             command.Parameters.AddWithValue("@Password", password);
             command.Parameters.Add("@UserId", SqlDbType.Int).Direction = ParameterDirection.Output;
             command.ExecuteNonQuery();
+            if(command.Parameters["@UserId"].Value.GetType()==typeof(DBNull))
+                    return null;
             int Id = Convert.ToInt32(command.Parameters["@UserId"].Value);
             return Id;
         }
