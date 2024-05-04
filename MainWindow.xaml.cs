@@ -50,8 +50,8 @@ namespace StationeryStoreManagementSystem
             InitializeComponent();
             Utils.ExecuteQuery("SELECT 1");
             Utils.CurrentMainWindow = this;
-            sideBar.Children.Clear();
-            InitializeLogin();
+            //sideBar.Children.Clear();
+           // InitializeLogin();
         }
         public void changeTheme(bool theme)
         {
@@ -180,8 +180,6 @@ namespace StationeryStoreManagementSystem
 
         private void ManageShipmentsButton_Click(object sender, RoutedEventArgs e)
         {
-            Content.Child = new UI.EditStockForm();
-            return;
             List<(string, string)> bindings = new List<(string, string)>
             {
                 ("Name","Name"),

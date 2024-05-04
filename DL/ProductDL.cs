@@ -48,7 +48,6 @@ namespace StationeryStoreManagementSystem.DL
                 while(reader.Read())
                     {
                         Stock stock = new Stock(((List<Supplier>)args[5]).Where(x => x.Id == reader.GetInt32(0)).FirstOrDefault()
-                                               , null
                                                , reader.GetSqlMoney(2).ToDouble()
                                                , reader.GetSqlMoney(3).ToDouble()
                                                , reader.GetSqlMoney(4).ToDouble()
@@ -125,7 +124,7 @@ namespace StationeryStoreManagementSystem.DL
                 row.Add(new List<Supplier>());
                 products[i] = new Product(row);
                 if(populateStock==true)
-                    ((Product)products[i]).Stocks.Add(new Stock(supplier, (Product)products[i], 0, 0, 0, 0));
+                    ((Product)products[i]).Stocks.Add(new Stock(supplier, 0, 0, 0, 0));
             }
             return products.Cast<Product>().ToList();
         }
@@ -147,6 +146,8 @@ namespace StationeryStoreManagementSystem.DL
             else
             {
                 List<object> initialArgs = new List<object>(product.InitialArgs);
+                initialArgs.RemoveAt(5);
+                initialArgs.RemoveAt(4);
                 initialArgs[1] = ((Company)initialArgs[1])?.Id;
                 initialArgs[3] = ((Category)initialArgs[3])?.Id;
                 args.Add(("UpdatedOn", ("CURRENT_TIMESTAMP", true)));
@@ -189,7 +190,30 @@ namespace StationeryStoreManagementSystem.DL
                 });
                 DataHandler.BulkDataExecuteSP("ProductSuppliers", "udtt_ProductSuppliers", "stpDeleteProductSuppliers", valueDelete);
             }
+            SqlMetaData[] sqlMetas3 = new SqlMetaData[]
+            {
+                    new SqlMetaData("ProductId",SqlDbType.Int),
+                    new SqlMetaData("SupplierId",SqlDbType.Int),
+                    new SqlMetaData("Price",SqlDbType.Money),
+                    new SqlMetaData("RetailPrice",SqlDbType.Money),
+                    new SqlMetaData("DiscountAmount",SqlDbType.Money),
+            };
+            List<Stock> oldStocks = ((List<Stock>)product.InitialArgs[5]);
+            var productSupplierPrices = product.Stocks.Where(x => oldStocks.Where(y => y.ToString() == x.ToString()).FirstOrDefault() == null).Select(x =>
+            {
+                SqlDataRecord record = new SqlDataRecord(sqlMetas3);
+                record.SetInt32(0, product.Id);
+                record.SetInt32(1, x.Supplier.Id);
+                record.SetSqlMoney(2, (System.Data.SqlTypes.SqlMoney)x.Price);
+                record.SetSqlMoney(3, (System.Data.SqlTypes.SqlMoney)x.RetailPrice);
+                record.SetSqlMoney(4, (System.Data.SqlTypes.SqlMoney)x.DiscountAmount);
+                return record;
+            });
+            if(productSupplierPrices.Count()>0)
+            {
+                DataHandler.BulkDataExecuteSP("ProductSupplierPrice", "udtt_ProductSupplierPrice", "stpInsertProductSupplierPrice", productSupplierPrices);
             }
+        }
         public static void DeleteProduct(int id)
         {
             DataHandler.DeleteDataSP("stpDeleteProduct", ("Id", id));
