@@ -7,7 +7,7 @@ using StationeryStoreManagementSystem.DL;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    class Admin : Employee
+    public class Admin : Employee
     {
         public Admin(string? firstname = null,
                         string? lastname = null,

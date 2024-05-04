@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    class Product
+    public class Product
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -58,7 +58,8 @@ namespace StationeryStoreManagementSystem.BL
             ReorderThreshold = (int)args[3];
             Category = (Category)args[4];
             Suppliers = ((List<Supplier>)args[5]);
-            Stocks = new List<Stock>();
+            ((List<Stock>)args[6]).Select(x => x.Product = this);
+            Stocks = (List<Stock>)args[6];
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }

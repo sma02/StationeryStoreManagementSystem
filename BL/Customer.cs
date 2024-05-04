@@ -9,7 +9,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    class Customer:AbstractUser
+    public class Customer:AbstractUser
     {
         public double PaymentDues {  get; set; }
         public List<object> InitialArgs;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    class Stock
+    public class Stock
     {
         public Supplier Supplier { get; set; }
         public Product Product { get; set; }

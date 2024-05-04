@@ -9,7 +9,7 @@ using System.Windows.Documents;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    class Employee : AbstractUser
+    public class Employee : AbstractUser
     {
         public string? Username { get; set; }
         public string? Password { get; set; }

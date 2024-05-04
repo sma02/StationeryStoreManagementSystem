@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    class Cashier : Employee
+    public class Cashier:Employee
     {
         public Cashier(string? firstname = null,
                         string? lastname = null,

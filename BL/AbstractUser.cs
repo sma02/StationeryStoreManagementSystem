@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    abstract class AbstractUser
+    public abstract class AbstractUser
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

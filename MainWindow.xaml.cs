@@ -180,6 +180,8 @@ namespace StationeryStoreManagementSystem
 
         private void ManageShipmentsButton_Click(object sender, RoutedEventArgs e)
         {
+            Content.Child = new UI.EditStockForm();
+            return;
             List<(string, string)> bindings = new List<(string, string)>
             {
                 ("Name","Name"),

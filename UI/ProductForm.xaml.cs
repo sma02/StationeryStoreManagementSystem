@@ -23,7 +23,7 @@ namespace StationeryStoreManagementSystem.UI
     /// </summary>
     public partial class ProductForm : AbstractEntryForm
     {
-        private Product product;
+        public Product product;
         private bool isEdit = false;
         public ProductForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
@@ -55,7 +55,8 @@ namespace StationeryStoreManagementSystem.UI
             suppliersDataHandler2.ItemSource = table.DefaultView;
             suppliersDataHandler1.ItemSource = table1.DefaultView;
             suppliersDataHandler2.SelectButtonClicked += SuppliersDataHandler2_SelectButtonClicked;
-            suppliersDataHandler1.DeleteButtonClicked += SuppliersDataHandler1_DeleteButtonClicked; ;
+            suppliersDataHandler1.DeleteButtonClicked += SuppliersDataHandler1_DeleteButtonClicked;
+            suppliersDataHandler1.EditButtonClicked += SuppliersDataHandler1_EditButtonClicked;
             if (id != -1)
             {
                 titleBlock.Text = "Edit Product";
@@ -84,6 +85,12 @@ namespace StationeryStoreManagementSystem.UI
                 product = new Product();
 
             DataContext = product;
+        }
+
+        private void SuppliersDataHandler1_EditButtonClicked(DataGrid dataGrid, int selectedIndex)
+        {
+            object[] itemarray = ((DataRowView)dataGrid.SelectedItem).Row.ItemArray;
+            ((Border)Parent).Child = new ProductSupplierPriceForm(this, product, (int)itemarray[0], (string)itemarray[1]);
         }
 
         private void SuppliersDataHandler1_DeleteButtonClicked(DataGrid dataGrid, int selectedIndex)

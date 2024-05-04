@@ -34,8 +34,6 @@ namespace StationeryStoreManagementSystem.DL
                  if (args[4] != null)
                      args[4] = CategoryDL.GetCategory((int)args[4]);
                 args.Add(SupplierDL.GetProductSuppliers(id));
-                Product product = new Product(args);
-                ;
                 reader = Utils.ReadData(@"SELECT s1.SupplierId,s1.Stock,p1.Price,p1.RetailPrice,p1.DiscountAmount
                                                     FROM (SELECT SupplierId,ProductId,SUM(Stock) Stock
                                                     FROM SupplierStock
@@ -46,16 +44,19 @@ namespace StationeryStoreManagementSystem.DL
                                                     	                FROM PriceLog p2
                                                     	                WHERE p1.SupplierId=p2.SupplierId)
                                                     AND p1.ProductId=" + id.ToString());
-                    while(reader.Read())
+                List<Stock> stocks = new List<Stock>();    
+                while(reader.Read())
                     {
-                        Stock stock = new Stock(product.Suppliers.Where(x => x.Id == reader.GetInt32(0)).FirstOrDefault()
-                                               , product
+                        Stock stock = new Stock(((List<Supplier>)args[5]).Where(x => x.Id == reader.GetInt32(0)).FirstOrDefault()
+                                               , null
                                                , reader.GetSqlMoney(2).ToDouble()
                                                , reader.GetSqlMoney(3).ToDouble()
                                                , reader.GetSqlMoney(4).ToDouble()
                                                , reader.GetInt32(1));
-                        product.Stocks.Add(stock);
+                    stocks.Add(stock);
                     }
+                args.Add(stocks);
+                Product product = new Product(args);
                 return product;
              }
              else
