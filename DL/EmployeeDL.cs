@@ -52,7 +52,7 @@ namespace StationeryStoreManagementSystem.DL
             }
             return e;
         }
-        public static List<Cashier> GetEmployees()
+        public static List<Cashier> GetCashiers()
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT U.Id, U.FirstName, U.LastName, G.Value AS Gender, U.CNIC, U.DateOfBirth, U.Contact, UA.Email, L.Value City, U.Town, U.StreetAddress, U.PostalCode, ES.Salary
                                                     FROM UserAccount UA
@@ -67,7 +67,8 @@ namespace StationeryStoreManagementSystem.DL
                                                     JOIN EmployeeSalary ES ON ES.EmployeeId = ME.EmployeeId AND ES.AddedOn = ME.MaxCreatedOn
                                                     JOIN Lookup RL ON E.Role = RL.Id
                                                     JOIN Lookup SL ON E.Status = SL.Id
-                                                    JOIN Lookup G ON U.Gender = G.Id");
+                                                    JOIN Lookup G ON U.Gender = G.Id
+                                                    WHERE RL.Value = 'Cashier'");
             return DataHandler.ConstructObjects(reader, typeof(Cashier)).Cast<Cashier>().ToList();
         }
         public static void SaveEmployee(Employee E, bool IsAdd)

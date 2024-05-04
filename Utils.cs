@@ -9,14 +9,15 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
+using StationeryStoreManagementSystem.DL;
 namespace StationeryStoreManagementSystem
 {
     static class Utils
     {
         private static SqlDataReader reader;
         public static MainWindow? CurrentMainWindow { get; set; }
-        public static Employee? CurrentEmployee { get; set; }
+        public static Employee? CurrentEmployee = EmployeeDL.GetEmployee(24);
+        //{ get; set; }
         public static object NormalizeForQuery(object value)
         {
             if (value == null)

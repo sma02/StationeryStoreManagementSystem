@@ -22,16 +22,30 @@ namespace StationeryStoreManagementSystem.UI
     /// </summary>
     public partial class NotificationForm : AbstractEntryForm
     {
+        private Notification notification = new Notification();
         public NotificationForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
             InitializeComponent();
-            List<Cashier> employees = EmployeeDL.GetEmployees();
-            employees.Insert(0, new Cashier {FirstName = "All",LastName="Employees"});
+            List<Cashier> employees = EmployeeDL.GetCashiers();
             EmployeeField.ItemSource = employees;
             EmployeeField.DisplayPathName = "Name";
+            DataContext = notification;
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            if (EmployeeField.SelectedItem == null)
+            {
+                List<Cashier> employees = EmployeeDL.GetCashiers();
+                foreach (Cashier employee in employees)
+                {
+                    notification.Receiver = employee;
+                    notification.Save(true);
+                }
+            }
+            else
+            {
+                notification.Save(true);
+            }
             NavigateCallingForm();
         }
 

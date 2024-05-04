@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace StationeryStoreManagementSystem.BL
 {
-    public class Notification
+    class Notification
     {
         public int Id { get; set; }
         public string? Content { get; set; }
-        public Employee? Sender { get; set; }
+        public Employee? Sender = Utils.CurrentEmployee;
         public Employee? Receiver { get; set; }
+        public string? Timestamp { get; set; }
 
         public List<object> InitialArgs;
-        public Notification(string? Content = null, Employee? sender = null, Employee? receiver = null)
+        public Notification(string? Content = null, Employee? receiver = null)
         {
             this.Content = Content;
-            this.Sender = sender;
             this.Receiver = receiver;
         }
         public Notification(List<object> args)
@@ -27,6 +27,7 @@ namespace StationeryStoreManagementSystem.BL
             Content = (string)args[1];
             Sender = (Employee)args[2];
             Receiver = (Employee)args[3];
+            Timestamp = (string?)args[4].ToString();
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }

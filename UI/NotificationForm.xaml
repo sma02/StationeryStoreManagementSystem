@@ -26,8 +26,8 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Controls:ComboBoxEntry Grid.Row="0" Grid.Column="0" SelectedItem="{Binding Employee}" x:Name="EmployeeField" LabelText="Recipient"/>
-            <Controls:TextEntry Grid.Row="1" Grid.ColumnSpan="2" x:Name="ContentField" LabelText="Content" TextWrapping="Wrap" AcceptsReturn="True"/>
+            <Controls:ComboBoxEntry Grid.Row="0" Grid.Column="0" x:Name="EmployeeField" SelectedItem="{Binding Receiver}" LabelText="Recipient"/>
+            <Controls:TextEntry Grid.Row="1" Grid.ColumnSpan="2" x:Name="ContentField" Text="{Binding Content}" LabelText="Content" TextWrapping="Wrap" AcceptsReturn="True"/>
         </Grid>
 
         <Grid Grid.Row="2">

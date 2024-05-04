@@ -50,8 +50,8 @@ namespace StationeryStoreManagementSystem
             InitializeComponent();
             Utils.ExecuteQuery("SELECT 1");
             Utils.CurrentMainWindow = this;
-            sideBar.Children.Clear();
-            InitializeLogin();
+            
+            //InitializeLogin();
         }
         public void changeTheme(bool theme)
         {
@@ -241,6 +241,7 @@ namespace StationeryStoreManagementSystem
         
         private void InitializeLogin()
         {
+            sideBar.Children.Clear();
             sideBar.Visibility = Visibility.Collapsed;
             Login login = new Login();
             Content.Child = login;
