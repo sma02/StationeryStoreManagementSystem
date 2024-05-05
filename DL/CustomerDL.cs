@@ -16,6 +16,11 @@ namespace StationeryStoreManagementSystem.DL
             List<object> list = new List<object>();
             return DataHandler.FillDataTable(@"Select * from GetCustomers_View");
         }
+        public static DataTable GetRepaymentsView()
+        {
+            List<object> list = new List<object>();
+            return DataHandler.FillDataTable(@"Select * from GetRepayments_View");
+        }
 
         public static Customer GetCustomer(int id)
         {

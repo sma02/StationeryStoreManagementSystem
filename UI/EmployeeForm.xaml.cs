@@ -25,7 +25,7 @@ namespace StationeryStoreManagementSystem.UI
     /// </summary>
     public partial class EmployeeForm : AbstractEntryForm
     {
-        private Cashier cashier;
+        private Employee E;
         public EmployeeForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
             InitializeComponent();
@@ -41,29 +41,46 @@ namespace StationeryStoreManagementSystem.UI
                 cell2.Visibility = Visibility.Collapsed;
                 ConfirmButton.Content = "Update";
                 titleBlock.Title = "Edit Employee";
-                cashier = (Cashier)EmployeeDL.GetEmployee(id);
-                gender_cb.SelectedItem = ((Dictionary<int, string>)gender_cb.ItemSource).Where(x => x.Value == cashier.Gender).FirstOrDefault();
-                role_cb.SelectedItem = DataHandler.LookupData("Role").Where(x => x.Value == cashier.DetermineRole(cashier)).FirstOrDefault();
+                Employee em = EmployeeDL.GetEmployee(id);
+                if (em is Admin)
+                {
+                    E = (Admin)em;
+                }
+                else
+                {
+                    E = (Cashier)em;
+                }
+                gender_cb.SelectedItem = ((Dictionary<int, string>)gender_cb.ItemSource).Where(x => x.Value == E.Gender).FirstOrDefault();
+                role_cb.SelectedItem = DataHandler.LookupData("Role").Where(x => x.Value == E.DetermineRole(E)).FirstOrDefault();
             }
             else
             {
                 ResetButton.Visibility = Visibility.Collapsed;
                 ConfirmButton.Content = "Add";
                 titleBlock.Title = "Add Employee";
-                cashier = new Cashier();
+                E = new Employee();
             }
-            cashier.Id = id;
-            DataContext = cashier;
+            E.Id = id;
+            DataContext = E;
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            if (cashier.Id != -1)
+            if (E.Id != -1)
             {
-                cashier.Save(false);
+                E.Save(false);
             }
             else
             {
-                cashier.Save(true);
+                var role = role_cb.SelectedItem as KeyValuePair<int, string>?;
+                if (role.Value.Value == "Admin")
+                {
+                    E = new Admin();
+                }
+                else
+                {
+                    E = new Cashier();
+                }
+                E.Save(true);
             }
             NavigateCallingForm();
         }
@@ -78,7 +95,7 @@ namespace StationeryStoreManagementSystem.UI
             var conn = Configuration.getInstance().getConnection();
             string query = "EXEC ResetPassword @UserId, @NewPassword OUTPUT";
             SqlCommand command = new SqlCommand(query, conn);
-            command.Parameters.AddWithValue("@UserId", cashier.Id);
+            command.Parameters.AddWithValue("@UserId", E.Id);
             command.Parameters.Add("@NewPassword", SqlDbType.NVarChar, 5).Direction = ParameterDirection.Output;
             command.ExecuteNonQuery();
             string newPassword = command.Parameters["@NewPassword"].Value.ToString();

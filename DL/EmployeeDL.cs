@@ -74,8 +74,8 @@ namespace StationeryStoreManagementSystem.DL
         public static void SaveEmployee(Employee E, bool IsAdd)
         {
             int role = DataHandler.LookupData("Role").Where(x => x.Value == E.DetermineRole(E)).Select(X => X.Key).FirstOrDefault();
-            int gender = DataHandler.LookupData("Gender").Where(x => x.Value == E.Gender).Select(X => X.Key).FirstOrDefault();
-            int cityId = DataHandler.LookupData("CityPakistan").Where(x => x.Value == E.City).Select(X => X.Key).FirstOrDefault();
+            int? gender = E.Gender == null ? null : DataHandler.LookupData("Gender").Where(x => x.Value == E.Gender).Select(X => X.Key).First();
+            int? cityId = E.City == null ? null : DataHandler.LookupData("CityPakistan").Where(x => x.Value == E.City).Select(X => X.Key).First();
             List<(string, object)> args = new List<(string, object)>
             {
                 (nameof(E.FirstName), E.FirstName),

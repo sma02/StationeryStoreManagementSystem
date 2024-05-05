@@ -50,7 +50,7 @@ namespace StationeryStoreManagementSystem
             Utils.ExecuteQuery("SELECT 1");
             Utils.CurrentMainWindow = this;
             GlobalSettings.LoadSettings();
-            InitializeLogin();
+            //InitializeLogin();
         }
         private void ManageSuppliersButton_Click(object sender, RoutedEventArgs e)
         {
@@ -230,7 +230,28 @@ namespace StationeryStoreManagementSystem
                                                 typeof(ViewNotification));
 
         }
-        
+        private void ManageRepaymentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<(string, string)> bindings = new List<(string, string)>
+            {
+                ("Customer Name","Customer Name"),
+                ("CNIC","CNIC"),
+                ("Contact","Contact"),
+                ("Gender", "Gender"),
+                ("Registered On","Registered On"),
+                ("Total Pending","Total Pending")
+            };
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
+            Content.Child = new UI.ManageEntity("Accounts",
+                                                "PaymentDues",
+                                                CustomerDL.GetRepaymentsView,
+                                                bindings,
+                                                new List<string> { "Customer Name" },
+                                                typeof(RepaymentForm),
+                                                false,
+                                                true);
+        }
         private void InitializeLogin()
         {
             sideBar.Children.Clear();
