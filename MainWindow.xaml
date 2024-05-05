@@ -7,7 +7,7 @@
         xmlns:UserControl="clr-namespace:StationeryStoreManagementSystem.UI"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Stationery Store Management System" Height="600" Width="1000"
+        Title="Stationery Store Management System" Height="650" Width="1000"
         Style="{DynamicResource WindowStyle}">
     <Grid>
         <Grid>
@@ -17,7 +17,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel x:Name="sideBar" Grid.Column="0" Width="auto" Orientation="Vertical">
-            <Button Margin="5 60 5 0" Height="40" Click="Button_Click">Change Theme</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="ProcessOrderButton_Click">Process Order</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageSuppliersButton_Click">Manage Suppliers</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageCompaniesButton_Click">Manage Companies</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageCategoriesButton_Click">Manage Categories</Button>
@@ -26,6 +26,7 @@
             <Button Margin="5 10 5 0" Height="40" Click="ManageShipmentsButton_Click">Manage Shipments</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageCustomersButton_Click">Manage Customers</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageNotificationsButton_Click">Manage Notifications</Button>
+            <Button Margin="5 10 5 0" Height="40" Click="SettingsButton_Click">Settings</Button>
         </StackPanel>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
         <Border x:Name="Content" Grid.Column="2"/>

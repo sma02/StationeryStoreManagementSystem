@@ -43,6 +43,8 @@ namespace StationeryStoreManagementSystem.UI
                 ("City","City"),
                 ("Country","Country"),
                 ("Postal Code","PostalCode")};
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
             List<string> searchAttributes = new List<string>() { "Name" };
             suppliersDataHandler2.SearchAttributes = searchAttributes;
             suppliersDataHandler1.IsDelete = true;

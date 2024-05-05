@@ -25,7 +25,6 @@ namespace StationeryStoreManagementSystem
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool currentTheme = true;
         private List<Button> AdminBtns = new List<Button>()
         {
             new Button() { Content = "Manage Suppliers" },
@@ -50,30 +49,11 @@ namespace StationeryStoreManagementSystem
             InitializeComponent();
             Utils.ExecuteQuery("SELECT 1");
             Utils.CurrentMainWindow = this;
-            
-            //InitializeLogin();
+            GlobalSettings.LoadSettings();
+            InitializeLogin();
         }
-        public void changeTheme(bool theme)
-        {
-            Collection<ResourceDictionary> dictionary = Resources.MergedDictionaries;
-            dictionary.Clear();
-            string path;
-            if (theme == true)
-                path = "/UI/Themes/DarkTheme.xaml";
-            else
-                path = "/UI/Themes/LightTheme.xaml";
-            dictionary.Add(new ResourceDictionary() { Source = new Uri(path, UriKind.RelativeOrAbsolute) });
-            currentTheme = theme;
-
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            changeTheme(!currentTheme);
-        }
-
         private void ManageSuppliersButton_Click(object sender, RoutedEventArgs e)
         {
-            // Content.Child = new UI.ManageSuppliers();
             List<(string, string)> bindings = new List<(string, string)>
             {
                 ("Name","Name"),
@@ -85,6 +65,8 @@ namespace StationeryStoreManagementSystem
                 ("Country","Country"),
                 ("Postal Code","PostalCode")
              };
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
             Content.Child = new UI.ManageEntity("Manage Suppliers",
                                                 typeof(Supplier).Name,
                                                 SupplierDL.GetSuppliersView,
@@ -103,6 +85,8 @@ namespace StationeryStoreManagementSystem
             {
                 ("Company Name","Name")
              };
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
             Content.Child = new UI.ManageEntity("Manage Companies",
                                                 typeof(Company).Name,
                                                 CompanyDL.GetCompanies_View,
@@ -121,6 +105,8 @@ namespace StationeryStoreManagementSystem
                 ("Name","Name"),
                 ("GST", "GST")
              };
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
             Content.Child = new UI.ManageEntity("Manage Categories",
                                                 typeof(Category).Name,
                                                 CategoryDL.GetCategories_View,
@@ -143,6 +129,8 @@ namespace StationeryStoreManagementSystem
                 ("Role","Role"),
                 ("Gender","Gender")
             };
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
             Content.Child = new UI.ManageEntity("Manage Employees",
                                                 typeof(Employee).Name,
                                                 EmployeeDL.GetEmployeessView,
@@ -167,6 +155,8 @@ namespace StationeryStoreManagementSystem
                 ("No. Suppliers","[No. Suppliers]"),
                 ("Q.ty","Stock")
              };
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
             Content.Child = new UI.ManageEntity("Manage Products",
                                                 typeof(Product).Name,
                                                 ProductDL.GetProducts_View,
@@ -206,6 +196,8 @@ namespace StationeryStoreManagementSystem
                 ("Contact","Contact"),
                 ("Gender","Gender")
             };
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
             Content.Child = new UI.ManageEntity("Manage Customers",
                                                 typeof(Customer).Name,
                                                 CustomerDL.GetCustomersView,
@@ -224,6 +216,8 @@ namespace StationeryStoreManagementSystem
                 ("IsViewed","IsViewed"),
                 ("Notification","Notification")
             };
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
             Content.Child = new UI.ManageEntity("Manage Notifications",
                                                 typeof(Notification).Name,
                                                 NotificationDL.GetNotifications_View,
@@ -297,6 +291,16 @@ namespace StationeryStoreManagementSystem
                     ManageNotificationsButton_Click(sender, e);
                     break;
             }
+        }
+
+        private void ProcessOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            Content.Child = new ProcessOrder();
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Content.Child = new Settings();
         }
     }
 }

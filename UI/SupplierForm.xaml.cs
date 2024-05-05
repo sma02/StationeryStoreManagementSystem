@@ -36,6 +36,8 @@ namespace StationeryStoreManagementSystem.UI
                 ("Category","Category"),
                 ("Price","Price")
             };
+            if (GlobalSettings.DisplayIds == true)
+                bindings.Insert(0, ("Id", "Id"));
             productsDataHandler2.SearchAttributes = new List<string>() { "Name" };
             productsDataHandler1.IsDelete = true;
             productsDataHandler2.IsSelect = true;
