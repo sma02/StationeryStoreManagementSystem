@@ -22,9 +22,6 @@ namespace StationeryStoreManagementSystem.BL
         public string? StreetAddress { get; set; }
         public string? PostalCode { get; set; }
 
-        public void Save(bool isAdd = false)
-        {
-            
-        }
+        public abstract void Save(bool isAdd = false);
     }
 }

@@ -72,6 +72,10 @@ namespace StationeryStoreManagementSystem.BL
                 return "Admin";
             }
         }
+        public override void Save(bool isAdd = false)
+        {
+
+        }
     }
 }
 

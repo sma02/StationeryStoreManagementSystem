@@ -26,6 +26,25 @@ namespace StationeryStoreManagementSystem.BL
         {
 
         }
+        public Admin(Employee E)
+        {
+            Id = E.Id;
+            Username = E.Username;
+            Password = E.Password;
+            FirstName = E.FirstName;
+            LastName = E.LastName;
+            Gender = E.Gender;
+            CNIC = E.CNIC;
+            DateOfBirth = E.DateOfBirth;
+            Contact = E.Contact;
+            Email = E.Email;
+            City = E.City;
+            Town = E.Town;
+            StreetAddress = E.StreetAddress;
+            PostalCode = E.PostalCode;
+            Salary = E.Salary;
+            InitialArgs = E.InitialArgs;
+        }
         public Admin(List<object> args)
         {
             Id = (int)args[0];
@@ -44,7 +63,7 @@ namespace StationeryStoreManagementSystem.BL
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }
-        public void Save(bool isAdd = false)
+        public override void Save(bool isAdd = false)
         {
             EmployeeDL.SaveEmployee(this, isAdd);
         }

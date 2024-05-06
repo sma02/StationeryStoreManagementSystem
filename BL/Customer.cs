@@ -50,10 +50,11 @@ namespace StationeryStoreManagementSystem.BL
             Town = (string?)args[8];
             StreetAddress = (string?)args[9];
             PostalCode = (string?)args[10];
+            PaymentDues = args[11] == null ? 0 : Convert.ToDouble(args[11].ToString());
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }
-        public void Save(bool isAdd = false)
+        public override void Save(bool isAdd = false)
         {
             CustomerDL.SaveCustomer(this, isAdd);
         }

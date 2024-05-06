@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StationeryStoreManagementSystem.BL;
+using StationeryStoreManagementSystem.DL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,48 @@ namespace StationeryStoreManagementSystem.UI
     /// </summary>
     public partial class RepaymentForm : AbstractEntryForm
     {
+        private Customer C;
         public RepaymentForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
             InitializeComponent();
+            C = CustomerDL.GetCustomer(id);
+            if (C != null)
+            {
+                DuesLabel.TextData = Math.Abs((C.PaymentDues)).ToString();
+                List<(string, string)> bindings = new List<(string, string)> {
+                ("Timestamp","Timestamp"),
+                ("Amount","Amount"),
+                ("Type","Type")};
+                logdatagrid.SetBindings(bindings);
+                logdatagrid.ItemSource = CustomerDL.GetCustomerRepaymentsView(id).DefaultView;
+            }
+            DataContext = C;
+        }
+
+
+        private void RepayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (C.PaymentDues < 0)
+            {
+                List<(string, object)> args = new List<(string, object)>
+                {
+                    ("CustomerId", C.Id),
+                    ("Amount" , Convert.ToDouble(RepaymentAmount.Text))
+                };
+                DataHandler.InsertDataSP(args, "stpInsertPaymentDues");
+                C.PaymentDues+= Convert.ToDouble(RepaymentAmount.Text);
+                DuesLabel.TextData = Math.Abs((C.PaymentDues)).ToString();
+                logdatagrid.Refresh(CustomerDL.GetCustomerRepaymentsView(C.Id));
+                RepaymentAmount.Text = "";
+            }
+            else
+            {
+                UI.Components.MessageBox.Show("No! Pending Dues", "Error", UI.Components.MessageBox.Type.Message);
+            }
+        }
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateCallingForm();
         }
     }
 }

@@ -38,14 +38,14 @@ namespace StationeryStoreManagementSystem.DL
         }
         public static void SaveNotification(Notification N, bool isAdd = false)
         {
-            List<(string, object)> args = new List<(string, object)>
-            {
-                ("UserId", N.Receiver.Id),
-                ("Content", N.Content),
-                ("AddedBy", N.Sender.Id)
-            };
             if (isAdd == true)
             {
+                List<(string, object)> args = new List<(string, object)>
+                {
+                    ("UserId", N.Receiver.Id),
+                    ("Content", N.Content),
+                    ("AddedBy", N.Sender.Id)
+                };
                 DataHandler.InsertDataSP(args, "stpInsertNotification");
             }
             else

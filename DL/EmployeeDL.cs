@@ -95,7 +95,7 @@ namespace StationeryStoreManagementSystem.DL
                 args.Add((nameof(E.Email), E.Email));
                 args.Add((nameof(E.Password), E.Password));
                 args.Add(("Role", role));
-                args.Add((nameof(E.Salary), E.Salary));
+                 args.Add((nameof(E.Salary), E.Salary));
                 DataHandler.InsertDataSP(args, "stpInsertEmployee");
             }
             else

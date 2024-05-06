@@ -74,11 +74,11 @@ namespace StationeryStoreManagementSystem.UI
                 var role = role_cb.SelectedItem as KeyValuePair<int, string>?;
                 if (role.Value.Value == "Admin")
                 {
-                    E = new Admin();
+                    E = new Admin(E);
                 }
                 else
                 {
-                    E = new Cashier();
+                    E = new Cashier(E);
                 }
                 E.Save(true);
             }
