@@ -1,6 +1,7 @@
 ﻿using StationeryStoreManagementSystem.BL;
 using StationeryStoreManagementSystem.DL;
 using StationeryStoreManagementSystem.UI;
+using StationeryStoreManagementSystem.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,23 +26,28 @@ namespace StationeryStoreManagementSystem
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Button> AdminBtns = new List<Button>()
+        private List<SideButton> AdminBtns = new List<SideButton>()
         {
-            new Button() { Content = "Manage Suppliers" },
-            new Button() { Content = "Manage Companies" },
-            new Button() { Content = "Manage Categories" },
-            new Button() { Content = "Manage Employees" },
-            new Button() { Content = "Manage Products" },
-            new Button() { Content = "Manage Shipments" },
-            new Button() { Content = "Manage Customers" },
-            new Button() { Content = "Manage Notifications" }
+            new SideButton() { Content = "Dashboard"},
+            new SideButton() { Content = "Process Order"},
+            new SideButton() { Content = "Manage Suppliers" },
+            new SideButton() { Content = "Manage Companies" },
+            new SideButton() { Content = "Manage Categories" },
+            new SideButton() { Content = "Manage Employees" },
+            new SideButton() { Content = "Manage Products" },
+            new SideButton() { Content = "Manage Shipments" },
+            new SideButton() { Content = "Manage Customers" },
+            new SideButton() { Content = "Manage Notifications" },
+            new SideButton() { Content = "Settings"}
         };
-        private List<Button> CashierBtns = new List<Button>()
+        private List<SideButton> CashierBtns = new List<SideButton>()
         {
-            new Button() { Content = "Manage Products" },
-            new Button() { Content = "Manage Shipments" },
-            new Button() { Content = "Manage Customers" },
-            new Button() { Content = "Manage Notifications" }
+            new SideButton() { Content = "Dashboard"},
+            new SideButton() { Content = "Process Order"},
+            new SideButton() { Content = "Manage Products" },
+            new SideButton() { Content = "Manage Shipments" },
+            new SideButton() { Content = "Manage Customers" },
+            new SideButton() { Content = "Settings"}
         };
 
         public MainWindow()
@@ -50,7 +56,8 @@ namespace StationeryStoreManagementSystem
             Utils.ExecuteQuery("SELECT 1");
             Utils.CurrentMainWindow = this;
             GlobalSettings.LoadSettings();
-            //InitializeLogin();
+            Content.Child = new Dashboard();
+            // InitializeLogin();
         }
         private void ManageSuppliersButton_Click(object sender, RoutedEventArgs e)
         {
@@ -256,6 +263,7 @@ namespace StationeryStoreManagementSystem
         {
             sideBar.Children.Clear();
             sideBar.Visibility = Visibility.Collapsed;
+            col1.Width = new GridLength(0, GridUnitType.Star);
             Login login = new Login();
             Content.Child = login;
             login.LoginClicked += SetButtons;
@@ -311,6 +319,15 @@ namespace StationeryStoreManagementSystem
                 case "Manage Notifications":
                     ManageNotificationsButton_Click(sender, e);
                     break;
+                case "Settings":
+                    SettingsButton_Click(sender, e);
+                    break;
+                case "Process Order":
+                    ProcessOrderButton_Click(sender, e);
+                    break;
+                case "Dashboard":
+                    DashboardButton_Click(sender, e);
+                    break;
             }
         }
 
@@ -322,6 +339,11 @@ namespace StationeryStoreManagementSystem
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             Content.Child = new Settings();
+        }
+
+        private void DashboardButton_Click(object sender, RoutedEventArgs e)
+        {
+            Content.Child = new Dashboard();
         }
     }
 }

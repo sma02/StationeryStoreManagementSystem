@@ -44,6 +44,7 @@ namespace StationeryStoreManagementSystem.UI
 
             if (id != null)
             {
+                ((MainWindow)((Grid)((Grid)((Border)Parent).Parent).Parent).Parent).col1.Width = new GridLength(200, GridUnitType.Pixel);
                 ((Border)Parent).Child = null;
                 Utils.CurrentEmployee = EmployeeDL.GetEmployee((int)id);
                 LoginClicked?.Invoke(this, e);

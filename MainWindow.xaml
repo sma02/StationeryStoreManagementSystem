@@ -12,11 +12,12 @@
     <Grid>
         <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="10px"/>
+            <ColumnDefinition Width="200" x:Name="col1"/>
+                <ColumnDefinition Width="10px" x:Name="col2"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel x:Name="sideBar" Grid.Column="0" Width="auto" Orientation="Vertical">
+            <Button Margin="5 10 5 0" Height="40" Click="DashboardButton_Click">Dashboard</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ProcessOrderButton_Click">Process Order</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageSuppliersButton_Click">Manage Suppliers</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageCompaniesButton_Click">Manage Companies</Button>
@@ -28,8 +29,9 @@
             <Button Margin="5 10 5 0" Height="40" Click="ManageNotificationsButton_Click">Manage Notifications</Button>
             <Button Margin="5 10 5 0" Height="40" Click="ManageRepaymentsButton_Click">Manage Repayments</Button>
             <Button Margin="5 10 5 0" Height="40" Click="SettingsButton_Click">Settings</Button>
+
         </StackPanel>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" x:Name="gridSplitter"/>
         <Border x:Name="Content" Grid.Column="2"/>
         </Grid>
         <Border x:Name="overlay" Background="#59000000" BorderThickness="0" Visibility="Hidden">

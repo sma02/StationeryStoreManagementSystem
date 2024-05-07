@@ -45,16 +45,21 @@ namespace StationeryStoreManagementSystem.UI
         {
             if (C.PaymentDues < 0)
             {
-                List<(string, object)> args = new List<(string, object)>
+                if ((-C.PaymentDues) >= Convert.ToDouble(RepaymentAmount.Text))
                 {
-                    ("CustomerId", C.Id),
-                    ("Amount" , Convert.ToDouble(RepaymentAmount.Text))
-                };
-                DataHandler.InsertDataSP(args, "stpInsertPaymentDues");
-                C.PaymentDues+= Convert.ToDouble(RepaymentAmount.Text);
-                DuesLabel.TextData = Math.Abs((C.PaymentDues)).ToString();
-                logdatagrid.Refresh(CustomerDL.GetCustomerRepaymentsView(C.Id));
-                RepaymentAmount.Text = "";
+                    List<(string, object)> args = new List<(string, object)>
+                    {
+                        ("CustomerId", C.Id),
+                        ("Amount" , Convert.ToDouble(RepaymentAmount.Text))
+                    };
+                    DataHandler.InsertDataSP(args, "stpInsertPaymentDues");
+                    C.PaymentDues += Convert.ToDouble(RepaymentAmount.Text);
+                    DuesLabel.TextData = Math.Abs((C.PaymentDues)).ToString();
+                    logdatagrid.Refresh(CustomerDL.GetCustomerRepaymentsView(C.Id));
+                    RepaymentAmount.Text = "";
+                }
+                else
+                    UI.Components.MessageBox.Show("Pending Dues are Lower", "Error", UI.Components.MessageBox.Type.Message);
             }
             else
             {
