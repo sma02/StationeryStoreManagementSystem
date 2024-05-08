@@ -57,8 +57,7 @@ namespace StationeryStoreManagementSystem
             Utils.CurrentMainWindow = this;
             GlobalSettings.LoadSettings();
             Content.Child = new Dashboard();
-            // InitializeLogin();
-           // InitializeLogin();
+            InitializeLogin();
         }
         private void ManageSuppliersButton_Click(object sender, RoutedEventArgs e)
         {
