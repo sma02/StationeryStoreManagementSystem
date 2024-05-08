@@ -63,7 +63,15 @@ namespace StationeryStoreManagementSystem
             SqlCommand command = new SqlCommand(query, conn);
             command.ExecuteNonQuery();
         }
-       
+        public static object ExecuteQueryScalar(string query)
+        {
+            CloseReader();
+            var conn = Configuration.getInstance().getConnection();
+            SqlCommand command = new SqlCommand(query, conn);
+            return command.ExecuteScalar();
+        }
+
+
         public static SqlDataReader ReadData(string query)
         {
             CloseReader();

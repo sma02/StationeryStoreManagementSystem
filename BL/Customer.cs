@@ -44,7 +44,7 @@ namespace StationeryStoreManagementSystem.BL
             LastName = (string?)args[2];
             Gender = (string?)args[3];
             CNIC = (string?)args[4];
-            DateOfBirth = (string?)args[5].ToString();
+            DateOfBirth = (string?)args[5]?.ToString();
             Contact = (string?)args[6];
             City = (string?)args[7];
             Town = (string?)args[8];

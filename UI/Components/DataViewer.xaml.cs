@@ -201,9 +201,14 @@ namespace StationeryStoreManagementSystem.UI.Components
         }
         public void Refresh(DataTable source)
         {
+            if (source == null)
+                return;
             datagrid.ItemsSource = source.DefaultView;
-            string filterString = searchBar.FilterString;
-            ((DataView)datagrid.ItemsSource).RowFilter = filterString;
+            if (source.DataSet != null)
+            {
+                string filterString = searchBar.FilterString;
+                ((DataView)datagrid.ItemsSource).RowFilter = filterString;
+            }
         }
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using StationeryStoreManagementSystem.BL;
 using StationeryStoreManagementSystem.DL;
 using System;
@@ -21,7 +22,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for CategoryForm.xaml
     /// </summary>
-    public partial class CategoryForm : AbstractEntryForm
+    public partial class CategoryForm : AbstractEntryForm, IValidationFields
     {
         private Category C;
         public CategoryForm(ManageEntity callingInstance,int id = -1):base(callingInstance)
@@ -44,17 +45,38 @@ namespace StationeryStoreManagementSystem.UI
             DataContext = C;
         }
 
+        public bool HasValidationErrors()
+        {
+            category_name.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            category_gst.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            return Validation.GetHasError(category_name.TextBoxText)
+                || Validation.GetHasError(category_gst.TextBoxText);
+        }
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            if (C.Id != -1)
+
+            if (HasValidationErrors())
+                return;
+            try
             {
-                C.Save(false);
+                if (C.Id != -1)
+                {
+                    C.Save(false);
+                }
+                else
+                {
+                    C.Save(true);
+                }
+                NavigateCallingForm();
             }
-            else
+            catch(SqlException ex)
             {
-                C.Save(true);
+                if (ex.Number == 2627)
+                {
+                    UI.Components.MessageBox.Show($"Category name \"{C.Name}\" already exists", "Error", UI.Components.MessageBox.Type.Message);
+                }
             }
-            NavigateCallingForm();
         }
 
         private void cancel_btn_Click(object sender, RoutedEventArgs e)

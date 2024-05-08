@@ -21,7 +21,7 @@
                  ItemsSource="{Binding ElementName=ComboBoxEntryControl,Path=ItemSource,Mode=TwoWay}"
                  DisplayMemberPath="{Binding ElementName=ComboBoxEntryControl,Path=DisplayPathName,Mode=TwoWay}"
                  SelectedItem="{Binding ElementName=ComboBoxEntryControl,Path=SelectedItem,Mode=TwoWay}"
-                 SelectedValue="{Binding ElementName=ComboBoxEntryControl,Path=SelectedValue,Mode=TwoWay}"
+                 SelectedValue="{Binding ElementName=ComboBoxEntryControl,Path=SelectedValue,UpdateSourceTrigger=LostFocus,Mode=TwoWay}"
                  SelectedValuePath="{Binding ElementName=ComboBoxEntryControl,Path=SelectedValuePath,Mode=TwoWay}"
                  Margin="10 10 10 10"
                  FontSize="12px"
@@ -29,7 +29,16 @@
                  BorderThickness="1"
                  IsReadOnly="{Binding ReadOnly}"
                  HorizontalAlignment="Stretch" 
-                 Text="{Binding ElementName=ComboBoxEntryControl,Path=Text,Mode=TwoWay}"/>
+                 Text="{Binding ElementName=ComboBoxEntryControl,Path=Text,Mode=TwoWay}">
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <StackPanel>
+                            <AdornedElementPlaceholder/>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="{DynamicResource RequiredFieldForeground}"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </ComboBox>
         </StackPanel>
     </Grid>
 </UserControl>

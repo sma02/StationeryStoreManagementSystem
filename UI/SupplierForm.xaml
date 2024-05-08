@@ -7,14 +7,14 @@
              xmlns:Components="clr-namespace:StationeryStoreManagementSystem.UI.Components"
              xmlns:Controls="clr-namespace:StationeryStoreManagementSystem.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="1300" d:DesignWidth="800">
+             d:DesignHeight="1350" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60px"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Components:TitleBlock Grid.Row="0" x:Name="titleBlock" Title="Add Supplier"/>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <Grid ScrollViewer.CanContentScroll="True">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -26,20 +26,22 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                        <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                     </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Controls:TextEntry Grid.Row="0" Grid.Column="0" Text="{Binding Name}"  LabelText="Name" MaxLength="30"/>
-                <Controls:TextEntry Grid.Row="0" Grid.Column="1" Text="{Binding Contact}" LabelText="Contact Number" MaxLength="30"/>
-                <Controls:TextEntry Grid.Row="1" Grid.Column="0" Text="{Binding Email}" LabelText="Email Address"/>
-                <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedValue="{Binding Country}" SelectedValuePath="Value" x:Name="CountryField" SelectionChanged="CountryField_SelectionChanged" LabelText="Country"/>
-                <Controls:TextEntry Grid.Row="2" Grid.Column="0" Text="{Binding StreetAddress}" LabelText="Street Address" MaxLength="25"/>
-                <Controls:TextEntry Grid.Row="2" Grid.Column="1" Text="{Binding Town}" LabelText="Town" MaxLength="25"/>
-                <Controls:ComboBoxEntry Grid.Row="3" Grid.Column="0" SelectedValue="{Binding City}" SelectedValuePath="Value" x:Name="CityField" LabelText="City"/>
-                    <Controls:TextEntry Grid.Row="3" Grid.Column="1" Text="{Binding PostalCode}" LabelText="Postal Code" MaxLength="6"/>
+                    <Controls:TextEntry IsRequired="True" x:Name="NameField" Grid.Row="0" Grid.Column="0" Text="{Binding Name}"  LabelText="Name" MaxLength="30"/>
+                    <Controls:TextEntry IsRequired="True" x:Name="CodeField" Grid.Row="0" Grid.Column="1" Text="{Binding Code}"  LabelText="Code" MaxLength="3"/>
+                    <Controls:TextEntry IsRequired="True" x:Name="ContactField" Grid.Row="1" Grid.Column="0" Text="{Binding Contact}" LabelText="Contact Number" MaxLength="30"/>
+                <Controls:TextEntry Grid.Row="1" Grid.Column="1" Text="{Binding Email}" LabelText="Email Address"/>
+                <Controls:ComboBoxEntry Grid.Row="2" Grid.Column="0" SelectedValue="{Binding Country}" SelectedValuePath="Value" x:Name="CountryField" SelectionChanged="CountryField_SelectionChanged" LabelText="Country"/>
+                <Controls:TextEntry Grid.Row="2" Grid.Column="1" Text="{Binding StreetAddress}" LabelText="Street Address" MaxLength="25"/>
+                <Controls:TextEntry Grid.Row="3" Grid.Column="0" Text="{Binding Town}" LabelText="Town" MaxLength="25"/>
+                <Controls:ComboBoxEntry Grid.Row="3" Grid.Column="1" SelectedValue="{Binding City}" SelectedValuePath="Value" x:Name="CityField" LabelText="City"/>
+                <Controls:TextEntry Grid.Row="4" Grid.Column="0" Text="{Binding PostalCode}" LabelText="Postal Code" MaxLength="6"/>
                 </Grid>
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>

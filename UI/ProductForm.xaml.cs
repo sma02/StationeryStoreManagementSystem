@@ -21,7 +21,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for ProductForm.xaml
     /// </summary>
-    public partial class ProductForm : AbstractEntryForm
+    public partial class ProductForm : AbstractEntryForm, IValidationFields
     {
         public Product product;
         private bool isEdit = false;
@@ -87,6 +87,7 @@ namespace StationeryStoreManagementSystem.UI
                 product = new Product();
 
             DataContext = product;
+           // namef.IsRequired = true;
         }
 
         private void SuppliersDataHandler1_EditButtonClicked(DataGrid dataGrid, int selectedIndex)
@@ -110,14 +111,16 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            if (HasValidationErrors())
+                return;
             List<Supplier> suppliers = new List<Supplier>();
-            var rows =   ((DataView)suppliersDataHandler1.ItemSource).Table.Rows;
-            foreach(DataRow row in rows)
+            var rows = ((DataView)suppliersDataHandler1.ItemSource).Table.Rows;
+            foreach (DataRow row in rows)
             {
                 suppliers.Add(new Supplier((int)row.ItemArray[0]));
             }
             product.Suppliers = suppliers;
-            product.Stocks = product.Stocks.Where(x=>suppliers.Select(y=>y.Id).Contains(x.Supplier.Id)).ToList();
+            product.Stocks = product.Stocks==null? null:product.Stocks.Where(x => suppliers.Select(y => y.Id).Contains(x.Supplier.Id)).ToList();
             product.Save(!isEdit);
             NavigateCallingForm();
         }
@@ -125,6 +128,14 @@ namespace StationeryStoreManagementSystem.UI
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             NavigateCallingForm();
+        }
+        public bool HasValidationErrors()
+        {
+            NameField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            CodeField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            scrollViewer.ScrollToTop();
+            return Validation.GetHasError(NameField.TextBoxText)
+                || Validation.GetHasError(CodeField.TextBoxText);
         }
     }
 }

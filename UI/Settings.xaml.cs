@@ -24,6 +24,7 @@ namespace StationeryStoreManagementSystem.UI
         {
             InitializeComponent();
             ThemeCheckbox.IsChecked = GlobalSettings.CurrentTheme == GlobalSettings.Theme.Light;
+            DisplayIdsCheckbox.IsChecked = GlobalSettings.DisplayIds == true;
         }
 
         private void ThemeCheckbox_Checked(object sender, RoutedEventArgs e)

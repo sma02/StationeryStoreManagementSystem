@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Data.SqlClient;
 using StationeryStoreManagementSystem.BL;
 using StationeryStoreManagementSystem.DL;
 using StationeryStoreManagementSystem.UI.Components;
@@ -21,7 +22,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for CompanyForm.xaml
     /// </summary>
-    public partial class CompanyForm : AbstractEntryForm
+    public partial class CompanyForm : AbstractEntryForm, IValidationFields
     {
         private Company C;
         public CompanyForm(ManageEntity callingInstance,int id = -1):base(callingInstance)
@@ -44,17 +45,35 @@ namespace StationeryStoreManagementSystem.UI
             DataContext = C;
         }
 
+        public bool HasValidationErrors()
+        {
+            company_name.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            return Validation.GetHasError(company_name.TextBoxText);
+        }
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            if (C.Id != -1)
+            if (HasValidationErrors())
+                return;
+            try
             {
-                C.Save(false);
+                if (C.Id != -1)
+                {
+                    C.Save(false);
+                }
+                else
+                {
+                    C.Save(true);
+                }
+                NavigateCallingForm();
             }
-            else
+            catch (SqlException ex)
             {
-                C.Save(true);
+                if (ex.Number == 2627)
+                {
+                    UI.Components.MessageBox.Show($"Company name \"{C.Name}\" already exists", "Error", UI.Components.MessageBox.Type.Message);
+                }
             }
-            NavigateCallingForm();
         }
 
         private void cancel_btn_Click(object sender, RoutedEventArgs e)

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,6 +23,18 @@ namespace StationeryStoreManagementSystem.UI.Controls
     /// </summary>
     public partial class TextEntry : UserControl
     {
+        public class EmptyStringValidate : ValidationRule
+        {
+            public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+            {
+                if (!string.IsNullOrEmpty((string)value))
+                {
+                    return new ValidationResult(true, null);
+                }
+
+                return new ValidationResult(false, "*required field empty");
+            }
+        }
 
         public bool PositiveNumbersOnly
         {
@@ -85,6 +99,25 @@ namespace StationeryStoreManagementSystem.UI.Controls
 
 
 
+        public bool IsRequired
+        {
+            get { return (bool)GetValue(IsRequiredProperty); }
+            set 
+            {
+                SetValue(IsRequiredProperty, value);
+            }
+        }
+        public static readonly DependencyProperty IsRequiredProperty =
+            DependencyProperty.Register("IsRequired", typeof(bool), typeof(TextEntry), new PropertyMetadata(false, IsRequiredCallback));
+
+
+        private static void IsRequiredCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            Binding binding = BindingOperations.GetBinding(((TextEntry)dependencyObject).TextBoxText, TextBox.TextProperty);
+            binding.ValidationRules.Clear();
+            if (((TextEntry)dependencyObject).IsRequired == true)
+                binding.ValidationRules.Add(new EmptyStringValidate() { ValidatesOnTargetUpdated = true });
+        }
 
         public TextWrapping TextWrapping
         {
@@ -106,10 +139,10 @@ namespace StationeryStoreManagementSystem.UI.Controls
             DependencyProperty.Register("AcceptsReturn", typeof(bool), typeof(TextEntry), new PropertyMetadata(false));
 
 
-
         public TextEntry()
         {
             InitializeComponent();
+            IsRequired = (bool)GetValue(IsRequiredProperty);
         }
         private static readonly Regex regexNumbers = new Regex("[^0-9]+");
         private bool MatchesRules(string text)

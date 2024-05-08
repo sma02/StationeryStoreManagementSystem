@@ -12,6 +12,7 @@ namespace StationeryStoreManagementSystem.BL
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Code { get; set; }
         public string Contact { get; set; }
         public string? Email { get; set; }
         public string? StreetAddress { get; set; }
@@ -28,11 +29,10 @@ namespace StationeryStoreManagementSystem.BL
         public Supplier()
         {
             Id = -1;
-            Name = "";
-            Contact = "";
             InitialArgs = new List<object>();
         }
         public Supplier(string name
+                       , string code
                        , string contact
                        , string? email = null
                        , string? streetAddress = null
@@ -44,6 +44,7 @@ namespace StationeryStoreManagementSystem.BL
 
         {
             Name = name;
+            Code = code;
             Contact = contact;
             Email = email;
             StreetAddress = streetAddress;
@@ -57,17 +58,18 @@ namespace StationeryStoreManagementSystem.BL
         {
             Id = (int)args[0];
             Name = (string?)args[1];
-            Contact = (string?)args[2];
-            Email = (string?)args[3];
-            StreetAddress = (string?)args[4];
-            Town = (string?)args[5];
-            City = (string?)args[6];
-            Country = (string?)args[7];
-            PostalCode = (string?)args[8];
-            if (args.Count < 10)
+            Code = (string?)args[2];
+            Contact = (string?)args[3];
+            Email = (string?)args[4];
+            StreetAddress = (string?)args[5];
+            Town = (string?)args[6];
+            City = (string?)args[7];
+            Country = (string?)args[8];
+            PostalCode = (string?)args[9];
+            if (args.Count < 11)
                 Products = new List<Product>();
             else
-                Products = (List<Product>?)args[9];
+                Products = (List<Product>?)args[10];
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }

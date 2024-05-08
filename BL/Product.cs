@@ -12,6 +12,7 @@ namespace StationeryStoreManagementSystem.BL
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Code { get; set; }
         public Company? Company { get; set; }
         public int? ReorderThreshold { get; set; }
         public Category? Category { get; set; }
@@ -41,9 +42,10 @@ namespace StationeryStoreManagementSystem.BL
         {
 
         }
-        public Product(string name, Company? company, int? reorderThreshold, Category? category, List<Supplier> suppliers, List<Stock> stocks) : this()
+        public Product(string name,string code, Company? company, int? reorderThreshold, Category? category, List<Supplier> suppliers, List<Stock> stocks) : this()
         {
             Name = name;
+            Code = code;
             Company = company;
             ReorderThreshold = reorderThreshold;
             Category = category;
@@ -54,11 +56,15 @@ namespace StationeryStoreManagementSystem.BL
         {
             Id = (int)args[0];
             Name = (string)args[1];
-            Company = (Company)args[2];
-            ReorderThreshold = (int)args[3];
-            Category = (Category)args[4];
-            Suppliers = ((List<Supplier>)args[5]);
-            Stocks = ((List<Stock>)args[6]).Select(x=>new Stock(x)).ToList();
+            Code = (string)args[2];
+            Company = (Company?)args[3];
+            ReorderThreshold = (int?)args[4];
+            Category = (Category?)args[5];
+            Suppliers = ((List<Supplier>?)args[6]);
+            if (args.Count > 7)
+                Stocks = ((List<Stock>)args[7]).Select(x => new Stock(x)).ToList();
+            else
+                Stocks = new List<Stock>();
             InitialArgs = args;
             InitialArgs.RemoveAt(0);
         }

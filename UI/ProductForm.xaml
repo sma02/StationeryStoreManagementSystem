@@ -14,7 +14,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Components:TitleBlock x:Name="titleBlock" Title="Add Product" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
             <Grid ScrollViewer.CanContentScroll="True">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -26,13 +26,15 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Controls:TextEntry Grid.Row="0" Grid.Column="0" Text="{Binding Name}"  LabelText="Name" MaxLength="30"/>
-                <Controls:TextEntry Grid.Row="0" Grid.Column="1" Text="{Binding ReorderThreshold}" PositiveNumbersOnly="True" LabelText="Reorder Threshold" MaxLength="10"/>
+                <Controls:TextEntry IsRequired="True" x:Name="NameField" Grid.Row="0" Grid.Column="0" Text="{Binding Name}"  LabelText="Name" MaxLength="30"/>
+                <Controls:TextEntry IsRequired="True" x:Name="CodeField" Grid.Row="0" Grid.Column="1" Text="{Binding Code}"  LabelText="Code" MaxLength="5"/>
+                <Controls:TextEntry Grid.Row="2" Grid.Column="0" Text="{Binding ReorderThreshold}" PositiveNumbersOnly="True" LabelText="Reorder Threshold" MaxLength="10"/>
                 <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="0" SelectedItem="{Binding Company}" x:Name="CompanyField" LabelText="Company"/>
                         <Controls:ComboBoxEntry Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Category}" x:Name="CategoryField" LabelText="Category"/>
                 </Grid>

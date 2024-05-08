@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static StationeryStoreManagementSystem.UI.Controls.TextEntry;
 
 namespace StationeryStoreManagementSystem.UI.Controls
 {
@@ -23,6 +26,18 @@ namespace StationeryStoreManagementSystem.UI.Controls
     /// </summary>
     public partial class ComboBoxEntry : UserControl
     {
+        public class EmptyItemValidate : ValidationRule
+        {
+            public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+            {
+                if (value!=null)
+                {
+                    return new ValidationResult(true, null);
+                }
+
+                return new ValidationResult(false, "*required field empty");
+            }
+        }
         public event SelectionChangedEventHandler SelectionChanged;
         public string LabelText
         {
@@ -95,6 +110,22 @@ namespace StationeryStoreManagementSystem.UI.Controls
 
 
 
+
+        public bool IsRequired
+        {
+            get { return (bool)GetValue(IsRequiredProperty); }
+            set { SetValue(IsRequiredProperty, value); }
+        }
+        public static readonly DependencyProperty IsRequiredProperty =
+            DependencyProperty.Register("IsRequired", typeof(bool), typeof(ComboBoxEntry), new PropertyMetadata(false,IsRequiredCallback));
+
+        private static void IsRequiredCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            Binding binding = BindingOperations.GetBinding(((ComboBoxEntry)dependencyObject).ComboBox1, ComboBox.SelectedValueProperty);
+            binding.ValidationRules.Clear();
+            if (((ComboBoxEntry)dependencyObject).IsRequired == true)
+                binding.ValidationRules.Add(new EmptyItemValidate() { ValidatesOnTargetUpdated = true });
+        }
 
         public object SelectedItem
         {

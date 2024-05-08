@@ -15,6 +15,8 @@ namespace StationeryStoreManagementSystem.DL
         public static DataTable GetNotifications_View()
         {
             List<object> list = new List<object>();
+            if (Utils.CurrentEmployee == null)
+                return new DataTable();
             return DataHandler.FillDataTable($"SELECT V.Id, [From], IsViewed, Notification FROM GetNotifications_View V JOIN Employee E ON V.UserId = E.Id WHERE E.Id = {Utils.CurrentEmployee.Id}");
         }
         public static Notification GetNotification(int id)

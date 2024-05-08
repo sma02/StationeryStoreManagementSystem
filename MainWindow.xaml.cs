@@ -58,6 +58,7 @@ namespace StationeryStoreManagementSystem
             GlobalSettings.LoadSettings();
             Content.Child = new Dashboard();
             // InitializeLogin();
+           // InitializeLogin();
         }
         private void ManageSuppliersButton_Click(object sender, RoutedEventArgs e)
         {
@@ -154,6 +155,7 @@ namespace StationeryStoreManagementSystem
             List<(string, string)> bindings = new List<(string, string)>
             {
                 ("Name","Name"),
+                ("Code","Code"),
                 ("Price","Price"),
                 ("Retail Rs","RetailPrice"),
                 ("Discount Rs","DiscountAmount"),

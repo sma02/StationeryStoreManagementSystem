@@ -24,7 +24,8 @@ namespace StationeryStoreManagementSystem.DL
                                                    	     FROM TaxLog 
                                                    		 WHERE TaxLog.CategoryId=Category.Id 
                                                    		 ORDER BY AddedOn DESC) GST
-                                                        FROM Category");
+                                                        FROM Category
+                                                        WHERE IsDeleted=0");
                 return DataHandler.ConstructObjects(reader, typeof(Category)).Cast<Category>().ToList();
         }
         public static void SaveCategory(Category C, bool isAdd = false)
@@ -62,7 +63,7 @@ namespace StationeryStoreManagementSystem.DL
                                                     ) AS MD 
                                                     ON C.Id = MD.CategoryId
                                                     JOIN TaxLog T ON T.CategoryId = MD.CategoryId AND T.AddedOn = MD.MaxCreatedOn
-                                                    WHERE Id=" + id.ToString());
+                                                    WHERE IsDeleted=0 AND Id=" + id.ToString());
             return (Category)DataHandler.ConstructObject(reader, typeof(Category));
         }
         public static void DeleteCategory(int id)

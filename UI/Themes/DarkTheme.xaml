@@ -5,6 +5,9 @@
                     xmlns:components="clr-namespace:StationeryStoreManagementSystem.UI.Components"
                     xmlns:uicontrols="clr-namespace:StationeryStoreManagementSystem.UI.Controls">
 
+    <!-- Misc-->
+    <SolidColorBrush Color="#FFFB4B53" x:Key="RequiredFieldForeground"/>  
+    
 
 
     <BitmapImage x:Key="bellIcon" UriSource="../../Resources/bell_dark.png"/>

@@ -23,6 +23,7 @@ namespace StationeryStoreManagementSystem.DL
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT Supplier.Id
                                                           ,Name
+                                                          ,Code
                                                     	  ,Contact
                                                     	  ,Email
                                                     	  ,StreetAddress
@@ -48,6 +49,7 @@ namespace StationeryStoreManagementSystem.DL
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT Supplier.Id
                                                           ,Name
+                                                          ,Code
                                                           ,Contact
                                                           ,Email
                                                           ,StreetAddress
@@ -67,11 +69,12 @@ namespace StationeryStoreManagementSystem.DL
         }
         public static void SaveSupplier(Supplier supplier,bool isAdd)
         {
-            int CountryId = DataHandler.LookupData("Country").Where(x => x.Value == supplier.Country).Select(x => x.Key).FirstOrDefault();
-            int cityId = DataHandler.LookupData($"City{supplier.Country}").Where(x => x.Value == supplier.City).Select(x => x.Key).FirstOrDefault();
+            int? CountryId = supplier.Country==null? null: DataHandler.LookupData("Country").Where(x => x.Value == supplier.Country).Select(x => x.Key).First();
+            int? cityId = supplier.City==null? null : DataHandler.LookupData($"City{supplier.Country}").Where(x => x.Value == supplier.City).Select(x => x.Key).First();
             List<(string, object)> args = new List<(string, object)>
             {
                 (nameof(supplier.Name), supplier.Name),
+                (nameof(supplier.Code), supplier.Code),
                 (nameof(supplier.Contact), supplier.Contact),
                 (nameof(supplier.Email),supplier.Email),
                 (nameof(supplier.StreetAddress),supplier.StreetAddress),
@@ -82,7 +85,7 @@ namespace StationeryStoreManagementSystem.DL
             };
             if (isAdd == true)
             {
-                DataHandler.InsertDataSP(args, "stpInsertSupplier");
+                supplier.Id = (int)DataHandler.InsertDataSPReturn(args, "stpInsertSupplier");
             }
             else
             {
@@ -92,9 +95,9 @@ namespace StationeryStoreManagementSystem.DL
             List<int> newIds = new List<int>();
             List<int> deleteIds = new List<int>();
             newIds = supplier.Products.Select(x => x.Id).ToList();
-            if (supplier.InitialArgs != null)
+            if (supplier.InitialArgs != null && supplier.InitialArgs.Count!=0)
             {
-                List<int> prevIds = ((List<Product>)supplier.InitialArgs[8]).Select(x => x.Id).ToList();
+                List<int> prevIds = ((List<Product>)supplier.InitialArgs[9]).Select(x => x.Id).ToList();
                 deleteIds = prevIds.Except(newIds).ToList();
                 newIds = newIds.Except(prevIds).ToList();
             }

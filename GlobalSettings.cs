@@ -34,7 +34,7 @@ namespace StationeryStoreManagementSystem
                 ApplyTheme();
             }
         }
-        private static bool displayIds;
+        private static bool displayIds = false;
 
         public static bool DisplayIds
         {

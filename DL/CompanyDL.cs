@@ -18,7 +18,7 @@ namespace StationeryStoreManagementSystem.DL
         }
         public static List<Company> GetCompanies()
         {
-            SqlDataReader reader = Utils.ReadData(@"SELECT Id,Name FROM Company");
+            SqlDataReader reader = Utils.ReadData(@"SELECT Id,Name FROM Company WHERE IsDeleted=0");
             return DataHandler.ConstructObjects(reader, typeof(Company)).Cast<Company>().ToList();
         }
 
@@ -48,7 +48,7 @@ namespace StationeryStoreManagementSystem.DL
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT Id, Name
                                                     FROM Company
-                                                    WHERE Id=" + id.ToString());
+                                                    WHERE IsDeleted=0 AND Id=" + id.ToString());
             return (Company)DataHandler.ConstructObject(reader, typeof(Company));
         }
         public static void DeleteCompany(int id)

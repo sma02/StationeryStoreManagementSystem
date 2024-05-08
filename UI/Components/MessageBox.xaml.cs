@@ -36,10 +36,11 @@ namespace StationeryStoreManagementSystem.UI.Components
             None
         }
         public MessageBoxResult Result { get; set; }
-        public static MessageBoxResult Show(string message, string title = "",Type type=Type.Message)
+        public static MessageBoxResult Show(string message, string title = "",Type type=Type.Message,int fontSize = 18)
         {
             MessageBox messageBox = new MessageBox();
             messageBox.titleblock.Text = title;
+            messageBox.messageblock.FontSize = fontSize;
             messageBox.messageblock.Text = message;
             Utils.CurrentMainWindow.overlay.Child = messageBox;
             Utils.CurrentMainWindow.overlay.Visibility = Visibility.Visible;

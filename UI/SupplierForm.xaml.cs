@@ -1,5 +1,7 @@
-﻿using StationeryStoreManagementSystem.BL;
+﻿using Microsoft.Data.SqlClient;
+using StationeryStoreManagementSystem.BL;
 using StationeryStoreManagementSystem.DL;
+using StationeryStoreManagementSystem.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +23,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for SupplierForm.xaml
     /// </summary>
-    public partial class SupplierForm : AbstractEntryForm
+    public partial class SupplierForm : AbstractEntryForm, IValidationFields
     {
         private Supplier supplier;
         public SupplierForm(ManageEntity callingInstance, int id=-1):base(callingInstance)
@@ -99,6 +101,8 @@ namespace StationeryStoreManagementSystem.UI
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            if (HasValidationErrors())
+                return;
             List<Product> products = new List<Product>();
             var rows = ((DataView)productsDataHandler1.ItemSource).Table.Rows;
             foreach (DataRow row in rows)
@@ -106,8 +110,20 @@ namespace StationeryStoreManagementSystem.UI
                 products.Add(new Product((int)row.ItemArray[0]));
             }
             supplier.Products = products;
-            supplier.Save(!isEdit);
-            NavigateCallingForm();
+            try
+            {
+                supplier.Save(!isEdit);
+                NavigateCallingForm();
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627)
+                {
+                    UI.Components.MessageBox.Show($"Supplier Code \"{supplier.Code}\" already exists", "Error", UI.Components.MessageBox.Type.Message);
+                }
+                else
+                    throw ex;
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -117,11 +133,21 @@ namespace StationeryStoreManagementSystem.UI
 
         private void CountryField_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CountryField.SelectedValue != null)
+            if (((ComboBoxEntry)sender).ComboBox1.SelectedValue != null)
             {
-                CityField.ItemSource = DataHandler.LookupData($"City{CountryField.SelectedValue}");
+                CityField.ItemSource = DataHandler.LookupData($"City{((ComboBoxEntry)sender).ComboBox1.SelectedValue}");
                 CityField.DisplayPathName = "Value";
             }
+        }
+        public bool HasValidationErrors()
+        {
+            NameField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            CodeField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            ContactField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            scrollViewer.ScrollToTop();
+            return Validation.GetHasError(NameField.TextBoxText)
+                || Validation.GetHasError(CodeField.TextBoxText)
+                || Validation.GetHasError(ContactField.TextBoxText);
         }
     }
 }

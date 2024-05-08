@@ -11,6 +11,10 @@
 
 
 
+
+    <!-- Misc-->
+    <SolidColorBrush Color="#FFDC3545" x:Key="RequiredFieldForeground"/>
+
     <!-- Title Block-->
 
     <SolidColorBrush Color="#FFF4F4F4" x:Key="TitleBlockBackground"/>

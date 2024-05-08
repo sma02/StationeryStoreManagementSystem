@@ -14,13 +14,13 @@ namespace StationeryStoreManagementSystem.DL
     {
         public static DataTable GetProducts_View()
         {
-            List<object> list = new List<object>();
             return DataHandler.FillDataTable(@"SELECT * FROM GetProducts_View");
         }
         public static Product GetProduct(int id)
         {
             SqlDataReader reader = Utils.ReadData(@"SELECT Id
                                                         ,Name
+                                                        ,Code
                                                         ,CompanyId
                                                         ,ReorderThreshold
                                                         ,CategoryId
@@ -29,10 +29,10 @@ namespace StationeryStoreManagementSystem.DL
             List<object> args = Utils.GetArgs(reader);
             if (args.Count != 0)
              {
-                 if (args[2] != null)
-                     args[2] = CompanyDL.GetCompany((int)args[2]);
-                 if (args[4] != null)
-                     args[4] = CategoryDL.GetCategory((int)args[4]);
+                 if (args[3] != null)
+                     args[3] = CompanyDL.GetCompany((int)args[3]);
+                 if (args[5] != null)
+                     args[5] = CategoryDL.GetCategory((int)args[5]);
                 args.Add(SupplierDL.GetProductSuppliers(id));
                 reader = Utils.ReadData(@"SELECT s1.SupplierId,s1.Stock,p1.Price,p1.RetailPrice,p1.DiscountAmount
                                                     FROM (SELECT SupplierId,ProductId,SUM(Stock) Stock
@@ -47,7 +47,7 @@ namespace StationeryStoreManagementSystem.DL
                 List<Stock> stocks = new List<Stock>();    
                 while(reader.Read())
                     {
-                        Stock stock = new Stock(((List<Supplier>)args[5]).Where(x => x.Id == reader.GetInt32(0)).FirstOrDefault()
+                        Stock stock = new Stock(((List<Supplier>)args[6]).Where(x => x.Id == reader.GetInt32(0)).FirstOrDefault()
                                                , reader.GetSqlMoney(2).ToDouble()
                                                , reader.GetSqlMoney(3).ToDouble()
                                                , reader.GetSqlMoney(4).ToDouble()
@@ -66,6 +66,7 @@ namespace StationeryStoreManagementSystem.DL
             List<object> products = new List<object>();
             SqlDataReader reader = Utils.ReadData(@"SELECT Id
                                                         ,Name
+                                                        ,Code
                                                         ,CompanyId
                                                         ,ReorderThreshold
                                                         ,CategoryId
@@ -82,10 +83,10 @@ namespace StationeryStoreManagementSystem.DL
             for (int i = 0; i < products.Count; i++)
             {
                 var row = (List<object>)products[i];
-                if (row[2] != null)
-                    row[2] = CompanyDL.GetCompany((int)row[2]);
-                if (row[4] != null)
-                    row[4] = CategoryDL.GetCategory((int)row[4]);
+                if (row[3] != null)
+                    row[3] = CompanyDL.GetCompany((int)row[3]);
+                if (row[5] != null)
+                    row[5] = CategoryDL.GetCategory((int)row[5]);
                 row.Add(new List<Supplier>());
                 products[i] = new Product(row);
             }
@@ -96,6 +97,7 @@ namespace StationeryStoreManagementSystem.DL
             List<object> products = new List<object>();
             SqlDataReader reader = Utils.ReadData(@"SELECT ProductId
                                                     	  ,Product.Name
+                                                          ,Product.Code
                                                     	  ,Product.CompanyId
                                                           ,Product.ReorderThreshold
                                                     	  ,Product.CategoryId
@@ -117,10 +119,10 @@ namespace StationeryStoreManagementSystem.DL
             for(int i=0;i<products.Count;i++)
             {
                 var row = (List<object>)products[i];
-                if (row[2] != null)
-                    row[2] = CompanyDL.GetCompany((int)row[2]);
-                if (row[4] != null)
-                    row[4] = CategoryDL.GetCategory((int)row[4]);
+                if (row[3] != null)
+                    row[3] = CompanyDL.GetCompany((int)row[3]);
+                if (row[5] != null)
+                    row[5] = CategoryDL.GetCategory((int)row[5]);
                 row.Add(new List<Supplier>());
                 products[i] = new Product(row);
                 if(populateStock==true)
@@ -135,21 +137,22 @@ namespace StationeryStoreManagementSystem.DL
             List<(string, object)> args = new List<(string, object)>
             {
                 (nameof(product.Name),product.Name),
+                (nameof(product.Code),product.Code),
                 ("CompanyId",CompanyId),
                 (nameof(product.ReorderThreshold),product.ReorderThreshold),
                 ("CategoryId",CategoryId),
             };
             if(isAdd==true)
             {
-                DataHandler.InsertDataSP(args, "stpInsertProduct");
+                product.Id = (int)DataHandler.InsertDataSPReturn(args, "stpInsertProduct");
             }
             else
             {
                 List<object> initialArgs = new List<object>(product.InitialArgs);
+                initialArgs.RemoveAt(6);
                 initialArgs.RemoveAt(5);
-                initialArgs.RemoveAt(4);
-                initialArgs[1] = ((Company)initialArgs[1])?.Id;
-                initialArgs[3] = ((Category)initialArgs[3])?.Id;
+                initialArgs[2] = ((Company)initialArgs[2])?.Id;
+                initialArgs[4] = ((Category)initialArgs[4])?.Id;
                 args.Add(("UpdatedOn", ("CURRENT_TIMESTAMP", true)));
                 DataHandler.UpdateData(args, initialArgs, product.GetType().Name, (nameof(product.Id), product.Id));
 
@@ -159,7 +162,7 @@ namespace StationeryStoreManagementSystem.DL
             newIds = product.Suppliers.Select(x => x.Id).ToList();
             if (product.InitialArgs != null)
             {
-                List<int> prevIds = ((List<Supplier>)product.InitialArgs[4]).Select(x => x.Id).ToList();
+                List<int> prevIds = ((List<Supplier>)product.InitialArgs[5]).Select(x => x.Id).ToList();
                 deleteIds = prevIds.Except(newIds).ToList();
                 newIds = newIds.Except(prevIds).ToList();
             }
@@ -198,20 +201,23 @@ namespace StationeryStoreManagementSystem.DL
                     new SqlMetaData("RetailPrice",SqlDbType.Money),
                     new SqlMetaData("DiscountAmount",SqlDbType.Money),
             };
-            List<Stock> oldStocks = ((List<Stock>)product.InitialArgs[5]);
-            var productSupplierPrices = product.Stocks.Where(x => oldStocks.Where(y => y.ToString() == x.ToString()).FirstOrDefault() == null).Select(x =>
+            if (product.Stocks != null && product.Stocks.Count > 0)
             {
-                SqlDataRecord record = new SqlDataRecord(sqlMetas3);
-                record.SetInt32(0, product.Id);
-                record.SetInt32(1, x.Supplier.Id);
-                record.SetSqlMoney(2, (System.Data.SqlTypes.SqlMoney)x.Price);
-                record.SetSqlMoney(3, (System.Data.SqlTypes.SqlMoney)x.RetailPrice);
-                record.SetSqlMoney(4, (System.Data.SqlTypes.SqlMoney)x.DiscountAmount);
-                return record;
-            });
-            if(productSupplierPrices.Count()>0)
-            {
-                DataHandler.BulkDataExecuteSP("ProductSupplierPrice", "udtt_ProductSupplierPrice", "stpInsertProductSupplierPrice", productSupplierPrices);
+                List<Stock> oldStocks = ((List<Stock>)product.InitialArgs[5]);
+                var productSupplierPrices = product.Stocks.Where(x => oldStocks.Where(y => y.ToString() == x.ToString()).FirstOrDefault() == null).Select(x =>
+                {
+                    SqlDataRecord record = new SqlDataRecord(sqlMetas3);
+                    record.SetInt32(0, product.Id);
+                    record.SetInt32(1, x.Supplier.Id);
+                    record.SetSqlMoney(2, (System.Data.SqlTypes.SqlMoney)x.Price);
+                    record.SetSqlMoney(3, (System.Data.SqlTypes.SqlMoney)x.RetailPrice);
+                    record.SetSqlMoney(4, (System.Data.SqlTypes.SqlMoney)x.DiscountAmount);
+                    return record;
+                });
+                if (productSupplierPrices.Count() > 0)
+                {
+                    DataHandler.BulkDataExecuteSP("ProductSupplierPrice", "udtt_ProductSupplierPrice", "stpInsertProductSupplierPrice", productSupplierPrices);
+                }
             }
         }
         public static void DeleteProduct(int id)

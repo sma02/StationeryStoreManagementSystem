@@ -32,7 +32,16 @@
                  IsReadOnly="{Binding ElementName=TextEntryControl,Path=IsReadOnly,Mode=TwoWay}"
                  PreviewTextInput="TextBoxText_PreviewTextInput"
                  DataObject.Pasting="TextBoxText_Pasting"
-                 Text="{Binding ElementName=TextEntryControl,Path=Text,Mode=TwoWay}"/>
+                 Text="{Binding ElementName=TextEntryControl,Path=Text,UpdateSourceTrigger=LostFocus,Mode=TwoWay}">
+            <Validation.ErrorTemplate>
+                <ControlTemplate>
+                        <StackPanel>
+                        <AdornedElementPlaceholder/>
+                        <TextBlock Text="{Binding [0].ErrorContent}" Foreground="{DynamicResource RequiredFieldForeground}"/>
+                        </StackPanel>
+                </ControlTemplate>
+            </Validation.ErrorTemplate>
+            </TextBox>
         </StackPanel>
     </Grid>
 </UserControl>
