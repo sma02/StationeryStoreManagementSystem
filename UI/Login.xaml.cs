@@ -47,8 +47,8 @@ namespace StationeryStoreManagementSystem.UI
                 ((MainWindow)((Grid)((Grid)((Border)Parent).Parent).Parent).Parent).col1.Width = new GridLength(200, GridUnitType.Pixel);
                 ((Border)Parent).Child = null;
                 Utils.CurrentEmployee = EmployeeDL.GetEmployee((int)id);
+                InsertLog();
                 LoginClicked?.Invoke(this, e);
-                
             }
             else
             {
@@ -71,6 +71,14 @@ namespace StationeryStoreManagementSystem.UI
                     return null;
             int Id = Convert.ToInt32(command.Parameters["@UserId"].Value);
             return Id;
+        }
+        private void InsertLog()
+        {
+            List<(string, object)> args = new List<(string, object)>
+            {
+                ("UserId", Utils.CurrentEmployee.Id)
+            };
+            DataHandler.InsertDataSP(args, "stpInsertLoginTime");
         }
     }
 }

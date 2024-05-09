@@ -30,23 +30,25 @@ namespace StationeryStoreManagementSystem
         {
             new SideButton() { Content = "Dashboard"},
             new SideButton() { Content = "Process Order"},
-            new SideButton() { Content = "Manage Suppliers" },
             new SideButton() { Content = "Manage Companies" },
             new SideButton() { Content = "Manage Categories" },
-            new SideButton() { Content = "Manage Employees" },
             new SideButton() { Content = "Manage Products" },
+            new SideButton() { Content = "Manage Suppliers" },
             new SideButton() { Content = "Manage Shipments" },
+            new SideButton() { Content = "Manage Employees" },
             new SideButton() { Content = "Manage Customers" },
             new SideButton() { Content = "Manage Notifications" },
+            new SideButton() { Content = "Manage Repayments"},
+            new SideButton() { Content = "Profile"},
             new SideButton() { Content = "Settings"}
         };
         private List<SideButton> CashierBtns = new List<SideButton>()
         {
             new SideButton() { Content = "Dashboard"},
             new SideButton() { Content = "Process Order"},
-            new SideButton() { Content = "Manage Products" },
-            new SideButton() { Content = "Manage Shipments" },
-            new SideButton() { Content = "Manage Customers" },
+            new SideButton() { Content = "Manage Customers"},
+            new SideButton() { Content = "Manage Repayments"},
+            new SideButton() { Content = "Profile"},
             new SideButton() { Content = "Settings"}
         };
 
@@ -56,7 +58,6 @@ namespace StationeryStoreManagementSystem
             Utils.ExecuteQuery("SELECT 1");
             Utils.CurrentMainWindow = this;
             GlobalSettings.LoadSettings();
-            Content.Child = new Dashboard();
             InitializeLogin();
         }
         private void ManageSuppliersButton_Click(object sender, RoutedEventArgs e)
@@ -194,7 +195,7 @@ namespace StationeryStoreManagementSystem
                                                 null,
                                                 typeof(ViewShipment));
         }
-        
+
         private void ManageCustomersButton_Click(object sender, RoutedEventArgs e)
         {
             List<(string, string)> bindings = new List<(string, string)>
@@ -215,7 +216,7 @@ namespace StationeryStoreManagementSystem
                                                 true,
                                                 true);
         }
-        
+
         private void ManageNotificationsButton_Click(object sender, RoutedEventArgs e)
         {
             List<(string, string)> bindings = new List<(string, string)>
@@ -269,7 +270,7 @@ namespace StationeryStoreManagementSystem
             Content.Child = login;
             login.LoginClicked += SetButtons;
         }
-        
+
         private void SetButtons(object sender, EventArgs e)
         {
             sideBar.Visibility = Visibility.Visible;
@@ -289,6 +290,7 @@ namespace StationeryStoreManagementSystem
                     btn.Click += ButtonClick;
                 }
             }
+            Content.Child = new Dashboard();
         }
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
@@ -329,6 +331,9 @@ namespace StationeryStoreManagementSystem
                 case "Dashboard":
                     DashboardButton_Click(sender, e);
                     break;
+                case "Profile":
+                    ProfileButton_Click(sender, e);
+                    break;
             }
         }
 
@@ -345,6 +350,23 @@ namespace StationeryStoreManagementSystem
         private void DashboardButton_Click(object sender, RoutedEventArgs e)
         {
             Content.Child = new Dashboard();
+        }
+
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            Profile profile = new Profile();
+            Content.Child = profile;
+            profile.LogoutClicked += Profile_LogoutClicked;
+        }
+
+        private void Profile_LogoutClicked(object? sender, EventArgs e)
+        {
+            sideBar.Children.Clear();
+            sideBar.Visibility = Visibility.Collapsed;
+            col1.Width = new GridLength(0, GridUnitType.Star);
+            Login login = new Login();
+            Content.Child = login;
+            login.LoginClicked += SetButtons;
         }
     }
 }

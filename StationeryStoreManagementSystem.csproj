@@ -5,7 +5,17 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Subprojects\**" />
+    <EmbeddedResource Remove="Subprojects\**" />
+    <None Remove="Subprojects\**" />
+    <Page Remove="Subprojects\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\bell_dark.png" />
@@ -13,9 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CrystalReports.WPF.Viewer" Version="13.0.4003" />
     <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Subprojects\CrystalReportApp\CrystalReportApp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +49,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{c0c07587-41a7-46c8-8fbd-3f9c8ebe2ddc}" />
   </ItemGroup>
 
 </Project>

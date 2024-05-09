@@ -99,7 +99,7 @@ namespace StationeryStoreManagementSystem.UI
             command.Parameters.Add("@NewPassword", SqlDbType.NVarChar, 5).Direction = ParameterDirection.Output;
             command.ExecuteNonQuery();
             string newPassword = command.Parameters["@NewPassword"].Value.ToString();
-            MessageBox.Show("Password Reset to: " + newPassword);
+            UI.Components.MessageBox.Show("Password Reset to: " + newPassword, "Information", UI.Components.MessageBox.Type.Message);
         }
     }
 }

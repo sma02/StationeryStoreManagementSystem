@@ -16,7 +16,7 @@ namespace StationeryStoreManagementSystem
     {
         private static SqlDataReader reader;
         public static MainWindow? CurrentMainWindow { get; set; }
-        public static Employee? CurrentEmployee = EmployeeDL.GetEmployee(24);
+        public static Employee? CurrentEmployee;
         //{ get; set; }
         public static object NormalizeForQuery(object value)
         {
