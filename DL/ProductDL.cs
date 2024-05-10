@@ -64,6 +64,8 @@ namespace StationeryStoreManagementSystem.DL
         }
         public static void SaveStockChanges(Product product,List<(int, int, string)> values)
         {
+            if (values.Count == 0)
+                return;
             SqlMetaData[] sqlMetas = new SqlMetaData[]
             {
                     new SqlMetaData("SupplierId",SqlDbType.Int),

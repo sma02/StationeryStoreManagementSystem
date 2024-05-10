@@ -28,7 +28,7 @@ namespace StationeryStoreManagementSystem.UI
         {
             InitializeComponent();
             this.callingInstance = callingInstance;
-            stock = product.Stocks.Where(x => x.Supplier.Id == supplierId).FirstOrDefault();
+            stock = product.Stocks?.Where(x => x.Supplier.Id == supplierId).FirstOrDefault();
             if (stock == null)
             {
                 stock = new Stock(new Supplier() {Id = supplierId, Name = supplierName }, 0, 0, 0, 0);

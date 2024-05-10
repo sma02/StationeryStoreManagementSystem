@@ -76,10 +76,14 @@ namespace StationeryStoreManagementSystem.UI
                 indexes.Reverse();
                 foreach (int index in indexes)
                     table.Rows.RemoveAt(index);
+                EditColumn.Visibility = Visibility.Visible;
+                AddColumn.Visibility = Visibility.Collapsed;
                 isEdit = true;
             }
             else
                 product = new Product();
+            if (product.Stocks == null)
+                product.Stocks = new List<Stock>();
             stockChanges = new List<(int, int, string)>();
             DataContext = product;
 

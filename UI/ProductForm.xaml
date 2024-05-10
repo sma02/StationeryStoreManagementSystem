@@ -47,7 +47,7 @@
 
                         <DataGrid x:Name="SuppliersDataGrid" Height="300" Margin="80 20 80 0">
                             <DataGrid.Columns>
-                                <DataGridTemplateColumn x:Name="EditColumn">
+                                <DataGridTemplateColumn x:Name="EditColumn" Visibility="Collapsed">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
@@ -58,6 +58,17 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                <DataGridTemplateColumn x:Name="AddColumn">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button x:Name="EditPriceButton" Margin="0 0 2px 0" Width="90px" FontSize="14" Click="EditPriceButton_Click">Edit Price</Button>
+                                                <Button x:Name="DeleteButton" Margin="0 0 2px 0" Width="70px" FontSize="14" Click="DeleteButton_Click">Remove</Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
                             </DataGrid.Columns>
                         </DataGrid>
                         <Components:DataViewer Margin="50 -20 50 0" Height="400" Grid.Row="2" x:Name="suppliersDataHandler2"/>
