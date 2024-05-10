@@ -34,16 +34,16 @@ namespace StationeryStoreManagementSystem.DL
                  if (args[5] != null)
                      args[5] = CategoryDL.GetCategory((int)args[5]);
                 args.Add(SupplierDL.GetProductSuppliers(id));
-                reader = Utils.ReadData(@"SELECT s1.SupplierId,s1.Stock,p1.Price,p1.RetailPrice,p1.DiscountAmount
+                reader = Utils.ReadData(@"SELECT p1.SupplierId,s1.Stock,p1.Price,p1.RetailPrice,p1.DiscountAmount
                                                     FROM (SELECT SupplierId,ProductId,SUM(Stock) Stock
                                                     FROM SupplierStock
                                                     GROUP BY ProductId,SupplierId) s1
-                                                    JOIN PriceLog p1
+                                                    RIGHT JOIN PriceLog p1
                                                     ON p1.SupplierId=s1.SupplierId AND p1.ProductId=s1.ProductId
-                                                    WHERE p1.AddedOn = (SELECT MAX(AddedOn)
+                                                    WHERE p1.AddedOn = (SELECT MAX(p2.AddedOn)
                                                     	                FROM PriceLog p2
-                                                    	                WHERE p1.SupplierId=p2.SupplierId)
-                                                    AND p1.ProductId=" + id.ToString());
+                                                    	                WHERE p1.SupplierId=p2.SupplierId
+                                                                        AND p2.ProductId=" + id.ToString()+")");
                 List<Stock> stocks = new List<Stock>();    
                 while(reader.Read())
                     {
@@ -51,7 +51,7 @@ namespace StationeryStoreManagementSystem.DL
                                                , reader.GetSqlMoney(2).ToDouble()
                                                , reader.GetSqlMoney(3).ToDouble()
                                                , reader.GetSqlMoney(4).ToDouble()
-                                               , reader.GetInt32(1));
+                                               , reader.IsDBNull(1) ? 0 : reader.GetInt32(1));
                     stocks.Add(stock);
                     }
                 args.Add(stocks);
@@ -61,17 +61,55 @@ namespace StationeryStoreManagementSystem.DL
              else
             return null;
         }
-        public static List<Product> GetProducts(List<int> ids)
+        public static List<Stock> GetProductStocks(Product product)
+        {
+            List<Stock> stocks = new List<Stock>();
+            SqlDataReader reader = Utils.ReadData(@"SELECT p1.SupplierId,s1.Stock,p1.Price,p1.RetailPrice,p1.DiscountAmount
+                                                    FROM (SELECT SupplierId,ProductId,SUM(Stock) Stock
+                                                    FROM SupplierStock
+                                                    GROUP BY ProductId,SupplierId) s1
+                                                    RIGHT JOIN PriceLog p1
+                                                    ON p1.SupplierId=s1.SupplierId AND p1.ProductId=s1.ProductId
+                                                    WHERE p1.AddedOn = (SELECT MAX(p2.AddedOn)
+                                                    	                FROM PriceLog p2
+                                                    	                WHERE p1.SupplierId=p2.SupplierId 
+                                                                        AND p2.ProductId=" + product.Id.ToString()+")");
+            while(reader.Read())
+            {
+                Stock stock = new Stock(product.Suppliers.Where(x => x.Id == reader.GetInt32(0)).FirstOrDefault()
+                                               , reader.GetSqlMoney(2).ToDouble()
+                                               , reader.GetSqlMoney(3).ToDouble()
+                                               , reader.GetSqlMoney(4).ToDouble()
+                                               , reader.IsDBNull(1)? 0:reader.GetInt32(1));
+                stocks.Add(stock);
+            }
+            return stocks;
+        }
+        public static List<Product> GetProducts(List<int>? ids = null)
         {
             List<object> products = new List<object>();
-            SqlDataReader reader = Utils.ReadData(@"SELECT Id
-                                                        ,Name
-                                                        ,Code
-                                                        ,CompanyId
-                                                        ,ReorderThreshold
-                                                        ,CategoryId
-                                                    FROM Product
-                                                    WHERE Id IN (" + string.Join(',', ids) + ")");
+            SqlDataReader reader;
+            if (ids == null)
+            {
+                reader = Utils.ReadData(@"SELECT Id
+                                              ,Name
+                                              ,Code
+                                              ,CompanyId
+                                              ,ReorderThreshold
+                                              ,CategoryId
+                                          FROM Product");
+            }
+            else
+            {
+                reader = Utils.ReadData(@"SELECT Id
+                                              ,Name
+                                              ,Code
+                                              ,CompanyId
+                                              ,ReorderThreshold
+                                              ,CategoryId
+                                          FROM Product
+                                          WHERE Id IN (" + string.Join(',', ids) + ")");
+            }
             List<object> args;
             do
             {
@@ -203,7 +241,7 @@ namespace StationeryStoreManagementSystem.DL
             };
             if (product.Stocks != null && product.Stocks.Count > 0)
             {
-                List<Stock> oldStocks = ((List<Stock>)product.InitialArgs[5]);
+                List<Stock> oldStocks = ((List<Stock>)product.InitialArgs[6]);
                 var productSupplierPrices = product.Stocks.Where(x => oldStocks.Where(y => y.ToString() == x.ToString()).FirstOrDefault() == null).Select(x =>
                 {
                     SqlDataRecord record = new SqlDataRecord(sqlMetas3);

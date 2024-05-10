@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StationeryStoreManagementSystem.UI"
-             xmlns:Components="clr-namespace:StationeryStoreManagementSystem.UI.Components"
              xmlns:Controls="clr-namespace:StationeryStoreManagementSystem.UI.Controls"
+			 xmlns:Components="clr-namespace:StationeryStoreManagementSystem.UI.Components"
+             xmlns:wpfmedia="http://git.jerry-shaw.top/jerryshaw/WPFMediaKit"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -15,15 +16,87 @@
             <RowDefinition Height="130"/>
         </Grid.RowDefinitions>
         <Components:TitleBlock Title="Process Order"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="5 10 5 10">
+                    <Grid Background="#33000000">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Controls:TextEntry x:Name="productIdField" LabelText="Product ID" MinWidth="140" Grid.Column="0" MaxLength="8"/>
+                        <Controls:TextEntry x:Name="quantityField" LabelText="Quantity" MinWidth="140" Grid.Column="1"/>
+                        <Button Content="Add" x:Name="addButton" Height="30" Margin="15" Width="60" VerticalAlignment="Bottom" Grid.Column="2" Click="addButton_Click"/>
+                    </Grid>
+                </Border>
+                <Border  Margin="5 10 5 10" Grid.Column="1">
+                    <Grid Background="#33000000">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Controls:TextEntry x:Name="receivedField" LabelText="Received" MinWidth="140" Grid.Column="0"/>
+                        <Controls:TextEntry x:Name="returnField" LabelText="Return" MinWidth="140" IsReadOnly="True" Grid.Column="1"/>
+                        <Button Content="Confirm Order" x:Name="confirmButton" Height="30" Margin="15" VerticalAlignment="Bottom" Grid.Column="2"/>
+                    </Grid>
+                </Border>
+            </Grid>
+            <DataGrid x:Name="ProductDataGrid" Height="300" Margin="20 20 20 0" Grid.Row="2" RowEditEnding="ProductDataGrid_RowEditEnding">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn x:Name="SelectColumn">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="RemoveButton" Margin="0 0 2px 0" Width="70px" FontSize="14" Click="RemoveButton_Click">Remove</Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            <Border Grid.Row="1" Background="#33000000" Margin="10 -10 10 10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Controls:DataLabel Margin="10" x:Name="customerLabel" Grid.Column="0" LabelData="Customer: " FontSize="18" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <CheckBox x:Name="deductExtraCheckBox" Content="Deduct Extra For Repayments"/>
+                        <Button x:Name="searchCustomerButton" Content="Search Customer" Height="30" Margin="10"/>
+                        <Button x:Name="newCustomerButton" Content="New Customer" Height="30" Margin="10"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
         <Border Grid.Row="2" Background="#33000000">
-        <Grid VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <wpfmedia:VideoCaptureElement
+                                      x:Name="vce"
+                                      DesiredPixelWidth="640"
+                                      DesiredPixelHeight="480"
+                                      Width="200"
+                                      Height="130"/>
+                <Grid VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Controls:DataLabel Margin="10" FontSize="24" LabelData="Saved :"/>
-            <Controls:DataLabel Margin="10" Grid.Column="1" FontSize="24" LabelData="Total :"/>
+            <Controls:DataLabel Margin="10" FontSize="24" LabelData="Saved: " x:Name="savedLabel"/>
+            <Controls:DataLabel Margin="150 10 10 10" Grid.Column="1" FontSize="24" LabelData="Total: " x:Name="totalLabel"/>
         </Grid>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>

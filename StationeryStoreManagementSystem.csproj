@@ -24,7 +24,9 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94" />
+    <PackageReference Include="JerryShaw.WPFMediaKit" Version="1.0.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+    <PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.12" />
   </ItemGroup>
 
   <ItemGroup>
