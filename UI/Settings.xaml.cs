@@ -52,8 +52,6 @@ namespace StationeryStoreManagementSystem.UI
             GlobalSettings.CurrentTheme = GlobalSettings.Theme.Dark;
             var handle = new WindowInteropHelper(Utils.CurrentMainWindow).Handle;
             DwmSetWindowAttribute(handle, 20, new[] { 1 }, 4);
-            Utils.CurrentMainWindow.InvalidateMeasure();
-
         }
 
         private void DisplayIdsCheckbox_Checked(object sender, RoutedEventArgs e)
