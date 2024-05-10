@@ -20,7 +20,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for NotificationForm.xaml
     /// </summary>
-    public partial class NotificationForm : AbstractEntryForm
+    public partial class NotificationForm : AbstractEntryForm , IValidationFields
     {
         private Notification notification = new Notification();
         public NotificationForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
@@ -33,6 +33,8 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            if (HasValidationErrors())
+                return;
             if (EmployeeField.SelectedItem == null)
             {
                 List<Cashier> employees = EmployeeDL.GetCashiers();
@@ -47,6 +49,13 @@ namespace StationeryStoreManagementSystem.UI
                 notification.Save(true);
             }
             NavigateCallingForm();
+        }
+        public bool HasValidationErrors()
+        {
+            ContentField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            EmployeeField.ComboBox1.GetBindingExpression(ComboBox.SelectedValueProperty).UpdateSource();
+            return Validation.GetHasError(ContentField.TextBoxText)
+                || Validation.GetHasError(EmployeeField.ComboBox1);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

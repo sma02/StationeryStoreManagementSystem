@@ -26,9 +26,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
                 <Controls:TextEntry Grid.Row="0" Grid.Column="0" LabelText="Supplier Name" IsReadOnly="True" Text="{Binding Supplier.Name}"/>
-                <Controls:TextEntry Grid.Row="0" Grid.Column="1" LabelText="Price" Text="{Binding Price}"/>
-                <Controls:TextEntry Grid.Row="1" Grid.Column="0" LabelText="Retail Price" Text="{Binding RetailPrice}"/>
-                <Controls:TextEntry Grid.Row="1" Grid.Column="1" LabelText="Discount Amount" Text="{Binding DiscountAmount}"/>
+                <Controls:TextEntry x:Name="PriceField" IsRequired="True" Grid.Row="0" Grid.Column="1" LabelText="Price" Text="{Binding Price}"/>
+                <Controls:TextEntry x:Name="RetailPriceField"  IsRequired="True" Grid.Row="1" Grid.Column="0" LabelText="Retail Price" Text="{Binding RetailPrice}"/>
+                <Controls:TextEntry x:Name="DiscountAmountField"  IsRequired="True" Grid.Row="1" Grid.Column="1" LabelText="Discount Amount" Text="{Binding DiscountAmount}"/>
                 <Button x:Name="ConfirmButton" Grid.Row="2" Grid.Column="0" Height="50" Width="100" HorizontalAlignment="Right" Margin="0 0 30 0" Content="Select" Click="ConfirmButton_Click"/>
                 <Button x:Name="CancelButton" Grid.Row="2" Grid.Column="1" Height="50" Width="100" HorizontalAlignment="Left" Margin="30 0 0 0" Content="Cancel" Click="CancelButton_Click"/>
             </Grid>

@@ -20,7 +20,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for RepaymentForm.xaml
     /// </summary>
-    public partial class RepaymentForm : AbstractEntryForm
+    public partial class RepaymentForm : AbstractEntryForm ,IValidationFields
     {
         private Customer C;
         public RepaymentForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
@@ -43,6 +43,8 @@ namespace StationeryStoreManagementSystem.UI
 
         private void RepayButton_Click(object sender, RoutedEventArgs e)
         {
+            if (HasValidationErrors())
+                return;
             if (C.PaymentDues < 0)
             {
                 if ((-C.PaymentDues) >= Convert.ToDouble(RepaymentAmount.Text))
@@ -65,6 +67,11 @@ namespace StationeryStoreManagementSystem.UI
             {
                 UI.Components.MessageBox.Show("No! Pending Dues", "Error", UI.Components.MessageBox.Type.Message);
             }
+        }
+        public bool HasValidationErrors()
+        {
+            RepaymentAmount.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            return Validation.GetHasError(RepaymentAmount.TextBoxText);
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {

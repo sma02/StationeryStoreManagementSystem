@@ -19,7 +19,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for ProductSupplierPriceForm.xaml
     /// </summary>
-    public partial class ProductSupplierPriceForm : UserControl
+    public partial class ProductSupplierPriceForm : UserControl , IValidationFields
     {
         private Stock stock;
         private ProductForm callingInstance;
@@ -41,6 +41,8 @@ namespace StationeryStoreManagementSystem.UI
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            if (HasValidationErrors())
+                return;
             if(isEdit==false) 
             { 
             callingInstance.product.Stocks.Add(stock);
@@ -48,6 +50,15 @@ namespace StationeryStoreManagementSystem.UI
             ((Border)Parent).Child = callingInstance;
         }
 
+        public bool HasValidationErrors()
+        {
+            PriceField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            RetailPriceField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            DiscountAmountField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            return Validation.GetHasError(PriceField.TextBoxText)
+                || Validation.GetHasError(RetailPriceField.TextBoxText)
+                || Validation.GetHasError(DiscountAmountField.TextBoxText);
+        }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             ((Border)Parent).Child = callingInstance;

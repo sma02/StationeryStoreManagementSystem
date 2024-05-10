@@ -19,7 +19,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for EditStockForm.xaml
     /// </summary>
-    public partial class EditStockForm : UserControl
+    public partial class EditStockForm : UserControl , IValidationFields
     {
         ProductForm callingInstance;
         Product product;

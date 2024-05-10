@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="0.9*"/>
                 <ColumnDefinition Width="0.3*"/>
             </Grid.ColumnDefinitions>
-            <Controls:TextEntry x:Name="RepaymentAmount" FontSize="16" Grid.Column="0" Width="300" HorizontalAlignment="Right" />
+            <Controls:TextEntry IsRequired="True" x:Name="RepaymentAmount" FontSize="16" Grid.Column="0" Width="300" HorizontalAlignment="Right" />
             <Button x:Name="RepayButton" Grid.Column="1" Height="50" Width="100" Content="Repayment" FontSize="16" HorizontalAlignment="Left" Margin="20 0 0 0" Click="RepayButton_Click"/>
         </Grid>
         <Components:DataViewer Grid.Row="3" Margin="50 -50 50 0" Height="400" x:Name="logdatagrid"/>

@@ -1,4 +1,5 @@
-﻿using StationeryStoreManagementSystem.BL;
+﻿using Microsoft.IdentityModel.Tokens;
+using StationeryStoreManagementSystem.BL;
 using StationeryStoreManagementSystem.DL;
 using System;
 using System.Collections.Generic;
@@ -107,6 +108,8 @@ namespace StationeryStoreManagementSystem.UI
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            if (SupplierNameLabel.TextData.IsNullOrEmpty())
+                return;
             int SupplierId = (int)((DataView)SupplierDataViewer.datagrid.ItemsSource).Table.Rows[supplierSelectionIndex].ItemArray[0];
             List<Product> products = (List<Product>)ProductDataGrid.ItemsSource;
             ShipmentDL.AddShipment(SupplierId, products);

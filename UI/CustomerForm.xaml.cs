@@ -22,7 +22,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for CustomerForm.xaml
     /// </summary>
-    public partial class CustomerForm : AbstractEntryForm
+    public partial class CustomerForm : AbstractEntryForm , IValidationFields
     {
         private Customer customer;
         public CustomerForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
@@ -50,6 +50,8 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            if (HasValidationErrors())
+                return;
             if (customer.Id != -1)
             {
                 customer.Save(false);
@@ -59,6 +61,16 @@ namespace StationeryStoreManagementSystem.UI
                 customer.Save(true);
             }
             NavigateCallingForm();
+        }
+        public bool HasValidationErrors()
+        {
+            firstNameField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            cnicField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            contactField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            scrollViewer.ScrollToTop();
+            return Validation.GetHasError(firstNameField.TextBoxText)
+                || Validation.GetHasError(cnicField.TextBoxText)
+                || Validation.GetHasError(contactField.TextBoxText);
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {

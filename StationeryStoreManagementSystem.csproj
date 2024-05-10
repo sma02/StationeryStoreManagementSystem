@@ -8,6 +8,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Platforms>AnyCPU</Platforms>
+    <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,10 @@
   <ItemGroup>
     <None Remove="Resources\bell_dark.png" />
     <None Remove="Resources\bell_light.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="app.ico" />
   </ItemGroup>
 
   <ItemGroup>

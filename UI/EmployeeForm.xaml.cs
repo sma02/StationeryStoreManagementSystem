@@ -23,7 +23,7 @@ namespace StationeryStoreManagementSystem.UI
     /// <summary>
     /// Interaction logic for EmployeeForm.xaml
     /// </summary>
-    public partial class EmployeeForm : AbstractEntryForm
+    public partial class EmployeeForm : AbstractEntryForm , IValidationFields
     {
         private Employee E;
         public EmployeeForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
@@ -65,6 +65,8 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            if (HasValidationErrors())
+                return;
             if (E.Id != -1)
             {
                 E.Save(false);
@@ -84,6 +86,27 @@ namespace StationeryStoreManagementSystem.UI
             }
             NavigateCallingForm();
         }
+        public bool HasValidationErrors()
+        {
+            cell1.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            cell2.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            firstNameField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            cnicField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            contactField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            role_cb.ComboBox1.GetBindingExpression(ComboBox.SelectedValueProperty).UpdateSource();
+            emailField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            salaryField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            scrollViewer.ScrollToTop();
+            return Validation.GetHasError(cell1.TextBoxText)
+                || Validation.GetHasError(cell2.TextBoxText)
+                || Validation.GetHasError(firstNameField.TextBoxText)
+                || Validation.GetHasError(cnicField.TextBoxText)
+                || Validation.GetHasError(contactField.TextBoxText)
+                || Validation.GetHasError(role_cb.ComboBox1)
+                || Validation.GetHasError(emailField.TextBoxText)
+                || Validation.GetHasError(salaryField.TextBoxText);
+        }
+
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             NavigateCallingForm();

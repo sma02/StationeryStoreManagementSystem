@@ -14,7 +14,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Components:TitleBlock Grid.Row="0" x:Name="titleBlock" Title="Add Customer"/>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <Grid ScrollViewer.CanContentScroll="True">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -29,12 +29,12 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Controls:TextEntry Grid.Row="0" Grid.Column="0" Text="{Binding FirstName}" LabelText="First Name" MaxLength="30"/>
+                <Controls:TextEntry x:Name="firstNameField" IsRequired="True" Grid.Row="0" Grid.Column="0" Text="{Binding FirstName}" LabelText="First Name" MaxLength="30"/>
                 <Controls:TextEntry Grid.Row="0" Grid.Column="1" Text="{Binding LastName}" LabelText="Last Name" MaxLength="30"/>
                 <Controls:ComboBoxEntry x:Name="gender_cb" Grid.Row="1" Grid.Column="0" SelectedValue="{Binding Gender}" SelectedValuePath="Value" LabelText="Gender" />
-                <Controls:TextEntry Grid.Row="1" Grid.Column="1" Text="{Binding CNIC}" LabelText="CNIC" MaxLength="13"/>
+                <Controls:TextEntry x:Name="cnicField" IsRequired="True" Grid.Row="1" Grid.Column="1" Text="{Binding CNIC}" LabelText="CNIC" MaxLength="13"/>
                 <Controls:DateEntry Grid.Row="2" Grid.Column="0" SelectedDate="{Binding DateOfBirth}" LabelText="Date of Birth"/>
-                <Controls:TextEntry Grid.Row="2" Grid.Column="1" Text="{Binding Contact}" LabelText="Contact Number" MaxLength="11"/>
+                <Controls:TextEntry x:Name="contactField" IsRequired="True" Grid.Row="2" Grid.Column="1" Text="{Binding Contact}" LabelText="Contact Number" MaxLength="11"/>
                 <Controls:TextEntry Grid.Row="3" Grid.Column="0" Text="{Binding StreetAddress}" LabelText="Street Address" MaxLength="25"/>
                 <Controls:TextEntry Grid.Row="3" Grid.Column="1" Text="{Binding Town}" LabelText="Town" MaxLength="25"/>
                 <Controls:ComboBoxEntry x:Name="city_cb" Grid.Row="4" Grid.Column="0" SelectedValue="{Binding City}" SelectedValuePath="Value" LabelText="City"/>

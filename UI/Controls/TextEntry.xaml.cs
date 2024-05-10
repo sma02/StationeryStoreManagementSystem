@@ -153,7 +153,7 @@ namespace StationeryStoreManagementSystem.UI.Controls
             IsRequired = (bool)GetValue(IsRequiredProperty);
         }
         private static readonly Regex postiveNumbersRegex = new Regex("[^0-9]+");
-        private static readonly Regex numbersRegex = new Regex("-[^0-9]+");
+        private static readonly Regex numbersRegex = new Regex("-?[^0-9]+");
         private bool MatchesRules(string text)
         {
             if (NumbersOnly==true)
