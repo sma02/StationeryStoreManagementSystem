@@ -62,6 +62,26 @@ namespace StationeryStoreManagementSystem.DL
              else
             return null;
         }
+        public static void SaveStockChanges(Product product,List<(int, int, string)> values)
+        {
+            SqlMetaData[] sqlMetas = new SqlMetaData[]
+            {
+                    new SqlMetaData("SupplierId",SqlDbType.Int),
+                    new SqlMetaData("ProductId",SqlDbType.Int),
+                    new SqlMetaData("Quantity",SqlDbType.Int),
+                    new SqlMetaData("Description",SqlDbType.NVarChar,100),
+            };
+            var items = values.Select(x =>
+            {
+                SqlDataRecord record = new SqlDataRecord(sqlMetas);
+                record.SetInt32(0, product.Id);
+                record.SetInt32(1, x.Item1);
+                record.SetInt32(2, x.Item2);
+                record.SetSqlString(3, x.Item3);
+                return record;
+            });
+            DataHandler.BulkDataExecuteSP("StockChanges", "udtt_StockChanges", "stpInsertStockChanges", items);
+        }
         public static void GenerateBarcodes()
         {
             List<Product> products = GetProducts();

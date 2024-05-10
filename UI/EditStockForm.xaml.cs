@@ -38,12 +38,13 @@ namespace StationeryStoreManagementSystem.UI
         {
             if (HasValidationErrors())
                 return;
-             
+            callingInstance.stockChanges.Add((supplierId, int.Parse(quantityChangeField.Text), reasonField.Text));
+            ((Border)Parent).Child = callingInstance;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ((Border)Parent).Child = callingInstance;
         }
         public bool HasValidationErrors()
         {

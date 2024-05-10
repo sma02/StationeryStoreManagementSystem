@@ -24,7 +24,7 @@ namespace StationeryStoreManagementSystem.UI
     public partial class ProductForm : AbstractEntryForm, IValidationFields
     {
         public Product product;
-        public List<(Supplier, int, string)> stockChanges;
+        public List<(int, int, string)> stockChanges;
         private bool isEdit = false;
         public ProductForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
@@ -80,7 +80,7 @@ namespace StationeryStoreManagementSystem.UI
             }
             else
                 product = new Product();
-            stockChanges = new List<(Supplier, int, string)>();
+            stockChanges = new List<(int, int, string)>();
             DataContext = product;
 
 
@@ -106,9 +106,6 @@ namespace StationeryStoreManagementSystem.UI
             SuppliersDataGrid.ItemsSource = new List<Product>();
             SuppliersDataGrid.CanUserAddRows = false;
             SuppliersDataGrid.ItemsSource = table1.DefaultView;
-
-
-            // namef.IsRequired = true;
         }
         private void SuppliersDataHandler2_SelectButtonClicked(DataGrid dataGrid, int selectedIndex)
         {
@@ -121,14 +118,21 @@ namespace StationeryStoreManagementSystem.UI
             if (HasValidationErrors())
                 return;
             List<Supplier> suppliers = new List<Supplier>();
+            var filteredChanges = new List<(int, int, string)>();
             var rows = ((DataView)SuppliersDataGrid.ItemsSource).Table.Rows;
             foreach (DataRow row in rows)
             {
                 suppliers.Add(new Supplier((int)row.ItemArray[0]));
+                var stocksSupplier = stockChanges.Where(x => x.Item1 == (int)row.ItemArray[0]);
+                foreach(var item in stocksSupplier)
+                {
+                    filteredChanges.Add(item);
+                }
             }
             product.Suppliers = suppliers;
             product.Stocks = product.Stocks==null? null:product.Stocks.Where(x => suppliers.Select(y => y.Id).Contains(x.Supplier.Id)).ToList();
             product.Save(!isEdit);
+            ProductDL.SaveStockChanges(product,filteredChanges);
             NavigateCallingForm();
         }
 
@@ -154,7 +158,7 @@ namespace StationeryStoreManagementSystem.UI
         private void EditStockButton_Click(object sender, RoutedEventArgs e)
         {
             object[] itemarray = ((DataRowView)SuppliersDataGrid.SelectedItem).Row.ItemArray;
-            ((Border)Parent).Child = new ProductSupplierPriceForm(this, product, (int)itemarray[0], (string)itemarray[1]);
+            ((Border)Parent).Child = new EditStockForm(this, product, (int)itemarray[0], (string)itemarray[1]);
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
