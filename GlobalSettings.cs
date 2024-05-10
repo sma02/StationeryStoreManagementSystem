@@ -48,6 +48,28 @@ namespace StationeryStoreManagementSystem
                 SaveSettings();
             }
         }
+        private static string? cameraName;
+
+        public static string? CameraName
+        {
+            get { return cameraName; }
+            set { 
+                cameraName = value;
+                SaveSettings();
+            }
+        }
+
+        private static string? printerName;
+
+        public static string? PrinterName
+        {
+            get { return printerName; }
+            set { 
+                printerName = value;
+                SaveSettings();
+            }
+        }
+
 
         public static void ApplyTheme()
         {
@@ -71,8 +93,12 @@ namespace StationeryStoreManagementSystem
                 settings.Load("Settings.xml");
                 var theme = settings.SelectSingleNode("Settings/Theme");
                 var displayIds = settings.SelectSingleNode("Settings/DisplayIds");
+                var cameraName = settings.SelectSingleNode("Settings/Camera");
+                var printerName = settings.SelectSingleNode("Settings/Printer");
                 CurrentTheme = (Theme)Enum.Parse(typeof(Theme), theme.InnerText);
                 DisplayIds = bool.Parse(displayIds.InnerText);
+                CameraName = cameraName?.InnerText;
+                PrinterName = printerName?.InnerText;
             }
             catch (Exception)
             {
@@ -85,10 +111,16 @@ namespace StationeryStoreManagementSystem
             XmlElement settings = document.CreateElement("Settings");
             var theme = document.CreateElement("Theme");
             var displayIds = document.CreateElement("DisplayIds");
+            var cameraName = document.CreateElement("Camera");
+            var printerName = document.CreateElement("Printer");
             theme.InnerText = CurrentTheme.ToString();
             displayIds.InnerText = DisplayIds.ToString();
+            cameraName.InnerText = CameraName;
+            printerName.InnerText = PrinterName;
             settings.AppendChild(theme);
             settings.AppendChild(displayIds);
+            settings.AppendChild(cameraName);
+            settings.AppendChild(printerName);
             document.AppendChild(settings);
             document.Save("Settings.xml");
         }

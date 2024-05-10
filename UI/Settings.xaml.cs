@@ -1,5 +1,8 @@
-﻿using System;
+﻿using StationeryStoreManagementSystem.DL;
+using StationeryStoreManagementSystem.UI.Controls;
+using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPFMediaKit.DirectShow.Controls;
 
 namespace StationeryStoreManagementSystem.UI
 {
@@ -25,6 +29,10 @@ namespace StationeryStoreManagementSystem.UI
             InitializeComponent();
             ThemeCheckbox.IsChecked = GlobalSettings.CurrentTheme == GlobalSettings.Theme.Light;
             DisplayIdsCheckbox.IsChecked = GlobalSettings.DisplayIds == true;
+            cameraField.ItemSource = MultimediaUtil.VideoInputNames.Cast<string>();
+            printerField.ItemSource = PrinterSettings.InstalledPrinters.Cast<string>();
+            cameraField.SelectedItem = ((IEnumerable<string>)cameraField.ItemSource).Where(x => x == GlobalSettings.CameraName).FirstOrDefault();
+            printerField.SelectedItem = ((IEnumerable<string>)printerField.ItemSource).Where(x => x == GlobalSettings.PrinterName).FirstOrDefault();
         }
 
         private void ThemeCheckbox_Checked(object sender, RoutedEventArgs e)
@@ -45,6 +53,22 @@ namespace StationeryStoreManagementSystem.UI
         private void DisplayIdsCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
             GlobalSettings.DisplayIds = false;
+        }
+
+        private void cameraField_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((ComboBoxEntry)sender).ComboBox1.SelectedValue != null)
+            {
+                GlobalSettings.CameraName = (string?)((ComboBoxEntry)sender).ComboBox1.SelectedValue;
+            }
+        }
+
+        private void printerField_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((ComboBoxEntry)sender).ComboBox1.SelectedValue != null)
+            {
+                GlobalSettings.PrinterName = (string?)((ComboBoxEntry)sender).ComboBox1.SelectedValue;
+            }
         }
     }
 }

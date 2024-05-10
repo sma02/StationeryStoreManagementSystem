@@ -40,23 +40,17 @@ namespace StationeryStoreManagementSystem.UI
         Order order;
         Customer customer;
         int invoiceNumber = -1;
-        public bool mediaPlaying = false;
         int cooldown = 0;
         public ProcessOrder()
         {
             InitializeComponent();
-            /*var writer = new BarcodeWriter
-             { 
-                 Format = BarcodeFormat.CODE_128,
-                 Options = { Width = 400, Height = 100, Margin = 4 },
-             };
-             var barcodeImage = writer.Write("E0001S01");
-             barcodeImage.Save("E0001S01.png");*/
-            vce.VideoCaptureSource = MultimediaUtil.VideoInputNames[1];
-            mediaPlaying = true;
-            cameraTimer.IsEnabled = true;
-            cameraTimer.Interval = new TimeSpan(200);
-            cameraTimer.Tick += CameraTimer_Tick;
+            if (!GlobalSettings.CameraName.IsNullOrEmpty())
+            {
+                vce.VideoCaptureSource = GlobalSettings.CameraName;
+                cameraTimer.IsEnabled = true;
+                cameraTimer.Interval = new TimeSpan(200);
+                cameraTimer.Tick += CameraTimer_Tick;
+            }
 
             order = new Order();
             List<(string, string, bool)> bindings = new List<(string, string, bool)>
@@ -120,11 +114,6 @@ namespace StationeryStoreManagementSystem.UI
         }
         private void CameraTimer_Tick(object? sender, EventArgs e)
         {
-            if(!mediaPlaying)
-            {
-                vce.VideoCaptureSource = MultimediaUtil.VideoInputNames[1];
-                mediaPlaying = true;
-            }
             if (cooldown > 0)
             {
                 cooldown--;
@@ -195,6 +184,8 @@ namespace StationeryStoreManagementSystem.UI
             {
                 var document = new PrintDocument();
                 document.DefaultPageSettings.PaperSize = new PaperSize("Customer Size", 50, 100);
+                if(!GlobalSettings.PrinterName.IsNullOrEmpty())
+                    document.DefaultPageSettings.PrinterSettings.PrinterName = GlobalSettings.PrinterName;
                 document.PrintPage += new PrintPageEventHandler(BillContent);
                 document.Print();
                 clearOrder();
