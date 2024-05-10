@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StationeryStoreManagementSystem.BL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,19 +21,34 @@ namespace StationeryStoreManagementSystem.UI
     /// </summary>
     public partial class EditStockForm : UserControl
     {
-        public EditStockForm()
+        ProductForm callingInstance;
+        Product product;
+        int supplierId;
+        public EditStockForm(ProductForm callingInstance, Product product,int supplierId,string supplierName)
         {
+            this.callingInstance = callingInstance;
             InitializeComponent();
+            productName.TextData = product.Name;
+            this.supplierName.TextData = supplierName;
+            this.product = product;
+            this.supplierId = supplierId;
         }
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (HasValidationErrors())
+                return;
+             
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+        public bool HasValidationErrors()
+        {
+            quantityChangeField.TextBoxText.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            return Validation.GetHasError(quantityChangeField.TextBoxText);
         }
     }
 }

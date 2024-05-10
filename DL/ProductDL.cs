@@ -4,6 +4,7 @@ using StationeryStoreManagementSystem.BL;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,19 @@ namespace StationeryStoreManagementSystem.DL
              }
              else
             return null;
+        }
+        public static void GenerateBarcodes()
+        {
+            List<Product> products = GetProducts();
+            foreach(var product in products)
+            {
+                product.Suppliers = SupplierDL.GetProductSuppliers(product);
+                foreach(var supplier in product.Suppliers)
+                {
+                    if(!File.Exists($"barcodes/{product.Code}{supplier.Code}"))
+                        Utils.GenerateBarcode(product.Code + supplier.Code);
+                }
+            }
         }
         public static List<Stock> GetProductStocks(Product product)
         {

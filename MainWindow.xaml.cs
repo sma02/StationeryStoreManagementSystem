@@ -56,6 +56,7 @@ namespace StationeryStoreManagementSystem
         {
             InitializeComponent();
             Utils.ExecuteQuery("SELECT 1");
+            ProductDL.GenerateBarcodes();
             Utils.CurrentMainWindow = this;
             GlobalSettings.LoadSettings();
             InitializeLogin();
@@ -321,6 +322,9 @@ namespace StationeryStoreManagementSystem
                     break;
                 case "Manage Notifications":
                     ManageNotificationsButton_Click(sender, e);
+                    break;
+                case "Manage Repayments":
+                    ManageRepaymentsButton_Click(sender, e);
                     break;
                 case "Settings":
                     SettingsButton_Click(sender, e);

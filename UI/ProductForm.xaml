@@ -44,9 +44,23 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                        <Controls:DataLabel Margin="30 30 0 00" FontSize="18" LabelData="Select Suppliers"/>
-                        <Components:DataViewer Margin="50 -50 50 0" Height="400" Grid.Row="1" x:Name="suppliersDataHandler1"/>
-                    <Components:DataViewer Margin="50 -20 50 0" Height="400" Grid.Row="2" x:Name="suppliersDataHandler2"/>
+
+                        <DataGrid x:Name="SuppliersDataGrid" Height="300" Margin="80 20 80 0">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn x:Name="EditColumn">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button x:Name="EditStockButton" Margin="0 0 2px 0" Width="90px" FontSize="14" Click="EditStockButton_Click">Edit Stock</Button>
+                                                <Button x:Name="EditPriceButton" Margin="0 0 2px 0" Width="90px" FontSize="14" Click="EditPriceButton_Click">Edit Price</Button>
+                                                <Button x:Name="DeleteButton" Margin="0 0 2px 0" Width="70px" FontSize="14" Click="DeleteButton_Click">Remove</Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Components:DataViewer Margin="50 -20 50 0" Height="400" Grid.Row="2" x:Name="suppliersDataHandler2"/>
                 </Grid>
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>

@@ -18,14 +18,14 @@
             <StackPanel CanVerticallyScroll="True">
                 <Controls:DataLabel FontSize="12" Margin="30 25 30 0" LabelData="Product Name: " x:Name="productName"/>
                 <Controls:DataLabel FontSize="12" Margin="30 5 30 10" LabelData="Supplier Name: " x:Name="supplierName"/>
-                <Controls:TextEntry  LabelText="Adjustment in Quantity" PositiveNumbersOnly="True" Margin="0,0,0,4" Grid.RowSpan="2"/>
+                <Controls:TextEntry IsRequired="True" NumbersOnly="True" x:Name="quantityChangeField" LabelText="Adjustment in Quantity" PositiveNumbersOnly="True" Margin="0,0,0,4" Grid.RowSpan="2"/>
                 <Controls:TextEntry LabelText="Reason" AcceptsReturn="True" MinHeight="250" Margin="0,0,0,52" Grid.RowSpan="3"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="ConfirmButton" Grid.Column="0" Height="50" Width="100" HorizontalAlignment="Right" Margin="0 0 30 0" Content="Add" Click="ConfirmButton_Click"/>
+                    <Button x:Name="ConfirmButton" Grid.Column="0" Height="50" Width="100" HorizontalAlignment="Right" Margin="0 0 30 0" Content="Confirm" Click="ConfirmButton_Click"/>
                     <Button Grid.Column="1" Height="50" Width="100" HorizontalAlignment="Left" Margin="30 0 0 0" Content="Cancel" Click="CancelButton_Click"/>
                 </Grid>
             </StackPanel>

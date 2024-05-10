@@ -10,6 +10,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using StationeryStoreManagementSystem.DL;
+using ZXing;
+using ZXing.Windows.Compatibility;
+using Microsoft.IdentityModel.Tokens;
+using System.IO;
+
 namespace StationeryStoreManagementSystem
 {
     static class Utils
@@ -17,7 +22,21 @@ namespace StationeryStoreManagementSystem
         private static SqlDataReader reader;
         public static MainWindow? CurrentMainWindow { get; set; }
         public static Employee? CurrentEmployee;
-        //{ get; set; }
+
+        public static void GenerateBarcode(string data)
+        {
+            if (data.IsNullOrEmpty())
+                return;
+            var writer = new BarcodeWriter
+            {
+                Format = BarcodeFormat.CODE_128,
+                Options = { Width = 400, Height = 100, Margin = 4 },
+            };
+            var barcodeImage = writer.Write(data);
+            if (!Directory.Exists("barcodes"))
+                Directory.CreateDirectory("barcodes");
+            barcodeImage.Save($"barcodes/{data}.png");
+        }
         public static object NormalizeForQuery(object value)
         {
             if (value == null)

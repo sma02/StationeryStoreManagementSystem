@@ -127,6 +127,23 @@ namespace StationeryStoreManagementSystem.DL
             Utils.CloseReader();
             command.ExecuteNonQuery();
         }
+        public static object BulkDataExecuteSP( string stpName, List<(string,string?, SqlDbType,object)> objs)
+        {
+
+            SqlCommand command = new SqlCommand(stpName, Configuration.getInstance().getConnection());
+            command.CommandType = CommandType.StoredProcedure;
+            foreach(var obj in objs)
+            {
+                SqlParameter parameter = new SqlParameter();
+                parameter.ParameterName = $"@{obj.Item1}";
+                parameter.TypeName = obj.Item2;
+                parameter.SqlDbType = obj.Item3;
+                parameter.Value = obj.Item4;
+                command.Parameters.Add(parameter);
+            }
+            Utils.CloseReader();
+            return command.ExecuteScalar();
+        }
         public static void DeleteDataSP(string stpName, (string, object) id)
         {
             Utils.ExecuteQuery($"EXEC {stpName} @{id.Item1} = {id.Item2}");

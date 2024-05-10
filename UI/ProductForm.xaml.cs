@@ -24,6 +24,7 @@ namespace StationeryStoreManagementSystem.UI
     public partial class ProductForm : AbstractEntryForm, IValidationFields
     {
         public Product product;
+        public List<(Supplier, int, string)> stockChanges;
         private bool isEdit = false;
         public ProductForm(ManageEntity callingInstance, int id = -1) : base(callingInstance)
         {
@@ -47,18 +48,12 @@ namespace StationeryStoreManagementSystem.UI
                 bindings.Insert(0, ("Id", "Id"));
             List<string> searchAttributes = new List<string>() { "Name" };
             suppliersDataHandler2.SearchAttributes = searchAttributes;
-            suppliersDataHandler1.IsDelete = true;
-            suppliersDataHandler1.IsEdit = true;
             suppliersDataHandler2.IsSelect = true;
-            suppliersDataHandler1.SetBindings(bindings);
             suppliersDataHandler2.SetBindings(bindings);
             DataTable table = SupplierDL.GetSuppliersView();
             DataTable table1 = table.Clone();
             suppliersDataHandler2.ItemSource = table.DefaultView;
-            suppliersDataHandler1.ItemSource = table1.DefaultView;
             suppliersDataHandler2.SelectButtonClicked += SuppliersDataHandler2_SelectButtonClicked;
-            suppliersDataHandler1.DeleteButtonClicked += SuppliersDataHandler1_DeleteButtonClicked;
-            suppliersDataHandler1.EditButtonClicked += SuppliersDataHandler1_EditButtonClicked;
             if (id != -1)
             {
                 titleBlock.Text = "Edit Product";
@@ -85,28 +80,40 @@ namespace StationeryStoreManagementSystem.UI
             }
             else
                 product = new Product();
-
+            stockChanges = new List<(Supplier, int, string)>();
             DataContext = product;
-           // namef.IsRequired = true;
-        }
 
-        private void SuppliersDataHandler1_EditButtonClicked(DataGrid dataGrid, int selectedIndex)
-        {
-            object[] itemarray = ((DataRowView)dataGrid.SelectedItem).Row.ItemArray;
-            ((Border)Parent).Child = new ProductSupplierPriceForm(this, product, (int)itemarray[0], (string)itemarray[1]);
-        }
 
-        private void SuppliersDataHandler1_DeleteButtonClicked(DataGrid dataGrid, int selectedIndex)
-        {
-            DataRow dataRow = ((DataRowView)dataGrid.SelectedItem).Row;
-            ((DataView)suppliersDataHandler2.ItemSource).Table.Rows.Add(dataRow.ItemArray);
-            ((DataView)suppliersDataHandler1.ItemSource).Table.Rows.Remove(dataRow);
-        }
 
+            List<(string, string)> bindings2 = new List<(string, string)> {
+                ("Name","Name"),
+                ("Contact","Contact"),
+                ("Email","Email"),
+                ("Street Address","StreetAddress"),
+                ("Town","Town"),
+                ("City","City"),
+                ("Country","Country"),
+                ("Postal Code","PostalCode")};
+            for (int i = bindings.Count - 1; i >= 0; i--)
+            {
+                DataGridTextColumn column = new DataGridTextColumn();
+                column.Header = bindings2[i].Item1;
+                column.Binding = new System.Windows.Data.Binding(bindings2[i].Item2);
+                column.IsReadOnly = true;
+                SuppliersDataGrid.Columns.Insert(0, column);
+            }
+            SuppliersDataGrid.AutoGenerateColumns = false;
+            SuppliersDataGrid.ItemsSource = new List<Product>();
+            SuppliersDataGrid.CanUserAddRows = false;
+            SuppliersDataGrid.ItemsSource = table1.DefaultView;
+
+
+            // namef.IsRequired = true;
+        }
         private void SuppliersDataHandler2_SelectButtonClicked(DataGrid dataGrid, int selectedIndex)
         {
             DataRow dataRow = ((DataRowView)dataGrid.SelectedItem).Row;
-            ((DataView)suppliersDataHandler1.ItemSource).Table.Rows.Add(dataRow.ItemArray);
+            ((DataView)SuppliersDataGrid.ItemsSource).Table.Rows.Add(dataRow.ItemArray);
             ((DataView)suppliersDataHandler2.ItemSource).Table.Rows.Remove(dataRow);
         }
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
@@ -114,7 +121,7 @@ namespace StationeryStoreManagementSystem.UI
             if (HasValidationErrors())
                 return;
             List<Supplier> suppliers = new List<Supplier>();
-            var rows = ((DataView)suppliersDataHandler1.ItemSource).Table.Rows;
+            var rows = ((DataView)SuppliersDataGrid.ItemsSource).Table.Rows;
             foreach (DataRow row in rows)
             {
                 suppliers.Add(new Supplier((int)row.ItemArray[0]));
@@ -136,6 +143,25 @@ namespace StationeryStoreManagementSystem.UI
             scrollViewer.ScrollToTop();
             return Validation.GetHasError(NameField.TextBoxText)
                 || Validation.GetHasError(CodeField.TextBoxText);
+        }
+
+        private void EditPriceButton_Click(object sender, RoutedEventArgs e)
+        {
+            object[] itemarray = ((DataRowView)SuppliersDataGrid.SelectedItem).Row.ItemArray;
+            ((Border)Parent).Child = new ProductSupplierPriceForm(this, product, (int)itemarray[0], (string)itemarray[1]);
+        }
+
+        private void EditStockButton_Click(object sender, RoutedEventArgs e)
+        {
+            object[] itemarray = ((DataRowView)SuppliersDataGrid.SelectedItem).Row.ItemArray;
+            ((Border)Parent).Child = new ProductSupplierPriceForm(this, product, (int)itemarray[0], (string)itemarray[1]);
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataRow dataRow = ((DataRowView)SuppliersDataGrid.SelectedItem).Row;
+            ((DataView)suppliersDataHandler2.ItemSource).Table.Rows.Add(dataRow.ItemArray);
+            ((DataView)SuppliersDataGrid.ItemsSource).Table.Rows.Remove(dataRow);
         }
     }
 }

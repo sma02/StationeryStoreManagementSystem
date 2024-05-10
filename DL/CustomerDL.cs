@@ -39,13 +39,13 @@ namespace StationeryStoreManagementSystem.DL
         public static DataTable GetCustomerRepaymentsView(int id)
         {
             List<object> list = new List<object>();
-            return DataHandler.FillDataTable($"SELECT Timestamp, Amount, Type FROM GetCustomerRepayments CR JOIN [User] U ON CR.CustomerId = U.Id WHERE CustomerId = {id}");
+            return DataHandler.FillDataTable($"SELECT Timestamp, Amount, Type FROM GetCustomerRepayments_View CR JOIN [User] U ON CR.CustomerId = U.Id WHERE CustomerId = {id}");
         }
 
         public static void SaveCustomer(Customer C, bool IsAdd)
         {
-            int gender = DataHandler.LookupData("Gender").Where(x => x.Value == C.Gender).Select(X => X.Key).FirstOrDefault();
-            int cityId = DataHandler.LookupData("CityPakistan").Where(x => x.Value == C.City).Select(X => X.Key).FirstOrDefault();
+            int? gender = C.Gender==null? null: DataHandler.LookupData("Gender").Where(x => x.Value == C.Gender).Select(X => X.Key).FirstOrDefault();
+            int? cityId = C.City==null? null: DataHandler.LookupData("CityPakistan").Where(x => x.Value == C.City).Select(X => X.Key).FirstOrDefault();
             List<(string, object)> args = new List<(string, object)>
             {
                 (nameof(C.FirstName), C.FirstName),

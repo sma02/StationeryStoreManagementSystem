@@ -44,6 +44,14 @@ namespace StationeryStoreManagementSystem.UI.Controls
         public static readonly DependencyProperty PositiveNumbersOnlyProperty =
             DependencyProperty.Register("PositiveNumbersOnly", typeof(bool), typeof(TextEntry), new PropertyMetadata(false));
 
+        public bool NumbersOnly
+        {
+            get { return (bool)GetValue(NumbersOnlyProperty); }
+            set { SetValue(NumbersOnlyProperty, value); }
+        }
+        public static readonly DependencyProperty NumbersOnlyProperty =
+            DependencyProperty.Register("NumbersOnly", typeof(bool), typeof(TextEntry), new PropertyMetadata(false));
+
 
         public bool IsReadOnly
         {
@@ -144,11 +152,14 @@ namespace StationeryStoreManagementSystem.UI.Controls
             InitializeComponent();
             IsRequired = (bool)GetValue(IsRequiredProperty);
         }
-        private static readonly Regex regexNumbers = new Regex("[^0-9]+");
+        private static readonly Regex postiveNumbersRegex = new Regex("[^0-9]+");
+        private static readonly Regex numbersRegex = new Regex("-[^0-9]+");
         private bool MatchesRules(string text)
         {
-            if (PositiveNumbersOnly == true)
-                return !regexNumbers.IsMatch(text);
+            if (NumbersOnly==true)
+                return !numbersRegex.IsMatch(text);
+            else if (PositiveNumbersOnly == true)
+                return !postiveNumbersRegex.IsMatch(text);
             else
                 return true;
         }

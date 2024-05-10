@@ -28,6 +28,13 @@ namespace StationeryStoreManagementSystem.BL
                 }
             public double UnitPrice { get; set; }
             public double Discount { get; set; }
+            public double Tax
+            {
+                get
+                {
+                    return (double)((Product.Category.GST * UnitPrice)/100);
+                }
+            }
             public double TotalPrice
             {
                 get

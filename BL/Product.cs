@@ -71,6 +71,11 @@ namespace StationeryStoreManagementSystem.BL
         public void Save(bool isAdd = false)
         {
             ProductDL.Save(this, isAdd);
+            foreach(var supplier in SupplierDL.GetProductSuppliers(this))
+            { 
+            Utils.GenerateBarcode(Code+supplier.Code);
+            
+            }
         }
     }
 }

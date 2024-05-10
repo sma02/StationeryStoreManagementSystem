@@ -65,8 +65,8 @@ namespace StationeryStoreManagementSystem.UI
             while (daily.Read()) 
             {
                 int hour = daily.GetInt32(0);
-                double sale = daily.GetDouble(1);
-                double profit = daily.GetDouble(2);
+                double sale = (double)daily.GetDecimal(1);
+                double profit = (double)daily.GetDecimal(2);
 
                 DailySaleData.Add(new KeyValuePair<int, double>(hour, sale));
                 DailyProfitData.Add(new KeyValuePair<int, double>(hour, profit));
@@ -96,8 +96,8 @@ namespace StationeryStoreManagementSystem.UI
             while (weekly.Read())
             {
                 string week = weekly.GetString(0);
-                double sale = weekly.GetDouble(1);
-                double profit = weekly.GetDouble(2);
+                double sale = (double)weekly.GetDecimal(1);
+                double profit = (double)weekly.GetDecimal(2);
 
                 WeeklySaleData.Add(new KeyValuePair<string, double>(week, sale));
                 WeeklyProfitData.Add(new KeyValuePair<string, double>(week, profit));
@@ -119,8 +119,8 @@ namespace StationeryStoreManagementSystem.UI
             while (monthly.Read())
             {
                 int month = monthly.GetInt32(0);
-                double sale = monthly.GetDouble(1);
-                double profit = monthly.GetDouble(2);
+                double sale = (double)monthly.GetDecimal(1);
+                double profit = (double)monthly.GetDecimal(2);
 
                 MonthlySaleData.Add(new KeyValuePair<int, double>(month, sale));
                 MonthlyProfitData.Add(new KeyValuePair<int, double>(month, profit));
@@ -148,8 +148,8 @@ namespace StationeryStoreManagementSystem.UI
             while (monthly.Read())
             {
                 int month = monthly.GetInt32(0);
-                double sale = monthly.GetDouble(1);
-                double profit = monthly.GetDouble(2);
+                double sale = (double)monthly.GetDecimal(1);
+                double profit = (double)monthly.GetDecimal(2);
 
                 MonthlySaleData.Add(new KeyValuePair<int, double>(month, sale));
                 MonthlyProfitData.Add(new KeyValuePair<int, double>(month, profit));
