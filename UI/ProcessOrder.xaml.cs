@@ -133,7 +133,7 @@ namespace StationeryStoreManagementSystem.UI
                 if (result != null)
                 {
                     order.AddProduct(result.ToString(), 1);
-                    cooldown = 5;
+                    cooldown = 60;
                     refreshData();
                 }
             }

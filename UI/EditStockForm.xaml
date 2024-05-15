@@ -18,7 +18,7 @@
             <StackPanel CanVerticallyScroll="True">
                 <Controls:DataLabel FontSize="12" Margin="30 25 30 0" LabelData="Product Name: " x:Name="productName"/>
                 <Controls:DataLabel FontSize="12" Margin="30 5 30 10" LabelData="Supplier Name: " x:Name="supplierName"/>
-                <Controls:TextEntry IsRequired="True" NumbersOnly="True" x:Name="quantityChangeField" LabelText="Adjustment in Quantity" Margin="0,0,0,4" Grid.RowSpan="2"/>
+                <Controls:TextEntry IsRequired="True" x:Name="quantityChangeField" LabelText="Adjustment in Quantity" Margin="0,0,0,4" Grid.RowSpan="2"/>
                 <Controls:TextEntry LabelText="Reason" AcceptsReturn="True" x:Name="reasonField" MinHeight="250" Margin="0,0,0,52" Grid.RowSpan="3"/>
                 <Grid>
                     <Grid.ColumnDefinitions>

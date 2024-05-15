@@ -134,7 +134,12 @@ namespace StationeryStoreManagementSystem.UI
                 }
             }
             product.Suppliers = suppliers;
-            product.Stocks = product.Stocks==null? null:product.Stocks.Where(x => suppliers.Select(y => y.Id).Contains(x.Supplier.Id)).ToList();
+            product.Stocks = product.Stocks==null? null:product.Stocks.Where(x =>
+            {
+                if (x.Supplier == null) return false;
+                return suppliers.Select(y => y.Id)
+            .Contains(x.Supplier.Id);
+            }).ToList();
             product.Save(!isEdit);
             ProductDL.SaveStockChanges(product,filteredChanges);
             NavigateCallingForm();
